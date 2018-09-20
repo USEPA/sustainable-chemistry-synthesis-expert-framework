@@ -162,7 +162,6 @@
     <EmbeddedResource Include="ReferenceList.resx">
       <DependentUpon>ReferenceList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Form1.resx" />
     <EmbeddedResource Include="smilesInput.resx">
       <DependentUpon>smilesInput.cs</DependentUpon>
     </EmbeddedResource>
