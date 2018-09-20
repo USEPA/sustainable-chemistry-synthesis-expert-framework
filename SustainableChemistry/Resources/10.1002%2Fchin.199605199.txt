@@ -1,0 +1,22 @@
+﻿Provider: John Wiley & Sons, Ltd
+Content:text/plain; charset="UTF-8"
+
+TY  - JOUR
+AU  - ILIA, G.
+AU  - CAPRITA, A.
+AU  - DEHELEAN, G.
+TI  - ChemInform Abstract: Synthesis of Tris(2-chloroethyl)phosphate.
+JO  - ChemInform
+JA  - ChemInform
+VL  - 27
+IS  - 5
+PB  - WILEY-VCH Verlag
+SN  - 1522-2667
+UR  - http://dx.doi.org/10.1002/chin.199605199
+DO  - 10.1002/chin.199605199
+SP  - no
+EP  - no
+KW  - organo-phosphorus compounds, acyclic O,N,S derivatives
+PY  - 1996
+AB  - ChemInform is a weekly Abstracting Service, delivering concise information at a glance that was extracted from about 100 leading journals. To access a ChemInform Abstract of an article which was published elsewhere, please select a “Full Text” option. The original article is trackable via the “References” option. 
+ER
