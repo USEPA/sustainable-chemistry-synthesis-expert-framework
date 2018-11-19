@@ -1,0 +1,76 @@
+Release version 10 2013-08-23
+
+        * elements/elements.xml: Changed atom IDs of Lv and Fl and their
+          name histories. Fixed all atomic masses accordingly to the latest
+          publication of the IUPAC.
+        * elements/mass.bibxml: Added latest atomic table publication.
+        * tests/AtWt.xsl: Fixed handling of non-breaking spaces and the
+          latest IUPAC website.
+        * isotopes/isotopes.*: Added the half-lives of 209Th and 238Th (fixes #9)
+        * elements/elements.xml: Fixed the groups of Ds and Mt
+        * elements/elements.xml|symbols.bibxml: Lv and Fl got official names
+        * README, COPYING: in agreement with the following email, changed the license to CCZero
+        * elements/elements.xml: Fixed description for Copernicium.
+        * crystal/space-groups.xml: fixed Hall name for group 205.
+        * elements/elements.xml: Fixed atomic weight for Rutherfordium
+          accordingly to IUPAC AtWt table.
+
+Release version 9 2010-04-25
+
+	* Atomic weights have been updated to correspond with the IUPAC table (KDE#192551).
+	* Minor bug-fixes in the elements database (KDE#192616).
+        * Fix in the space group table.
+        * Added name for element 112: copernicum (KDE#235313).
+        * Updated mass of H2 to current value from webelements.com (closes #2989934 on sf.net)
+
+Release version 8 2008-03-02
+
+        * Uses CML 2.5, with two tweaks: missing Rg and Ds; allow <scalar> inside <isotope>
+        * Fixes the distcheck errors: correct dictionary schematron (closes #1905375 on sf.net)
+
+Release version 7 2008-03-01
+
+        * Adds spacegroup information
+        * Removed unnecessary paths (closes #1713504 sf.net)
+        * Make system fixes
+        * Output PUBLIC and SYSTEM IDs for XHTML
+        * Adding documentation for discoveryDate
+        * Added information about elements 112-118
+
+Release version 6 2007-03-10
+
+        * The .txt source files now mention the license too, instead of '??'
+        * updated elemental masses according to a 2006 IUPAC publication
+          (closes SF bug #1660527)
+
+Release version 5 2006-12-27
+
+        * The actinoids are now listed as 'other metal'
+          (closes SF bug #1603063)
+        * The acidity information was removed
+          (closes SF bug #1603066)
+
+Release Version 4 2006-10-16
+
+        * Isotope and element data now conforms a Schematron convention.
+        * XML files are now valid CML 2.3 files
+        * Fixed name of C.W.Scheele 
+        * Added element crystal structure data
+        * Added country where elements were discovered
+
+Release Version 3 2006-06-07
+
+	* Fixed a stupid mistake in the newly shipped pkgconfig file.
+	See Version 2 for other changes.
+
+Release Version 2 2006-06-07 
+
+	* Fixed missing root node in isotopes.xml.
+	* Fixed build issues.
+	* Added isotope info: decay and spin.
+        * Added HTML bibliography for elements.xml
+
+Release Version 1 2006-02-08
+
+	* first tar.gz release
+

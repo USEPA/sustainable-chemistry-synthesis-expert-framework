@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Sustainable Chemistry" Language="1033" Version="1.0.0.0" Manufacturer="U.S. Environmental Protection Agency" UpgradeCode="71a670d5-4df0-4b26-8336-dd0a7b026c34">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Media Id='1' Cabinet='product.cab' EmbedCab='yes'/>
+    <Feature Id="ProductFeature" Title="SustainableChemistrySetup" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="INSTALLFOLDER" Name="SustainableChemistry" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ApplicationProgramsFolder" Name="SustainableChemistry"/>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <Component Id="ProductComponent" Guid = "F9B8B4DE-002C-44EA-A103-35E779303FF6">
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Source="$(var.SustainableChemistry.TargetPath)" />
+        <RegistryValue Root="HKCU" Key="Software\USEPA\SustainableChemistry" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+      <Component Id="ChemInfoComponent" Guid= "1E248393-0740-4B1B-8E52-7F5631C3C9FA">
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Source="$(var.ChemInfo.TargetPath)" />
+        <RemoveFolder Id="LocalAppDataFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\USEPA\SustainableChemistry" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="284AA4D9-DBB3-44D2-82EF-608066BC9D39">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="Sustainable Chemistry"
+                  Description="Chemical Informatics for sustainable chemistry."
+                  Target="[#$(var.SustainableChemistry.TargetFileName)]"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\USEPA\SustainableChemistry" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
