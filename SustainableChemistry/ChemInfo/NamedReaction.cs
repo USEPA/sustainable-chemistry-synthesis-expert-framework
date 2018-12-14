@@ -336,11 +336,13 @@ namespace ChemInfo
         SOLVENT m_Solvent;
         AcidBase m_AcidBase;
 
-        public NamedReaction(string line)
+        public NamedReaction(string line, System.Data.DataRow row)
         {
             string[] parts = line.Split('\t');
             Name = parts[1];
+            row["Name"] = Name;
             FunctionalGroup = parts[0];
+            row["FunctionalGroup"] = Name;
             m_refList = new References();
             m_RxnImage = new List<System.Drawing.Image>();
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry\\" + parts[0] + "\\" + parts[1];
@@ -353,21 +355,32 @@ namespace ChemInfo
                 foreach (string file in references)
                     m_refList.Add(new Reference(FunctionalGroup, Name, System.IO.File.ReadAllText(file)));
             }
+            //row["Image"] = m_RxnImage;
             //Reactants = reactants;
             URL = parts[2];
+            row["URL"] = URL;
             ReactantA = parts[3];
+            row["ReactantA"] = ReactantA;
             ReactantB = parts[4];
+            row["ReactantB"] = ReactantB;
             ReactantC = parts[5];
+            row["ReactantC"] = ReactantC;
             Product = parts[10];
+            row["Product"] = Product;
             Heat = parts[7];
+            row["Heat"] = Heat;
             this.SetAcidBase(parts[6]);
+            row["AcidBase"] = AcidBase;
             Catalyst = parts[8];
+            row["Catalyst"] = Catalyst;
             this.SetSolvent(parts[9]);
+            row["Solvent"] = Solvent;
             m_ByProducts = new List<string>();
             m_ByProducts.Add(parts[11]);
+            row["ByProducts"] = parts[11];
         }
 
-        public NamedReaction(FunctionalGroup functGroup, string name, string url, string reactA, string reactB, string reactC, string product, string acidBase, string heat, string catalyst, string solvent, string[] byPrduct)
+        public NamedReaction(FunctionalGroup functGroup, string name, string url, string reactA, string reactB, string reactC, string product, string acidBase, string heat, string catalyst, string solvent, string[] byPrduct, System.Data.DataRow row)
         {
             Name = name;
             FunctionalGroup = functGroup.Name;
@@ -397,6 +410,21 @@ namespace ChemInfo
             this.SetAcidBase(catalyst);
             this.SetSolvent(solvent);
             m_ByProducts = new List<string>();
+            //row["Image"] = m_RxnImage;
+            //Reactants = reactants;
+            row["Name"] = Name;
+            row["FunctionalGroup"] = Name;
+            row["Image"] = m_RxnImage;
+            row["URL"] = URL;
+            row["ReactantA"] = ReactantA;
+            row["ReactantB"] = ReactantB;
+            row["ReactantC"] = ReactantC;
+            row["Product"] = Product;
+            row["Heat"] = Heat;
+            row["AcidBase"] = AcidBase;
+            row["Catalyst"] = Catalyst;
+            row["Solvent"] = Solvent;
+            row["ByProducts"] = String.Empty;
         }
 
         public Reference GetReference(string value)
@@ -461,9 +489,9 @@ namespace ChemInfo
             get
             {
                 if (m_AcidBase == ChemInfo.AcidBase.ACID) return "acid";
-                if (m_AcidBase == ChemInfo.AcidBase.ACID) return "base";
-                if (m_AcidBase == ChemInfo.AcidBase.ACID) return "base/heat";
-                if (m_AcidBase == ChemInfo.AcidBase.ACID) return "base/acid";
+                if (m_AcidBase == ChemInfo.AcidBase.BASE) return "base";
+                if (m_AcidBase == ChemInfo.AcidBase.BASE) return "base/heat";
+                if (m_AcidBase == ChemInfo.AcidBase.ACID_BASE) return "base/acid";
                 return "N/A";
             }
             set

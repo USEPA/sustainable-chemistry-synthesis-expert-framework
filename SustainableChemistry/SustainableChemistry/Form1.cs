@@ -38,10 +38,18 @@ namespace SustainableChemistry
         string documentPath;
         ChemInfo.FunctionalGroupCollection fGroups;
         ChemInfo.NamedReactionCollection reactions;
+        System.Data.SQLite.SQLiteConnection m_dbConnection;
 
         public Form1()
         {
             InitializeComponent();
+            //System.Data.SQLite.SQLiteConnection.CreateFile("MyDatabase.sqlite");
+
+            m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=..\\..\\Data\\SustainableChemistry.sqlite;Version=3;");
+            m_dbConnection.Open();
+
+            FunctionalGroups = new DataTable();
+            NamedReactions = new DataTable();
             molecule = new ChemInfo.Molecule();
             fGroups = new ChemInfo.FunctionalGroupCollection();
             reactions = new ChemInfo.NamedReactionCollection();
@@ -50,7 +58,7 @@ namespace SustainableChemistry
 
             this.OpenFunctionGroupExcelResource();
 
-            System.IO.FileStream fs = new System.IO.FileStream(documentPath + "\\references.dat", System.IO.FileMode.Open);
+            System.IO.FileStream fs = new System.IO.FileStream("..\\..\\Data\\references.dat", System.IO.FileMode.Open);
 
             // Construct a BinaryFormatter and use it to serialize the data to the stream.
             System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
@@ -95,7 +103,10 @@ namespace SustainableChemistry
         {
             // Reads functional Groups from Excel file.
             //List<string> functionalGroupStrs = new List<string>();// SustainableChemistry.Properties.Resources.Full_Functional_Group_List;
-            string fileName = documentPath + "\\Full Functional Group List 20180731.xlsx";
+            string fileName = "..\\..\\Data\\Full Functional Group List 20180731.xlsx";
+            FunctionalGroups.Columns.Add("Name", typeof(System.String));
+            FunctionalGroups.Columns.Add("Smart", typeof(System.String));
+            FunctionalGroups.Columns.Add("Image", typeof(System.Drawing.Image));
             using (DocumentFormat.OpenXml.Packaging.SpreadsheetDocument document = DocumentFormat.OpenXml.Packaging.SpreadsheetDocument.Open(fileName, false))
             {
                 DocumentFormat.OpenXml.Packaging.WorkbookPart wbPart = document.WorkbookPart;
@@ -111,16 +122,50 @@ namespace SustainableChemistry
                         {
                             text = text + this.GetExcelCellValue(c, wbPart) + '\t';
                         }
-                        ChemInfo.FunctionalGroup temp = fGroups.Add(text);
-                        string filename = documentPath + "\\Images\\" + temp.Name.ToLower() + ".jpg";
-                        if (System.IO.File.Exists(filename)) temp.Image = System.Drawing.Image.FromFile(filename);
+                        System.Data.DataRow row = FunctionalGroups.NewRow();
+                        ChemInfo.FunctionalGroup temp = fGroups.Add(text, row);
+                        FunctionalGroups.Rows.Add(row);
+                        //string filename = "..\\..\\Images\\" + temp.Name.ToLower() + ".jpg";
+                        //if (System.IO.File.Exists(filename)) temp.Image = System.Drawing.Image.FromFile(filename);
                     }
                     text = string.Empty;
                     first = false;
                 }
+                //using (System.Data.SQLite.SQLiteConnection con = new System.Data.SQLite.SQLiteConnection(string.Format("Data Source=..\\..\\Data\\SustainableChemistry.sqlite;Version=3;;New=False;Compress=True;Max Pool Size=100;")))
+                //{
+                //    con.Open();
+                //    using (System.Data.SQLite.SQLiteTransaction transaction = con.BeginTransaction())
+                //    {
+                //        foreach (DataRow row in FunctionalGroups.Rows)
+                //        {
+                //            using (System.Data.SQLite.SQLiteCommand sqlitecommand = new System.Data.SQLite.SQLiteCommand("insert into table(fh,ch,mt,pn) values ('" + Convert.ToString(row[0]) + "','" + Convert.ToString(row[1]) + "','"
+                //                                                                                                                  + Convert.ToString(row[2]) + "','" + Convert.ToString(row[3]) + "')", con))
+                //            {
+                //                sqlitecommand.ExecuteNonQuery();
+                //            }
+                //        }
+                //        transaction.Commit();
+                //        //new General().WriteApplicationLog("Data successfully imported.");
+                //        //return true;
+                //    }
+                //}
                 sheetData = GetWorkSheetFromSheet(wbPart, GetSheetFromName(wbPart, "Reaction List")).Elements<DocumentFormat.OpenXml.Spreadsheet.SheetData>().First();
                 text = string.Empty;
                 first = true;
+                NamedReactions.Columns.Add("Name", typeof(System.String));
+                NamedReactions.Columns.Add("FunctionalGroup", typeof(System.String));
+                NamedReactions.Columns.Add("Image", typeof(System.Drawing.Image));
+                NamedReactions.Columns.Add("URL", typeof(System.String));
+                NamedReactions.Columns.Add("ReactantA", typeof(System.String));
+                NamedReactions.Columns.Add("ReactantB", typeof(System.String));
+                NamedReactions.Columns.Add("ReactantC", typeof(System.String));
+                NamedReactions.Columns.Add("Product", typeof(System.String));
+                NamedReactions.Columns.Add("Heat", typeof(System.String));
+                NamedReactions.Columns.Add("AcidBase", typeof(System.String));
+                NamedReactions.Columns.Add("Catalyst", typeof(System.String));
+                NamedReactions.Columns.Add("Solvent", typeof(System.String));
+                NamedReactions.Columns.Add("ByProducts", typeof(System.String));
+
                 foreach (DocumentFormat.OpenXml.Spreadsheet.Row r in sheetData.Elements<DocumentFormat.OpenXml.Spreadsheet.Row>())
                 {
                     if (!first)
@@ -129,7 +174,9 @@ namespace SustainableChemistry
                         {
                             text = text + this.GetExcelCellValue(c, wbPart) + '\t';
                         }
-                        fGroups.AddReaction(new ChemInfo.NamedReaction(text));
+                        System.Data.DataRow row = NamedReactions.NewRow();
+                        fGroups.AddReaction(new ChemInfo.NamedReaction(text, row));
+                        NamedReactions.Rows.Add(row);
                         
                     }
                     text = string.Empty;

@@ -92,9 +92,9 @@ namespace ChemInfo
             return false;
         }
 
-        public FunctionalGroup Add(string line)
+        public FunctionalGroup Add(string line, System.Data.DataRow row)
         {
-            FunctionalGroup group = new FunctionalGroup(line);
+            FunctionalGroup group = new FunctionalGroup(line, row);
             if (!this.Contains(group.Name))
             {
                 this.Add(group);

@@ -199,20 +199,20 @@ namespace ChemInfo
             }
         }
 
-        static public string AvailableFunctionalGroups()
-        {
-            List<FunctionalGroup> groups = new List<FunctionalGroup>();
-            System.IO.StringReader reader = new System.IO.StringReader(Properties.Resources.Phosphate_Functional_Groups);
-            string line = reader.ReadLine();
-            while (!String.IsNullOrEmpty(line))
-            {
-                string[] b = line.Split('\t');
-                groups.Add(new FunctionalGroup(b[0], b[1]));
-                line = reader.ReadLine();
-            }
-            //var json = new System.Web.Script.Serialization.JavaScriptSerializer();
-            //return json.Serialize(groups);
-            return string.Empty;
-        }
+        //static public string AvailableFunctionalGroups()
+        //{
+        //    List<FunctionalGroup> groups = new List<FunctionalGroup>();
+        //    System.IO.StringReader reader = new System.IO.StringReader(Properties.Resources.Phosphate_Functional_Groups);
+        //    string line = reader.ReadLine();
+        //    while (!String.IsNullOrEmpty(line))
+        //    {
+        //        string[] b = line.Split('\t');
+        //        groups.Add(new FunctionalGroup(b[0], b[1]));
+        //        line = reader.ReadLine();
+        //    }
+        //    //var json = new System.Web.Script.Serialization.JavaScriptSerializer();
+        //    //return json.Serialize(groups);
+        //    return string.Empty;
+        //}
     }
 }

@@ -16,11 +16,13 @@ namespace ChemInfo
         System.Drawing.Image m_FunctGroupImage;
         List<int[]> m_AtomIndices;
 
-        public FunctionalGroup(string str)
+        public FunctionalGroup(string str, System.Data.DataRow row)
         {   
             string[] parts = str.Split('\t');
             Name = parts[0].Trim();
+            row["Name"] = Name;
             Smart = parts[1].Trim();
+            row["Smart"] = Smart;
             //string ReactionName = parts[2].Trim();
             //string URL = parts[3].Trim();
             //string ReactantA = parts[4].Trim();
@@ -34,24 +36,25 @@ namespace ChemInfo
             //string[] ByProducts = new string[]{ parts[12].Trim() };
             m_Reactions = new NamedReactionCollection();
             //m_Reactions.Add(new NamedReaction(this, ReactionName, URL, ReactantA, ReactantB, ReactantC, Product, AcidBase, Heat, Catalyst, Solvent, ByProducts));
-            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry\\Images\\" + Name + ".jpg";
-            if (System.IO.File.Exists(fileName)) m_FunctGroupImage = System.Drawing.Image.FromFile(fileName);
+            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "..\\..\\Data\\Images\\" + Name + ".jpg";
+            if (System.IO.File.Exists(fileName)) Image = System.Drawing.Image.FromFile(fileName);
+            row["Image"] = Image;
             m_AtomIndices = new List<int[]>();
         }
 
-        public FunctionalGroup(string func, string directory)
-        {
-            Name = func;
-            m_refList = new List<Reference>();
-            string[] imageFile = System.IO.Directory.GetFiles(directory, "*.jpg");
-            if (imageFile.Length == 1)
-                m_FunctGroupImage = System.Drawing.Image.FromFile(imageFile[0]);
-            string[] references = System.IO.Directory.GetFiles(directory, "*.ris");
-            foreach (string file in references)
-                m_refList.Add(new Reference(this.Name, "", System.IO.File.ReadAllText(file)));
-            m_Reactions = new NamedReactionCollection();
-            m_AtomIndices = new List<int[]>();
-        }
+        //public FunctionalGroup(string func, string directory)
+        //{
+        //    Name = func;
+        //    m_refList = new List<Reference>();
+        //    string[] imageFile = System.IO.Directory.GetFiles(directory, "*.jpg");
+        //    if (imageFile.Length == 1)
+        //        m_FunctGroupImage = System.Drawing.Image.FromFile(imageFile[0]);
+        //    string[] references = System.IO.Directory.GetFiles(directory, "*.ris");
+        //    foreach (string file in references)
+        //        m_refList.Add(new Reference(this.Name, "", System.IO.File.ReadAllText(file)));
+        //    m_Reactions = new NamedReactionCollection();
+        //    m_AtomIndices = new List<int[]>();
+        //}
 
         public void AddNamedReaction(NamedReaction reaction)
         {
