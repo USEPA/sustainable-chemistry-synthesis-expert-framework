@@ -3,7 +3,9 @@
 ![SCSEF](https://www.epa.gov/sites/production/files/2013-06/epa_seal_verysmall_trim.gif)
 ***
 ## About
-This software is developed using Visual Studio Professional 2017 in Windows 10.
+The Sustainable Chemistry Synthesis Expert Framework will allow users to qualitatively evaluate synthesis routes for a chemical to identify potential improvements in the sustainability of the chemical manufacturing process and reduce the number of materials needed for their production. This gained information can then be used to develop initial guidance on approaches for sustainable chemistry, sustainable molecular design guidance and rapid life cycle inventory generation.
+
+Sustainable chemistry focuses on the design of chemicals to preserve their desired efficacy of function while reducing their potential for toxicity and detrimental impact to the environment. The goal of this task is to develop a Sustainable Chemistry Synthesis Expert Framework that captures the expertise gained by EPA’s Green Chemistry and Engineering researchers over the past 20 years. Subsequently, green chemistry expertise from the open literature will be added. Initially, this framework will be developed using a set of chemicals identified as alternatives to an identified chemical of concern (e.g., brominated flame retardants). Upon successful generation of the first version of the framework, additional groups of chemicals (families) will be added to expand the library and complexity of the framework.
 ***
 ## Home
 See [Wiki/Home](https://github.com/USEPA/sustainable-chemistry-synthesis-expert-framework/wiki).
