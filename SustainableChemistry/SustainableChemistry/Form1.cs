@@ -31,6 +31,7 @@ namespace SustainableChemistry
         ChemInfo.Molecule molecule;
         System.Data.DataTable NamedReactions;
         System.Data.DataTable FunctionalGroups;
+        System.Data.DataTable References;
         //List<ChemInfo.FunctionalGroup> functionalGroups;
         //List<ChemInfo.FunctionalGroup> m_FGroups;
         static Encoding enc8 = Encoding.UTF8;
@@ -39,32 +40,49 @@ namespace SustainableChemistry
         ChemInfo.FunctionalGroupCollection fGroups;
         ChemInfo.NamedReactionCollection reactions;
         System.Data.SQLite.SQLiteConnection m_dbConnection;
+        System.Data.SQLite.SQLiteDataAdapter db_Adapter;
+        System.Data.SQLite.SQLiteCommand db_Command;
 
         public Form1()
         {
             InitializeComponent();
             //System.Data.SQLite.SQLiteConnection.CreateFile("MyDatabase.sqlite");
 
-            m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=..\\..\\Data\\SustainableChemistry.sqlite;Version=3;");
-            m_dbConnection.Open();
+            m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=..\\..\\..\\..\\Data\\SustainableChemistry.sqlite;Version=3;");
+            //m_dbConnection.Open();
 
-            FunctionalGroups = new DataTable();
-            NamedReactions = new DataTable();
+            FunctionalGroups = GetDataTable("FunctionalGroups");
+            fGroups = new ChemInfo.FunctionalGroupCollection(FunctionalGroups);
+            NamedReactions = GetDataTable("NamedReactions");
+            reactions = new ChemInfo.NamedReactionCollection(NamedReactions);
+            References = GetDataTable("ReferenceList");
+            m_References = new ChemInfo.References(References);
             molecule = new ChemInfo.Molecule();
-            fGroups = new ChemInfo.FunctionalGroupCollection();
-            reactions = new ChemInfo.NamedReactionCollection();
             this.trackBar1.Value = (int)(this.moleculeViewer1.Zoom * 100);
             documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry";
 
-            this.OpenFunctionGroupExcelResource();
+            //this.OpenFunctionGroupExcelResource();
 
-            System.IO.FileStream fs = new System.IO.FileStream("..\\..\\Data\\references.dat", System.IO.FileMode.Open);
+            System.IO.FileStream fs = new System.IO.FileStream("..\\..\\..\\..\\Data\\references.dat", System.IO.FileMode.Open);
 
             // Construct a BinaryFormatter and use it to serialize the data to the stream.
             System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
             try
             {
-                m_References = (ChemInfo.References)formatter.Deserialize(fs);
+                //m_References = (ChemInfo.References)formatter.Deserialize(fs);
+                //References = new System.Data.DataTable("ReferenceList");
+                //References.Columns.Add("FunctionalGroup", typeof(System.String));
+                //References.Columns.Add("ReactionName", typeof(System.String));
+                //References.Columns.Add("RISData", typeof(System.String));
+                //foreach (ChemInfo.Reference r in m_References)
+                //{
+                //    System.Data.DataRow row = References.NewRow();
+                //    row["FunctionalGroup"] = r.FunctionalGroup;
+                //    row["ReactionName"] = r.ReactionName;
+                //    row["RISData"] = r.RISData;
+                //    References.Rows.Add(row);
+                //}
+                //this.SaveDataTable(References);
             }
             catch (System.Runtime.Serialization.SerializationException e)
             {
@@ -103,10 +121,10 @@ namespace SustainableChemistry
         {
             // Reads functional Groups from Excel file.
             //List<string> functionalGroupStrs = new List<string>();// SustainableChemistry.Properties.Resources.Full_Functional_Group_List;
-            string fileName = "..\\..\\Data\\Full Functional Group List 20180731.xlsx";
+            string fileName = "..\\..\\..\\..\\Data\\Full Functional Group List 20180731.xlsx";
             FunctionalGroups.Columns.Add("Name", typeof(System.String));
-            FunctionalGroups.Columns.Add("Smart", typeof(System.String));
-            FunctionalGroups.Columns.Add("Image", typeof(System.Drawing.Image));
+            FunctionalGroups.Columns.Add("Smarts", typeof(System.String));
+            FunctionalGroups.Columns.Add("Image", typeof(System.String));
             using (DocumentFormat.OpenXml.Packaging.SpreadsheetDocument document = DocumentFormat.OpenXml.Packaging.SpreadsheetDocument.Open(fileName, false))
             {
                 DocumentFormat.OpenXml.Packaging.WorkbookPart wbPart = document.WorkbookPart;
@@ -124,37 +142,21 @@ namespace SustainableChemistry
                         }
                         System.Data.DataRow row = FunctionalGroups.NewRow();
                         ChemInfo.FunctionalGroup temp = fGroups.Add(text, row);
-                        FunctionalGroups.Rows.Add(row);
-                        //string filename = "..\\..\\Images\\" + temp.Name.ToLower() + ".jpg";
+                        string filename = "..\\..\\..\\..\\Images\\FunctionalGroups\\" + temp.Name.ToLower() + ".jpg";
                         //if (System.IO.File.Exists(filename)) temp.Image = System.Drawing.Image.FromFile(filename);
+                        //row["Image"] = temp.Image;
+                        FunctionalGroups.Rows.Add(row);
                     }
                     text = string.Empty;
                     first = false;
                 }
-                //using (System.Data.SQLite.SQLiteConnection con = new System.Data.SQLite.SQLiteConnection(string.Format("Data Source=..\\..\\Data\\SustainableChemistry.sqlite;Version=3;;New=False;Compress=True;Max Pool Size=100;")))
-                //{
-                //    con.Open();
-                //    using (System.Data.SQLite.SQLiteTransaction transaction = con.BeginTransaction())
-                //    {
-                //        foreach (DataRow row in FunctionalGroups.Rows)
-                //        {
-                //            using (System.Data.SQLite.SQLiteCommand sqlitecommand = new System.Data.SQLite.SQLiteCommand("insert into table(fh,ch,mt,pn) values ('" + Convert.ToString(row[0]) + "','" + Convert.ToString(row[1]) + "','"
-                //                                                                                                                  + Convert.ToString(row[2]) + "','" + Convert.ToString(row[3]) + "')", con))
-                //            {
-                //                sqlitecommand.ExecuteNonQuery();
-                //            }
-                //        }
-                //        transaction.Commit();
-                //        //new General().WriteApplicationLog("Data successfully imported.");
-                //        //return true;
-                //    }
-                //}
+
                 sheetData = GetWorkSheetFromSheet(wbPart, GetSheetFromName(wbPart, "Reaction List")).Elements<DocumentFormat.OpenXml.Spreadsheet.SheetData>().First();
                 text = string.Empty;
                 first = true;
                 NamedReactions.Columns.Add("Name", typeof(System.String));
                 NamedReactions.Columns.Add("FunctionalGroup", typeof(System.String));
-                NamedReactions.Columns.Add("Image", typeof(System.Drawing.Image));
+                NamedReactions.Columns.Add("Image", typeof(System.String));
                 NamedReactions.Columns.Add("URL", typeof(System.String));
                 NamedReactions.Columns.Add("ReactantA", typeof(System.String));
                 NamedReactions.Columns.Add("ReactantB", typeof(System.String));
@@ -177,13 +179,17 @@ namespace SustainableChemistry
                         System.Data.DataRow row = NamedReactions.NewRow();
                         fGroups.AddReaction(new ChemInfo.NamedReaction(text, row));
                         NamedReactions.Rows.Add(row);
-                        
+
                     }
                     text = string.Empty;
                     first = false;
                 }
                 document.Close();
+                this.SaveDataTable(FunctionalGroups);
+                this.SaveDataTable(NamedReactions);
             }
+
+
 
             //// This next line creates a list of strings that don't have images. Can be commented out!
             //List<string> missingImages = new List<string>();
@@ -230,6 +236,58 @@ namespace SustainableChemistry
             //}
         }
 
+        public System.Data.DataTable GetDataTable(string tablename)
+        {
+            System.Data.DataTable DT = new System.Data.DataTable();
+            m_dbConnection.Open();
+            db_Command = m_dbConnection.CreateCommand();
+            db_Command.CommandText = string.Format("SELECT * FROM {0}", tablename);
+            db_Adapter = new System.Data.SQLite.SQLiteDataAdapter(db_Command);
+            db_Adapter.AcceptChangesDuringFill = false;
+            db_Adapter.Fill(DT);
+            m_dbConnection.Close();
+            DT.TableName = tablename;
+            return DT;
+        }
+
+        public void SaveDataTable(System.Data.DataTable DT)
+        {
+            try
+            {
+                Execute(string.Format("DELETE FROM {0}", DT.TableName));
+                m_dbConnection.Open();
+                db_Command = m_dbConnection.CreateCommand();
+                db_Command.CommandText = string.Format("SELECT * FROM {0}", DT.TableName);
+                db_Adapter = new System.Data.SQLite.SQLiteDataAdapter(db_Command);
+                System.Data.SQLite.SQLiteCommandBuilder builder = new System.Data.SQLite.SQLiteCommandBuilder(db_Adapter);
+                db_Adapter.Update(DT);
+                m_dbConnection.Close();
+            }
+            catch (Exception Ex)
+            {
+                System.Windows.Forms.MessageBox.Show(Ex.Message);
+            }
+        }
+
+        public int Execute(string sql_statement)
+        {
+            m_dbConnection.Open();
+            db_Command = m_dbConnection.CreateCommand();
+            db_Command.CommandText = sql_statement;
+            int row_updated;
+            try
+            {
+                row_updated = db_Command.ExecuteNonQuery();
+            }
+            catch
+            {
+                m_dbConnection.Close();
+                return 0;
+            }
+            m_dbConnection.Close();
+            return row_updated;
+        }
+
         private void importFormTESTToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TestResults test = null;
@@ -258,7 +316,7 @@ namespace SustainableChemistry
             this.listBox1.Items.Clear();
             if (molecule == null) return;
             this.moleculeViewer1.Molecule = this.molecule;
-            this.propertyGrid1.SelectedObject = this.molecule;            
+            this.propertyGrid1.SelectedObject = this.molecule;
             foreach (ChemInfo.FunctionalGroup f in this.fGroups)
             {
                 if ((f.Name != "ESTER-SULFIDE") || (f.Name != "KETENIMINE")) this.molecule.FindFunctionalGroup(f);
@@ -267,7 +325,7 @@ namespace SustainableChemistry
             this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(this.molecule, Newtonsoft.Json.Formatting.Indented);
             foreach (ChemInfo.FunctionalGroup group in this.molecule.FunctionalGroups) this.functionalGroupComboBox.Items.Add(group.Name);
             //if (this.molecule.FunctionalGroups.Length > 0)
-                
+
             //    if (this.molecule.FunctionalGroups[0].NamedReactions.Count > 0)
             //    {
             //        this.pictureBox1.Image = this.molecule.FunctionalGroups[0].NamedReactions[0].ReactionImage[0];
@@ -448,6 +506,7 @@ namespace SustainableChemistry
             try
             {
                 formatter.Serialize(fs, m_References);
+                this.SaveDataTable(References);
             }
             catch (System.Runtime.Serialization.SerializationException ex)
             {

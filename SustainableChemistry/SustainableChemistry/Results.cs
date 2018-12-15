@@ -71,7 +71,7 @@ namespace SustainableChemistry
         public string[] Reactants { get; set; }
         public string URL { get; set; }
         public string Product { get; set; }
-        public string[] ByProducts { get; set; }
+        public string ByProducts { get; set; }
         public string Catalyst { get; set; }
         public string Solvent { get; set; }
         public string AcidBase { get; set; }

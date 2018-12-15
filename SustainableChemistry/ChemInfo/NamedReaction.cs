@@ -380,14 +380,14 @@ namespace ChemInfo
             row["ByProducts"] = parts[11];
         }
 
-        public NamedReaction(FunctionalGroup functGroup, string name, string url, string reactA, string reactB, string reactC, string product, string acidBase, string heat, string catalyst, string solvent, string[] byPrduct, System.Data.DataRow row)
+        public NamedReaction(string functGroup, string name, string url, string reactA, string reactB, string reactC, string product, string acidBase, string heat, string catalyst, string solvent, string byPrduct)
         {
             Name = name;
-            FunctionalGroup = functGroup.Name;
+            FunctionalGroup = functGroup;
             m_refList = new References();
             m_RxnImage = new List<System.Drawing.Image>();
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry\\" + functGroup + "\\" + Name;
-            if (functGroup.Name == "PHOSPHONATE ESTER")
+            if (functGroup == "PHOSPHONATE ESTER")
                 directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry\\" + functGroup + "\\" + Name;
             if (System.IO.Directory.Exists(directory))
             {
@@ -396,7 +396,7 @@ namespace ChemInfo
                     m_RxnImage.Add(System.Drawing.Image.FromFile(file));
                 string[] references = System.IO.Directory.GetFiles(directory, "*.ris");
                 foreach (string file in references)
-                    m_refList.Add(new Reference(functGroup.Name, name, System.IO.File.ReadAllText(file)));
+                    m_refList.Add(new Reference(functGroup, name, System.IO.File.ReadAllText(file)));
             }
             //Reactants = reactants;
             URL = url;
@@ -409,22 +409,22 @@ namespace ChemInfo
             Catalyst = catalyst;
             this.SetAcidBase(catalyst);
             this.SetSolvent(solvent);
-            m_ByProducts = new List<string>();
+            ByProducts = byPrduct;
             //row["Image"] = m_RxnImage;
             //Reactants = reactants;
-            row["Name"] = Name;
-            row["FunctionalGroup"] = Name;
-            row["Image"] = m_RxnImage;
-            row["URL"] = URL;
-            row["ReactantA"] = ReactantA;
-            row["ReactantB"] = ReactantB;
-            row["ReactantC"] = ReactantC;
-            row["Product"] = Product;
-            row["Heat"] = Heat;
-            row["AcidBase"] = AcidBase;
-            row["Catalyst"] = Catalyst;
-            row["Solvent"] = Solvent;
-            row["ByProducts"] = String.Empty;
+            //row["Name"] = Name;
+            //row["FunctionalGroup"] = Name;
+            //row["Image"] = m_RxnImage;
+            //row["URL"] = URL;
+            //row["ReactantA"] = ReactantA;
+            //row["ReactantB"] = ReactantB;
+            //row["ReactantC"] = ReactantC;
+            //row["Product"] = Product;
+            //row["Heat"] = Heat;
+            //row["AcidBase"] = AcidBase;
+            //row["Catalyst"] = Catalyst;
+            //row["Solvent"] = Solvent;
+            //row["ByProducts"] = String.Empty;
         }
 
         public Reference GetReference(string value)
@@ -473,18 +473,18 @@ namespace ChemInfo
             }
         }
         public string Product { get; set; }
-        public string[] ByProducts
-        {
-            get
-            {
-                return m_ByProducts.ToArray<string>();
-            }
-            set
-            {
-                m_ByProducts.Clear();
-                m_ByProducts.AddRange(value);
-            }
-        }
+        public string ByProducts { get; set; }
+        //{
+        //    get
+        //    {
+        //        return m_ByProducts.ToArray<string>();
+        //    }
+        //    set
+        //    {
+        //        m_ByProducts.Clear();
+        //        m_ByProducts.AddRange(value);
+        //    }
+        //}
         public string AcidBase {
             get
             {

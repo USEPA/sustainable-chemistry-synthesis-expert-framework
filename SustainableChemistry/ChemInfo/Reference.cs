@@ -10,7 +10,6 @@ namespace ChemInfo
     public class Reference
     {
         List<string> m_authors;
-        string m_FunctionalGroup;
 
         //public Reference(string data)
         //{
@@ -18,12 +17,9 @@ namespace ChemInfo
 
         public Reference(string functionalGroup, string reactionName, string data)
         {
-            m_FunctionalGroup = functionalGroup;
+            FunctionalGroup = functionalGroup;
             ReactionName = reactionName;
             m_authors = new List<string>();
-            //var reader = new System.IO.StringReader(data);
-            //string line = reader.ReadLine();
-            //while (string.IsNullOrEmpty(line))
             string[] lines = data.Replace("\r", string.Empty).Split('\n');
             RISData = data;
             foreach (string line in lines)

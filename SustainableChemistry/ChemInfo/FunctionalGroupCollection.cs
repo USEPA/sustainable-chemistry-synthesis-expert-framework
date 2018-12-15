@@ -39,6 +39,15 @@ namespace ChemInfo
             m_NamedReactions = new NamedReactionCollection();
         }
 
+        public FunctionalGroupCollection(System.Data.DataTable table)
+        {
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                this.Add(new FunctionalGroup(row["Name"].ToString(), row["Smarts"].ToString(), row["Image"].ToString()));
+            }            
+            m_NamedReactions = new NamedReactionCollection();
+        }
+
         public string[] FunctionalGroups
         {
             get

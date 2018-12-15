@@ -38,6 +38,25 @@ namespace ChemInfo
 
         }
 
+        public NamedReactionCollection(System.Data.DataTable table)
+        {
+            foreach (System.Data.DataRow row in table.Rows) {
+                string name = row["Name"].ToString();
+                string fGroup = row["FunctionalGroup"].ToString();
+                string imageFile = row["Image"].ToString();
+                string URL = row["URL"].ToString();
+                string reactA = row["ReactantA"].ToString();
+                string reactB = row["ReactantB"].ToString();
+                string reactC = row["ReactantC"].ToString();
+                string product = row["Product"].ToString();
+                string heat = row["Heat"].ToString();
+                string acidBase = row["AcidBase"].ToString();
+                string catalyst = row["Catalyst"].ToString();
+                string solvent = row["Solvent"].ToString();
+                string byProducts = row["ByProducts"].ToString();
+                this.Add(new ChemInfo.NamedReaction(fGroup, name, URL, reactA, reactB, reactC, product, acidBase, heat, catalyst, solvent, byProducts));
+            }
+        }
         public string[] NamedReaction
         {
             get

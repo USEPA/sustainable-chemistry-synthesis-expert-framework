@@ -32,6 +32,15 @@ namespace ChemInfo
         {
         }
 
+        public References(System.Data.DataTable table)
+        {
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                this.Add(new Reference(row["FunctionalGroup"].ToString(), row["ReactionName"].ToString(), row["RISData"].ToString()));
+            }
+            //NamedReactions = new NamedReactionCollection();
+        }
+
         public Reference[] GetReferences(string functionalGroup)
         {
             var results = from reference in this where reference.FunctionalGroup == functionalGroup select reference;
