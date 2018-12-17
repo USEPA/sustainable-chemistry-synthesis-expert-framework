@@ -40,6 +40,7 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -70,7 +71,6 @@
     <Compile Include="FunctionalGroupViewer.Designer.cs">
       <DependentUpon>FunctionalGroupViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphicRing.cs" />
     <Compile Include="NamedReactionViewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -174,15 +174,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\achs_jacsat105_661.ris" />
-    <None Include="Resources\achs_oprdfk4_175.ris" />
-    <None Include="Resources\BIB.RIS" />
-    <None Include="Resources\europepmc.ris" />
-    <None Include="Resources\europepmc1.ris" />
-    <None Include="Resources\S0040403900813763.ris" />
-    <None Include="Resources\S0040403900942163.ris" />
-    <None Include="Resources\S0040403901904617.ris" />
-    <None Include="Resources\S1001841712003142.ris" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -197,10 +188,8 @@
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\10.1002%252Fchin.199605199.txt" />
     <None Include="Resources\HarvardCiteThemRight.txt" />
     <None Include="Resources\harvard.txt.txt" />
-    <None Include="Resources\References.txt" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml">

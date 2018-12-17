@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SustainableChemistry",
+    "\\SustainableChemistry\\SustainableChemistry"
   ],
+  "SelectedNode": "\\SustainableChemistry\\SustainableChemistry\\Form1.cs",
   "PreviewInSolutionExplorer": false
 }

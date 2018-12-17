@@ -719,46 +719,6 @@ namespace ChemInfo
             }
         }
 
-
-
-        //[System.ComponentModel.BrowsableAttribute(false)]
-        //public int X_2D
-        //{
-        //    get
-        //    {
-        //        return _x;
-        //    }
-        //    set
-        //    {
-        //        _x = value;
-        //    }
-        //}
-
-        //[System.ComponentModel.BrowsableAttribute(false)]
-        //public int Y_2D
-        //{
-        //    get
-        //    {
-        //        return _y;
-        //    }
-        //    set
-        //    {
-        //        _y = value;
-        //    }
-        //}
-        //[System.ComponentModel.BrowsableAttribute(false)]
-        //public int Angle_2D
-        //{
-        //    get
-        //    {
-        //        return _angle;
-        //    }
-        //    set
-        //    {
-        //        _angle = value;
-        //    }
-        //}
-
         public void AddConnectedAtom(Atom a)
         {
             this.m_ConnectedAtoms.Add(a);

@@ -30,7 +30,7 @@ namespace SustainableChemistry
             Name = group.Name;
             Smarts = group.Smart;
             m_Reactions = new List<ReactionOutput>();
-            foreach (ChemInfo.NamedReaction reaction in group.NamedReactions) m_Reactions.Add(new ReactionOutput(reaction)); 
+            //foreach (ChemInfo.NamedReaction reaction in group.NamedReactions) m_Reactions.Add(new ReactionOutput(reaction)); 
         }
 
         public string Name { get; set; }

@@ -33,9 +33,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -54,7 +54,6 @@
     <Compile Include="ForceDirectedGraph.cs" />
     <Compile Include="FunctionalGroup.cs" />
     <Compile Include="FunctionalGroupCollection.cs" />
-    <Compile Include="Functionalities.cs" />
     <Compile Include="Molecule.cs" />
     <Compile Include="MoleFileReader.cs" />
     <Compile Include="NamedReaction.cs" />

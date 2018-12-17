@@ -21,7 +21,7 @@ namespace ChemInfo
             ReactionName = reactionName;
             m_authors = new List<string>();
             string[] lines = data.Replace("\r", string.Empty).Split('\n');
-            RISData = data;
+            RISData = data.TrimStart(' ', '\r', '\n');
             foreach (string line in lines)
             {
 

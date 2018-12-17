@@ -12,11 +12,14 @@ namespace SustainableChemistry
 {
     public partial class AddNewReference : Form
     {
-        public AddNewReference()
+        public AddNewReference(ChemInfo.FunctionalGroupCollection fGroups)
         {
             InitializeComponent();
             comboBox1.Items.Add(string.Empty);
-            comboBox1.Items.AddRange(ChemInfo.Functionalities.AvailablePhosphateFunctionalGroups);
+            foreach (ChemInfo.FunctionalGroup group in fGroups)
+            {
+                comboBox1.Items.Add(group.Name);
+            }
             label4.Text = string.Empty;
             label5.Text = string.Empty;
         }
@@ -66,13 +69,13 @@ namespace SustainableChemistry
 
         private void AddReferenceButton_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(Data) && ChemInfo.Functionalities.AvailablePhosphateFunctionalGroups.Contains(comboBox1.Text))
+            if (!string.IsNullOrEmpty(Data))
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
             if (string.IsNullOrEmpty(Data)) label4.Text = "Please select a Functional Group";
-            if (!ChemInfo.Functionalities.AvailablePhosphateFunctionalGroups.Contains(comboBox1.Text)) label5.Text = "Please select a reference file.";
+            if (String.IsNullOrEmpty(comboBox1.Text)) label5.Text = "Please select a reference file.";
 
         }
 

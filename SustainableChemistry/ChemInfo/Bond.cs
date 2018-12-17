@@ -145,41 +145,5 @@ namespace ChemInfo
         //    //    this.m_StaringPoint = value;
         //    //}
         //}
-
-        //bool m_SettingLocation = false;
-        //public void SetParentAtomLocation()
-        //{
-        //    if (m_SettingLocation) return;
-        //    m_SettingLocation = true;
-        //    int startX = this.m_connectedAtom.Location2D.X + (int)(this.m_length * Math.Cos(2 * Math.PI * (float)m_Angle / 360.0));
-        //    int startY = this.m_connectedAtom.Location2D.Y + (int)(this.m_length * Math.Sin(2 * Math.PI * (float)m_Angle / 360.0));
-        //    this.m_StaringPoint = new System.Drawing.Point(startX, startX);
-        //    this.m_ParentAtom.Location2D = new System.Drawing.Point(startX, startY);
-        //    m_SettingLocation = false;
-        //}
-
-        //public void SetBondededAtomLocation()
-        //{
-        //    if (m_SettingLocation) return;
-        //    m_SettingLocation = true;
-        //    int endX = this.m_ParentAtom.Location2D.X + (int)(this.m_length * Math.Cos(2 * Math.PI * (float)m_Angle / 360.0));
-        //    int endY = this.m_ParentAtom.Location2D.Y + (int)(this.m_length * Math.Sin(2 * Math.PI * (float)m_Angle / 360.0));
-        //    this.m_EndingPoint = new System.Drawing.Point(endX, endY);
-        //    this.m_connectedAtom.Location2D = new System.Drawing.Point(endX, endY);
-        //    m_SettingLocation = false;
-        //}
-
-        //public System.Drawing.Point EndPoint
-        //{
-        //    get
-        //    {
-        //        return m_connectedAtom.Location2D;
-        //    }
-        //    //set
-        //    //{
-        //    //    this.m_EndingPoint = value;
-        //    //    //this.m_connectedAtom.Location.X
-        //    //}
-        //}
     }
 }

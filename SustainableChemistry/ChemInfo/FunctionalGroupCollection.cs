@@ -108,7 +108,7 @@ namespace ChemInfo
             {
                 this.Add(group);
             }
-            else this.AddReactionToFunctionalGroup(group.Name, group.NamedReactions[0]);
+            //else this.AddReactionToFunctionalGroup(group.Name, group.NamedReactions[0]);
             return this[group.Name];
         }
 
@@ -117,17 +117,17 @@ namespace ChemInfo
             foreach (FunctionalGroup g in groups) this.Add(g);
         }
 
-        public void AddReactionToFunctionalGroup(string groupName, NamedReaction reaction)
-        {
-            this[groupName].AddNamedReaction(reaction);
-            m_NamedReactions.Add(reaction);
-        }
+        //public void AddReactionToFunctionalGroup(string groupName, NamedReaction reaction)
+        //{
+        //    this[groupName].AddNamedReaction(reaction);
+        //    m_NamedReactions.Add(reaction);
+        //}
 
-        public void AddReaction(NamedReaction reaction)
-        {
-            this[reaction.FunctionalGroup].AddNamedReaction(reaction);
-            m_NamedReactions.Add(reaction);
-        }
+        //public void AddReaction(NamedReaction reaction)
+        //{
+        //    this[reaction.FunctionalGroup].AddNamedReaction(reaction);
+        //    m_NamedReactions.Add(reaction);
+        //}
 
         //[System.ComponentModel.Browsable(false)]
         //public string AtomList

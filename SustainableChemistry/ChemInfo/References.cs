@@ -41,6 +41,20 @@ namespace ChemInfo
             //NamedReactions = new NamedReactionCollection();
         }
 
+        public References(String functionalGroup, string Reaction, String Data, System.Drawing.Image image)
+        {
+            string temp = Data;
+            int len = temp.Length;
+            int index = temp.IndexOf("ER  -");
+            while (index > 0)
+            {
+                this.Add(new Reference(functionalGroup, Reaction, temp.Substring(0, index + 6)));
+                temp = temp.Remove(0, index + 6);
+                int len1 = temp.Length;
+                index = temp.IndexOf("ER  -");
+            }
+        }
+
         public Reference[] GetReferences(string functionalGroup)
         {
             var results = from reference in this where reference.FunctionalGroup == functionalGroup select reference;

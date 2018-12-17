@@ -35,29 +35,29 @@ namespace SustainableChemistry
 
         private void ReactionNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ChemInfo.NamedReaction r = m_FunctionalGroup.NamedReactions[ReactionNameComboBox.SelectedItem.ToString()];
-            reactantAComboBox.SelectedItem = r.ReactantA.ToUpper();
-            reactantBComboBox.SelectedItem = r.ReactantB.ToUpper();
-            this.Solvent = (ChemInfo.SOLVENT)Enum.Parse(typeof(ChemInfo.SOLVENT), r.Solvent);
-            this.AcidBase = r.GetAcidBase();
-            this.HeatButton.Checked = false;
-            if (r.Catalyst.ToLower().Contains("heat")) this.HeatButton.Checked = true;
-            this.SmartsLabel.Text = "SMARTS: " + m_FunctionalGroup.Smart;
-            this.linkLabel1.Text = r.URL;
+            //ChemInfo.NamedReaction r = m_FunctionalGroup.NamedReactions[ReactionNameComboBox.SelectedItem.ToString()];
+            //reactantAComboBox.SelectedItem = r.ReactantA.ToUpper();
+            //reactantBComboBox.SelectedItem = r.ReactantB.ToUpper();
+            //this.Solvent = (ChemInfo.SOLVENT)Enum.Parse(typeof(ChemInfo.SOLVENT), r.Solvent);
+            //this.AcidBase = r.GetAcidBase();
+            //this.HeatButton.Checked = false;
+            //if (r.Catalyst.ToLower().Contains("heat")) this.HeatButton.Checked = true;
+            //this.SmartsLabel.Text = "SMARTS: " + m_FunctionalGroup.Smart;
+            //this.linkLabel1.Text = r.URL;
         }
 
         private void productComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.ReactionNameComboBox.Items.Clear();
-            m_FunctionalGroup = m_FunctionalGroups[productComboBox.SelectedItem.ToString()];
-            foreach (ChemInfo.NamedReaction r in m_FunctionalGroup.NamedReactions)
-            {
-                this.ReactionNameComboBox.Items.Add(r.Name);
-            }
-            reactantAComboBox.Text = string.Empty;
-            reactantBComboBox.Text = string.Empty;
-            pictureBox1.Image = m_FunctionalGroup.Image;
-            ReactionNameComboBox.SelectedIndex = 0;
+            //this.ReactionNameComboBox.Items.Clear();
+            //m_FunctionalGroup = m_FunctionalGroups[productComboBox.SelectedItem.ToString()];
+            //foreach (ChemInfo.NamedReaction r in m_FunctionalGroup.NamedReactions)
+            //{
+            //    this.ReactionNameComboBox.Items.Add(r.Name);
+            //}
+            //reactantAComboBox.Text = string.Empty;
+            //reactantBComboBox.Text = string.Empty;
+            //pictureBox1.Image = m_FunctionalGroup.Image;
+            //ReactionNameComboBox.SelectedIndex = 0;
         }
 
         public ChemInfo.FunctionalGroup SelectedFunctionalGroup
@@ -72,8 +72,9 @@ namespace SustainableChemistry
         {
             get
             {
-                if (this.m_FunctionalGroup == null) return null;
-                return m_FunctionalGroup.NamedReactions[this.ReactionNameComboBox.Text];
+                return null;
+                //if (this.m_FunctionalGroup == null) return null;
+                //return m_FunctionalGroup.NamedReactions[this.ReactionNameComboBox.Text];
             }
         }
 

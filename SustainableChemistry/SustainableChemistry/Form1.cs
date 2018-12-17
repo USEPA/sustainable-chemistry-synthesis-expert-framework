@@ -11,20 +11,6 @@ using System.Windows.Forms;
 namespace SustainableChemistry
 {
 
-    //public struct Descriptor
-    //{
-    //    public string name;
-    //    public double value;
-    //}
-
-    //public struct Fragment
-    //{
-    //    public int atomNumber;
-    //    public string element;
-    //    public string fragment;
-    //}
-
-
     public partial class Form1 : Form
     {
 
@@ -32,24 +18,22 @@ namespace SustainableChemistry
         System.Data.DataTable NamedReactions;
         System.Data.DataTable FunctionalGroups;
         System.Data.DataTable References;
-        //List<ChemInfo.FunctionalGroup> functionalGroups;
-        //List<ChemInfo.FunctionalGroup> m_FGroups;
         static Encoding enc8 = Encoding.UTF8;
-        ChemInfo.References m_References;
         string documentPath;
         ChemInfo.FunctionalGroupCollection fGroups;
         ChemInfo.NamedReactionCollection reactions;
+        ChemInfo.References m_References;
+        List<ChemInfo.Reference> currentReferences;
         System.Data.SQLite.SQLiteConnection m_dbConnection;
         System.Data.SQLite.SQLiteDataAdapter db_Adapter;
         System.Data.SQLite.SQLiteCommand db_Command;
+        string dataPath = "..\\..\\..\\..\\Data\\";
+        string imagePath = "..\\..\\..\\..\\Images\\";
 
         public Form1()
         {
             InitializeComponent();
-            //System.Data.SQLite.SQLiteConnection.CreateFile("MyDatabase.sqlite");
-
-            m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=..\\..\\..\\..\\Data\\SustainableChemistry.sqlite;Version=3;");
-            //m_dbConnection.Open();
+            m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=" + dataPath + "SustainableChemistry.sqlite;Version=3;");
 
             FunctionalGroups = GetDataTable("FunctionalGroups");
             fGroups = new ChemInfo.FunctionalGroupCollection(FunctionalGroups);
@@ -60,71 +44,20 @@ namespace SustainableChemistry
             molecule = new ChemInfo.Molecule();
             this.trackBar1.Value = (int)(this.moleculeViewer1.Zoom * 100);
             documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry";
+            currentReferences = new List<ChemInfo.Reference>();
 
             //this.OpenFunctionGroupExcelResource();
-
-            System.IO.FileStream fs = new System.IO.FileStream("..\\..\\..\\..\\Data\\references.dat", System.IO.FileMode.Open);
-
-            // Construct a BinaryFormatter and use it to serialize the data to the stream.
-            System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            try
-            {
-                //m_References = (ChemInfo.References)formatter.Deserialize(fs);
-                //References = new System.Data.DataTable("ReferenceList");
-                //References.Columns.Add("FunctionalGroup", typeof(System.String));
-                //References.Columns.Add("ReactionName", typeof(System.String));
-                //References.Columns.Add("RISData", typeof(System.String));
-                //foreach (ChemInfo.Reference r in m_References)
-                //{
-                //    System.Data.DataRow row = References.NewRow();
-                //    row["FunctionalGroup"] = r.FunctionalGroup;
-                //    row["ReactionName"] = r.ReactionName;
-                //    row["RISData"] = r.RISData;
-                //    References.Rows.Add(row);
-                //}
-                //this.SaveDataTable(References);
-            }
-            catch (System.Runtime.Serialization.SerializationException e)
-            {
-                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
-                throw;
-            }
-            finally
-            {
-                fs.Close();
-            }
-
-
-            //Reads in functional groups from JSON file. This should be used after Excel file is completed.
-            //var json = new System.Web.Script.Serialization.JavaScriptSerializer();
-            //functionalGroups = (List<ChemInfo.FunctionalGroup>)json.Deserialize(ChemInfo.Functionalities.AvailableFunctionalGroups(), typeof(List<ChemInfo.FunctionalGroup>));            // string text = ChemInfo.Functionalities.FunctionalGroups("P(c1ccccc1)(c1ccccc1)(N)=O", "json");
-
-            // Test code for generating a results file from a functional group name.
-            //Results res = new Results("phosphoramidite", m_References);
-            //string results = json.Serialize(res);
-
-            // Initial code to load references from text RIS resource files. Can be deleted when done.
-            //m_References = new ChemInfo.References();
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Diisoproprylethyamine Solvent", enc8.GetString(Properties.Resources.S0040403900813763)));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Diisoproprylethyamine Solvent", enc8.GetString(Properties.Resources.S0040403900942163)));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Diisoproprylethyamine Solvent", enc8.GetString(Properties.Resources.S0040403901904617)));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Diisoproprylethyamine Solvent", enc8.GetString(Properties.Resources.achs_jacsat105_661)));
-            //m_References.Add(new ChemInfo.Reference("phosphate", "No Name", enc8.GetString(Properties.Resources.S1001841712003142)));
-            //m_References.Add(new ChemInfo.Reference("phosphate", "Catalyst", Properties.Resources._10_1002_2Fchin_199605199));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Catalyst Solvent", enc8.GetString(Properties.Resources.europepmc)));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Catalyst Solvent", enc8.GetString(Properties.Resources.europepmc1)));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Catalyst Solvent", enc8.GetString(Properties.Resources.achs_oprdfk4_175)));
-            //m_References.Add(new ChemInfo.Reference("phosphoramidite", "Catalyst Solvent", enc8.GetString(Properties.Resources.BIB)));
         }
 
         private void OpenFunctionGroupExcelResource()
         {
+            FunctionalGroups.Clear();
+            NamedReactions.Clear();
             // Reads functional Groups from Excel file.
-            //List<string> functionalGroupStrs = new List<string>();// SustainableChemistry.Properties.Resources.Full_Functional_Group_List;
-            string fileName = "..\\..\\..\\..\\Data\\Full Functional Group List 20180731.xlsx";
-            FunctionalGroups.Columns.Add("Name", typeof(System.String));
-            FunctionalGroups.Columns.Add("Smarts", typeof(System.String));
-            FunctionalGroups.Columns.Add("Image", typeof(System.String));
+            string fileName = dataPath + "Full Functional Group List 20180731.xlsx";
+            //FunctionalGroups.Columns.Add("Name", typeof(System.String));
+            //FunctionalGroups.Columns.Add("Smarts", typeof(System.String));
+            //FunctionalGroups.Columns.Add("Image", typeof(System.String));
             using (DocumentFormat.OpenXml.Packaging.SpreadsheetDocument document = DocumentFormat.OpenXml.Packaging.SpreadsheetDocument.Open(fileName, false))
             {
                 DocumentFormat.OpenXml.Packaging.WorkbookPart wbPart = document.WorkbookPart;
@@ -142,9 +75,7 @@ namespace SustainableChemistry
                         }
                         System.Data.DataRow row = FunctionalGroups.NewRow();
                         ChemInfo.FunctionalGroup temp = fGroups.Add(text, row);
-                        string filename = "..\\..\\..\\..\\Images\\FunctionalGroups\\" + temp.Name.ToLower() + ".jpg";
-                        //if (System.IO.File.Exists(filename)) temp.Image = System.Drawing.Image.FromFile(filename);
-                        //row["Image"] = temp.Image;
+                        string filename = imagePath + "FunctionalGroups\\" + temp.Name.ToLower() + ".jpg";
                         FunctionalGroups.Rows.Add(row);
                     }
                     text = string.Empty;
@@ -154,19 +85,19 @@ namespace SustainableChemistry
                 sheetData = GetWorkSheetFromSheet(wbPart, GetSheetFromName(wbPart, "Reaction List")).Elements<DocumentFormat.OpenXml.Spreadsheet.SheetData>().First();
                 text = string.Empty;
                 first = true;
-                NamedReactions.Columns.Add("Name", typeof(System.String));
-                NamedReactions.Columns.Add("FunctionalGroup", typeof(System.String));
-                NamedReactions.Columns.Add("Image", typeof(System.String));
-                NamedReactions.Columns.Add("URL", typeof(System.String));
-                NamedReactions.Columns.Add("ReactantA", typeof(System.String));
-                NamedReactions.Columns.Add("ReactantB", typeof(System.String));
-                NamedReactions.Columns.Add("ReactantC", typeof(System.String));
-                NamedReactions.Columns.Add("Product", typeof(System.String));
-                NamedReactions.Columns.Add("Heat", typeof(System.String));
-                NamedReactions.Columns.Add("AcidBase", typeof(System.String));
-                NamedReactions.Columns.Add("Catalyst", typeof(System.String));
-                NamedReactions.Columns.Add("Solvent", typeof(System.String));
-                NamedReactions.Columns.Add("ByProducts", typeof(System.String));
+                //NamedReactions.Columns.Add("Name", typeof(System.String));
+                //NamedReactions.Columns.Add("FunctionalGroup", typeof(System.String));
+                //NamedReactions.Columns.Add("Image", typeof(System.String));
+                //NamedReactions.Columns.Add("URL", typeof(System.String));
+                //NamedReactions.Columns.Add("ReactantA", typeof(System.String));
+                //NamedReactions.Columns.Add("ReactantB", typeof(System.String));
+                //NamedReactions.Columns.Add("ReactantC", typeof(System.String));
+                //NamedReactions.Columns.Add("Product", typeof(System.String));
+                //NamedReactions.Columns.Add("Heat", typeof(System.String));
+                //NamedReactions.Columns.Add("AcidBase", typeof(System.String));
+                //NamedReactions.Columns.Add("Catalyst", typeof(System.String));
+                //NamedReactions.Columns.Add("Solvent", typeof(System.String));
+                //NamedReactions.Columns.Add("ByProducts", typeof(System.String));
 
                 foreach (DocumentFormat.OpenXml.Spreadsheet.Row r in sheetData.Elements<DocumentFormat.OpenXml.Spreadsheet.Row>())
                 {
@@ -177,7 +108,8 @@ namespace SustainableChemistry
                             text = text + this.GetExcelCellValue(c, wbPart) + '\t';
                         }
                         System.Data.DataRow row = NamedReactions.NewRow();
-                        fGroups.AddReaction(new ChemInfo.NamedReaction(text, row));
+
+                        reactions.Add(new ChemInfo.NamedReaction(text, row));
                         NamedReactions.Rows.Add(row);
 
                     }
@@ -190,51 +122,53 @@ namespace SustainableChemistry
             }
 
 
+            void ImageFileReconciliation()
+            {
+                // This next line creates a list of strings that don't have images. Can be commented out!
+                List<string> missingImages = new List<string>();
 
-            //// This next line creates a list of strings that don't have images. Can be commented out!
-            //List<string> missingImages = new List<string>();
+                // Creates the collection of functional groups.
+                foreach (ChemInfo.FunctionalGroup temp in fGroups)
+                {
+                    string filename = imagePath + "FunctionalGroups\\" + temp.Name.ToLower() + ".jpg";
+                    if (System.IO.File.Exists(filename)) temp.Image = System.Drawing.Image.FromFile(filename);
 
-            //// Creates the collection of functional groups.
-            //foreach (string line in functionalGroupStrs)
-            //{
-            //    ChemInfo.FunctionalGroup temp = fGroups.Add(line);
-            //    string filename = documentPath + "\\Images\\" + temp.Name.ToLower() + ".jpg";
-            //    if (System.IO.File.Exists(filename)) temp.Image = System.Drawing.Image.FromFile(filename);
+                    //this line adds the missing image to the list of missing images. Can be commented out.
+                    else missingImages.Add(temp.Name);
+                }
+                // Writes the missing images to a file.
 
-            //    //this line adds the missing image to the list of missing images. Can be commented out.
-            //    else missingImages.Add(temp.Name);
-            //}
-            //// Writes the missing images to a file.
+                // Write the string array to a new file named "WriteLines.txt".
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(documentPath + @"\MissingImages.txt"))
+                {
+                    foreach (string line in missingImages)
+                        outputFile.WriteLine(line);
+                }
 
-            //// Write the string array to a new file named "WriteLines.txt".
-            //using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(documentPath + @"\MissingImages.txt"))
-            //{
-            //    foreach (string line in missingImages)
-            //        outputFile.WriteLine(line);
-            //}
+                string[] imageFiles = System.IO.Directory.GetFiles(imagePath + "FunctionalGroups\\");
+                string[] groupNames = fGroups.FunctionalGroups;
+                List<string> extraImages = new List<string>();
+                foreach (string name in imageFiles)
+                {
+                    string temp = name.Replace(imagePath + "FunctionalGroups\\", string.Empty);
+                    temp = temp.Replace(".jpg", string.Empty);
+                    bool add = true;
+                    foreach (string gName in groupNames)
+                    {
+                        if (temp.ToUpper() == gName.ToUpper()) add = false;
+                    }
+                    if (add) extraImages.Add(temp);
+                }
 
-            //string[] imageFiles = System.IO.Directory.GetFiles(documentPath + "\\Images\\");
-            //string[] groupNames = fGroups.FunctionalGroups;
-            //List<string> extraImages = new List<string>();
-            //foreach (string name in imageFiles)
-            //{
-            //    string temp = name.Replace(documentPath + "\\Images\\", string.Empty);
-            //    temp = temp.Replace(".jpg", string.Empty);
-            //    bool add = true;
-            //    foreach (string gName in groupNames)
-            //    {
-            //        if (temp.ToUpper() == gName.ToUpper()) add = false;
-            //    }
-            //    if (add) extraImages.Add(temp);
-            //}
-
-            //// Write the string array to a new file named "WriteLines.txt".
-            //using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(documentPath + @"\ExtraImages.txt"))
-            //{
-            //    foreach (string line in extraImages)
-            //        outputFile.WriteLine(line);
-            //}
+                // Write the string array to a new file named "WriteLines.txt".
+                using (System.IO.StreamWriter outputFile = new System.IO.StreamWriter(imagePath + "FunctionalGroups\\" + @"\ExtraImages.txt"))
+                {
+                    foreach (string line in extraImages)
+                        outputFile.WriteLine(line);
+                }
+            }
         }
+
 
         public System.Data.DataTable GetDataTable(string tablename)
         {
@@ -305,6 +239,14 @@ namespace SustainableChemistry
             molecule = ChemInfo.MoleFileReader.ReadMoleFile(test.FilePath);
             this.listBox1.Items.Clear();
             this.moleculeViewer1.Molecule = molecule;
+            this.propertyGrid1.SelectedObject = this.molecule;
+            foreach (ChemInfo.FunctionalGroup f in this.fGroups)
+            {
+                if ((f.Name != "ESTER-SULFIDE") || (f.Name != "KETENIMINE")) this.molecule.FindFunctionalGroup(f);
+            }
+
+            this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(this.molecule, Newtonsoft.Json.Formatting.Indented);
+            foreach (ChemInfo.FunctionalGroup group in this.molecule.FunctionalGroups) this.functionalGroupComboBox.Items.Add(group.Name);
         }
 
         private void enterSMILEToolStripMenuItem_Click(object sender, EventArgs e)
@@ -324,51 +266,6 @@ namespace SustainableChemistry
 
             this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(this.molecule, Newtonsoft.Json.Formatting.Indented);
             foreach (ChemInfo.FunctionalGroup group in this.molecule.FunctionalGroups) this.functionalGroupComboBox.Items.Add(group.Name);
-            //if (this.molecule.FunctionalGroups.Length > 0)
-
-            //    if (this.molecule.FunctionalGroups[0].NamedReactions.Count > 0)
-            //    {
-            //        this.pictureBox1.Image = this.molecule.FunctionalGroups[0].NamedReactions[0].ReactionImage[0];
-            //        foreach (ChemInfo.Reference r in this.molecule.FunctionalGroups[0].NamedReactions[0].References)
-            //        {
-            //            this.listBox1.Items.Add(r.ToString());
-            //        }
-            //    }
-        }
-
-        private void phosphorousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            listBox1.Items.Clear();
-            string[] phos = ChemInfo.Functionalities.PhosphorousFunctionality(molecule);
-            int i = 0;
-            List<ChemInfo.FunctionalGroup> groups = new List<ChemInfo.FunctionalGroup>();
-            foreach (string p in phos)
-            {
-                foreach (ChemInfo.FunctionalGroup group in fGroups)
-                {
-                    if (group.Name.ToLower() == p)
-                    {
-                        groups.Add(group);
-                        i++;
-                    }
-                }
-                //listBox1.Items.Add(p);
-                //listBox1.Items.Add(string.Empty);
-                //var refs = m_References.GetReferences(p);
-                //foreach (Reference r in refs) listBox1.Items.Add(r.ToString());
-                //listBox1.Items.Add(string.Empty);
-                //listBox1.Items.Add(string.Empty);
-
-            }
-            if (i == 1)
-            {
-                //this.pictureBox1.Image = groups[0].ReactionImage;
-                //foreach(ChemInfo.Reference r in groups[0].References)
-                //{
-                //    this.listBox1.Items.Add(r.ToString());
-                //}
-            }
-            //listBox1.Items.AddRange(phos);
         }
 
         private void moleculeViewer1_SelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -382,40 +279,6 @@ namespace SustainableChemistry
             this.moleculeViewer1.Zoom = (double)(this.trackBar1.Value) / 100.0;
         }
 
-        //private string[] FunctionalGroups()
-        //{
-        //    if (this.molecule == null) return new string[0];
-        //    int[] atoms = null;
-        //    //List<FunctionalGroupOutput> groups = new List<FunctionalGroupOutput>();
-        //    System.Collections.Generic.List<string> foundGroups = new List<string>();
-        //    foreach (ChemInfo.FunctionalGroup f in this.fGroups)
-        //    {
-        //        if (this.molecule.FindSmarts(f.Smart, ref atoms))
-        //        {
-        //            foundGroups.Add(f.Name);
-        //            //groups.Add(new FunctionalGroupOutput(f));
-        //        }
-        //    }
-        //    //this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(groups, Newtonsoft.Json.Formatting.Indented);
-        //    return foundGroups.ToArray<String>();
-        //}
-
-        //private void findSmarts()
-        //{
-        //    if (this.molecule == null) return;
-        //    int[] atoms = null;
-        //    List<FunctionalGroupOutput> groups = new List<FunctionalGroupOutput>();
-        //    System.Collections.Generic.List<string> foundGroups = new List<string>();
-        //    foreach (ChemInfo.FunctionalGroup f in this.fGroups)
-        //    {
-        //        if (this.molecule.FindSmarts(f.Smart, ref atoms))
-        //        {
-        //            foundGroups.Add(f.Name);
-        //            groups.Add(new FunctionalGroupOutput(f));
-        //        }
-        //    }
-        //    this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(groups, Newtonsoft.Json.Formatting.Indented);
-        //}
 
         private void findSMARTSToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -427,108 +290,21 @@ namespace SustainableChemistry
             this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(molecule, Newtonsoft.Json.Formatting.Indented);
         }
 
-        private void testSubgraphToolStripMenuItem_Click(object sender, EventArgs e) { }
-        //private void testSubgraphToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    string[] molecules = {"COP(OC)OC",
-        //        "CCOP(C)OCC",
-        //        "COP(C1=CC=CC=C1)C2=CC=CC=C2",
-        //        "P(c1ccccc1)(c1ccccc1)c1ccccc1",
-        //        "CCN(CC)P(OC)OC",
-        //        "CC(C)N(C(C)C)P(N(C(C)C)C(C)C)OCCC#N",
-        //        "O(P(N(C)C)C)C",
-        //        "C(COP(O)S)NC(=O)CS",
-        //        "CCOP(SC)SC(C)C",
-        //        "COP(=O)(OC)OC",
-        //        "COP(=O)(C)OC",
-        //        "CCOP(=O)(C1=CC=CC=C1)C2=CC=CC=C2",
-        //        "P(c1ccccc1)(c1ccccc1)(c1ccccc1)=O",
-        //        "CCOP(=O)(N)OCC",
-        //        "CCOP(=O)(N(C)C)N(C)C",
-        //        "CN(C)P(=O)(N(C)C)N(C)C",
-        //        "CCCc1ccccc1NP(=O)(C)Oc1ccccc1CC",
-        //        "P(c1ccccc1)(c1ccccc1)(N)=O",
-        //        "CCOP(=S)(OCC)OCC",
-        //        "CCOP(=S)(OCC)SCC",
-        //        "CN(C)P(=O)(C)N(C)C"};
-        //    string[] groups = {"OP(O)O",
-        //        "OP(C)O",
-        //        "OP(C)C",
-        //        "CP(C)C",
-        //        "NP(O)O",
-        //        "NP(N)O",
-        //        "OP(N)C",
-        //        "OP(O)S",
-        //        "OP(S)S",
-        //        "OP(=O)(O)O",
-        //        "OP(=O)(O)C",
-        //        "OP(=O)(C)C",
-        //        "CP(=O)(C)C",
-        //        "OP(=O)(N)O",
-        //        "OP(=O)(N)N",
-        //        "NP(=O)(N)N",
-        //        "NP(=O)(C)O",
-        //        "NP(=O)(C)C",
-        //        "OP(=S)(O)O",
-        //        "OP(=S)(O)S",
-        //        "NP(=O)(C)N"};
-        //    DateTime start = DateTime.Now;
-        //    ChemInfo.Molecule m = null;
-        //    int[] indices = null;
-        //    foreach (string molecule in molecules)
-        //    {
-        //        m = new ChemInfo.Molecule(molecule);
-        //        bool found = false;
-        //        int numFound = 0;
-        //        foreach (string smart in groups)
-        //        {
-        //            if (m.FindSmarts(smart, ref indices))
-        //            {
-        //                found = true;
-        //                numFound++;
-        //            }
-        //            //if (m.FindSmarts2(smart, ref temp)) found = true;
-        //        }
-        //        if (!found || numFound > 1)
-        //        {
-        //            MessageBox.Show(molecule);
-        //        }
-        //    }
-        //    MessageBox.Show("Time Required is: " + (double)DateTime.Now.Subtract(start).Milliseconds + " milliseconds", "Test Completed Successfully");
-        //}
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            System.IO.Directory.CreateDirectory(documentPath);
-            System.IO.FileStream fs = new System.IO.FileStream(documentPath + "\\references.dat", System.IO.FileMode.Create);
-            // Construct a BinaryFormatter and use it to serialize the data to the stream.
-            System.Runtime.Serialization.Formatters.Binary.BinaryFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-            try
-            {
-                formatter.Serialize(fs, m_References);
-                this.SaveDataTable(References);
-            }
-            catch (System.Runtime.Serialization.SerializationException ex)
-            {
-                Console.WriteLine("Failed to serialize. Reason: " + ex.Message);
-                throw;
-            }
-            finally
-            {
-                fs.Close();
-            }
-
-            var json = new System.Web.Script.Serialization.JavaScriptSerializer();
-            System.IO.File.WriteAllText(documentPath + "\\FunctionalGroups.json", json.Serialize(fGroups));
+            //this.SaveDataTable(FunctionalGroups);
+            //this.SaveDataTable(NamedReactions);
+            //this.SaveDataTable(References);
         }
 
         private void showReferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<string> references = new List<string>();
-            string[] funcs = ChemInfo.Functionalities.PhosphorousFunctionality(molecule);
-            foreach (string f in funcs)
+            if (!molecule.FunctionalGroupsFound) this.findSMARTSToolStripMenuItem_Click(sender, e);
+            ChemInfo.FunctionalGroup[] funcs = molecule.FunctionalGroups;
+            foreach (ChemInfo.FunctionalGroup f in funcs)
             {
-                var refs = m_References.GetReferences(f);
+                var refs = m_References.GetReferences(f.Name);
                 foreach (ChemInfo.Reference r in refs) references.Add(r.ToString());
             }
             ReferenceList form = new ReferenceList
@@ -545,24 +321,32 @@ namespace SustainableChemistry
 
         private void importRISFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("THIS NEEDS FIXED", "THIS NEEDS FIXED", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //AddNewReference form = new AddNewReference();
-            //if (form.ShowDialog() == DialogResult.OK)
-            //    m_References.Add(new ChemInfo.Reference(form.FunctionalGroup, form.ReactionName, form.Data));
+            //System.Windows.Forms.MessageBox.Show("THIS NEEDS FIXED", "THIS NEEDS FIXED", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            AddNewReference form = new AddNewReference(fGroups);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                m_References.Add(new ChemInfo.Reference(form.FunctionalGroup, form.ReactionName, form.Data));
+                System.Data.DataRow row = References.NewRow();
+                row["FunctionalGroup"] = form.FunctionalGroup;
+                row["ReactionName"] = form.ReactionName;
+                row["RISData"] = form.Data;
+                References.Rows.Add(row);
+            }
         }
 
         private void exportJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<ChemInfo.Reference> refs = new List<ChemInfo.Reference>();
-            string[] phos = ChemInfo.Functionalities.PhosphorousFunctionality(molecule);
-            foreach (string p in phos)
+            List<ChemInfo.Reference> references = new List<ChemInfo.Reference>();
+            if (!molecule.FunctionalGroupsFound) this.findSMARTSToolStripMenuItem_Click(sender, e);
+            ChemInfo.FunctionalGroup[] funcs = molecule.FunctionalGroups;
+            foreach (ChemInfo.FunctionalGroup f in funcs)
             {
-                var pRefs = m_References.GetReferences(p);
-                foreach (ChemInfo.Reference r in pRefs) refs.Add(r);
+                var refs = m_References.GetReferences(f.Name);
+                foreach (ChemInfo.Reference r in refs) references.Add(r);
             }
             var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             System.IO.StreamWriter writer = new System.IO.StreamWriter(documentPath + "\\output.json");
-            writer.Write(serializer.Serialize(refs));
+            writer.Write(serializer.Serialize(references));
             writer.Close();
             //  System.Diagnostics.Process.Start(documentPath + "\\output.json");
         }
@@ -716,7 +500,7 @@ namespace SustainableChemistry
                 if (enumerator.Current.FunctionalGroups != null) checkedListBox1.Items.AddRange(enumerator.Current.FunctionalGroups);
                 tabPage4.Tag = enumerator;
             }
-            else this.phosphorousToolStripMenuItem_Click(sender, e);
+            else this.findSMARTSToolStripMenuItem_Click(sender, e);
         }
 
         public static Image PUGGetCompoundImage(string smiles, string casNo)
@@ -760,27 +544,51 @@ namespace SustainableChemistry
         private void functionalGroupComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.namedReactionComboBox.Items.Clear();
-            foreach (ChemInfo.NamedReaction reaction in fGroups[this.functionalGroupComboBox.SelectedItem.ToString()].NamedReactions)
-                this.namedReactionComboBox.Items.Add(reaction.Name);
+            var results = from myRow in this.NamedReactions.AsEnumerable()
+                          where myRow.Field<string>("FunctionalGroup") == this.functionalGroupComboBox.SelectedItem.ToString()
+                          select myRow;
+            foreach (DataRow row in results)
+            {
+                this.namedReactionComboBox.Items.Add(row["Name"].ToString());
+            }
         }
         // O=P(OC)(OC)C
 
         private void namedReactionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ChemInfo.NamedReaction reaction = fGroups[this.functionalGroupComboBox.SelectedItem.ToString()].NamedReactions[this.namedReactionComboBox.SelectedItem.ToString()];
-            if (reaction.ReactionImage.Length > 0)
-                this.pictureBox1.Image = reaction.ReactionImage[0];
             this.listBox1.Items.Clear();
-            this.listBox1.Items.AddRange(reaction.References.ToArray());
+            currentReferences.Clear();
+            var results = from myRow in this.References.AsEnumerable()
+                          where myRow.Field<string>("FunctionalGroup") == this.functionalGroupComboBox.SelectedItem.ToString()
+                          && myRow.Field<string>("ReactionName") == this.namedReactionComboBox.SelectedItem.ToString()
+                          select myRow;
+            foreach (DataRow row in results)
+            {
+                ChemInfo.Reference reference = new ChemInfo.Reference(row["FunctionalGroup"].ToString(), row["ReactionName"].ToString(), row["RISData"].ToString());
+                this.listBox1.Items.Add(reference.ToString());
+                currentReferences.Add(reference);
+            }
+            string filename = imagePath + "Reactions\\" + this.functionalGroupComboBox.SelectedItem.ToString() + "_" + this.namedReactionComboBox.SelectedItem.ToString() + ".jpg";
+            if (System.IO.File.Exists(filename))
+            {
+                this.pictureBox1.Image = System.Drawing.Image.FromFile(filename);
+            }
         }
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
-            ChemInfo.NamedReaction reaction = fGroups[this.functionalGroupComboBox.SelectedItem.ToString()].NamedReactions[this.namedReactionComboBox.SelectedItem.ToString()];
-            ChemInfo.Reference r = reaction.GetReference(this.listBox1.SelectedItem.ToString());
-            if (r != null)
-                if (!string.IsNullOrEmpty(r.URL))
-                    System.Diagnostics.Process.Start(r.URL);
+            String testStr = this.listBox1.SelectedItem.ToString();
+            ChemInfo.Reference reference = null;
+            foreach (ChemInfo.Reference r in this.currentReferences)
+            {
+                if (r.ToString() == testStr) reference = r;
+            }
+            if (reference != null) {
+                if (!string.IsNullOrEmpty(reference.URL))
+                    System.Diagnostics.Process.Start(reference.URL);
+                else if (!string.IsNullOrEmpty(reference.doi))
+                    System.Diagnostics.Process.Start("https://doi.org/" + reference.doi);
+            }
         }
     }
 }

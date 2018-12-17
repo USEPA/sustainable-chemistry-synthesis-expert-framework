@@ -15,47 +15,47 @@ namespace ChemInfo
         ACID_BASE = 3
     }
 
-       public static class Reactants
+    public static class Reactants
     {
-		public static string[] ReactantList
-		{
-			get
-			{
-				return new string[]
-					{
-						"1,3 - dibromopropane",
-						"1,3 - dichloropropane",
-						"1,3 Propanedithiol",
-						"2 Alkenes",
-						"2 Alcohol",
-						"2 Azides",
-						"2 Esters",
-						"2 Sulfhydryl groups",
-						"3 - Bromo - 1 - butene",
-						"3 - bromo - 1 - propanol",
-						"3 Formaldehyde",
-						"ACETAL",
-						"Acetone",
-						"Acid Chloride",
-						"Acid Halides",
-						"ACYLOIN",
-						"ALCOHOL",
-						"ALCOHOL, ALLYLIC",
-						"ALDEHYDE",
-						"aliphatic amines",
-						"Alkaline hydrogen peroxide",
-						"alkali Metal salt thiol",
-						"ALKANE",
-						"ALKENE",
-						"ALKENE - ALCOHOL",
-						"ALKENE - ALDEHYDE",
-						"ALKENE - ALKYNE",
-						"ALKENE - AMINE",
-						"ALKENE - CARBOXYLIC ACID",
-						"ALKENE - KETONE",
-						"ALKENE - THIOETHER",
-						"Alkenoic acid",
-						"Alkyl Diaol",
+        public static string[] ReactantList
+        {
+            get
+            {
+                return new string[]
+                    {
+                        "1,3 - dibromopropane",
+                        "1,3 - dichloropropane",
+                        "1,3 Propanedithiol",
+                        "2 Alkenes",
+                        "2 Alcohol",
+                        "2 Azides",
+                        "2 Esters",
+                        "2 Sulfhydryl groups",
+                        "3 - Bromo - 1 - butene",
+                        "3 - bromo - 1 - propanol",
+                        "3 Formaldehyde",
+                        "ACETAL",
+                        "Acetone",
+                        "Acid Chloride",
+                        "Acid Halides",
+                        "ACYLOIN",
+                        "ALCOHOL",
+                        "ALCOHOL, ALLYLIC",
+                        "ALDEHYDE",
+                        "aliphatic amines",
+                        "Alkaline hydrogen peroxide",
+                        "alkali Metal salt thiol",
+                        "ALKANE",
+                        "ALKENE",
+                        "ALKENE - ALCOHOL",
+                        "ALKENE - ALDEHYDE",
+                        "ALKENE - ALKYNE",
+                        "ALKENE - AMINE",
+                        "ALKENE - CARBOXYLIC ACID",
+                        "ALKENE - KETONE",
+                        "ALKENE - THIOETHER",
+                        "Alkenoic acid",
+                        "Alkyl Diaol",
                         "Alkyl bromide",
                         "Alkyl Halide",
                         "ALKYNE",
@@ -324,8 +324,8 @@ namespace ChemInfo
                         "XANTHATE"
                     };
             }
-		}
-	}
+        }
+    }
 
     [Serializable]
     public class NamedReaction
@@ -342,7 +342,7 @@ namespace ChemInfo
             Name = parts[1];
             row["Name"] = Name;
             FunctionalGroup = parts[0];
-            row["FunctionalGroup"] = Name;
+            row["FunctionalGroup"] = FunctionalGroup;
             m_refList = new References();
             m_RxnImage = new List<System.Drawing.Image>();
             string directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry\\" + parts[0] + "\\" + parts[1];
@@ -462,7 +462,8 @@ namespace ChemInfo
         //public string AcidBase { get; set; }
         public string Heat { get; set; }
         public string Catalyst { get; set; }
-        public string Solvent {
+        public string Solvent
+        {
             get
             {
                 return m_Solvent.ToString();
@@ -485,7 +486,8 @@ namespace ChemInfo
         //        m_ByProducts.AddRange(value);
         //    }
         //}
-        public string AcidBase {
+        public string AcidBase
+        {
             get
             {
                 if (m_AcidBase == ChemInfo.AcidBase.ACID) return "acid";

@@ -42,7 +42,8 @@ namespace ChemInfo
         {
             foreach (System.Data.DataRow row in table.Rows) {
                 string name = row["Name"].ToString();
-                string fGroup = row["FunctionalGroup"].ToString();
+                string fGroup = row["FunctionalGroup"].ToString().ToUpper();
+                row["FunctionalGroup"] = fGroup.ToUpper();
                 string imageFile = row["Image"].ToString();
                 string URL = row["URL"].ToString();
                 string reactA = row["ReactantA"].ToString();
@@ -68,18 +69,6 @@ namespace ChemInfo
             }
         }
 
-        //public System.Drawing.Image Image(string groupName)
-        //{
-        //    foreach (NamedReaction g in this)
-        //    {
-        //        if (g.Name == groupName)
-        //        {
-        //            return g.Image;
-        //        }
-        //    }
-        //    return null;
-        //}
-
         public NamedReaction this[string name]
         {
             get
@@ -95,23 +84,6 @@ namespace ChemInfo
             }
         }
 
-        //[System.ComponentModel.Browsable(false)]
-        //public string AtomList
-        //{
-        //    get
-        //    {
-        //        string retVal = string.Empty;
-        //        if (this.Count > 1)
-        //        {
-        //            for (int i = 0; i < this.Count - 2; i++)
-        //            {
-        //                retVal = retVal + this[i].ConnectedAtom.AtomicSymbol + ", ";
-        //            }
-        //        }
-        //        if (this.Count < 1) return retVal;
-        //        return retVal + this[this.Count - 1].ConnectedAtom.AtomicSymbol;
-        //    }
-        //}
 
         // Implementation of ICustomTypeDescriptor: 
 

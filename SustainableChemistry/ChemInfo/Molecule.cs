@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace ChemInfo
 {
-
-    public struct Group
+    struct FunctionalGroupAtoms
     {
-        public string name;
-        public string[] fragments;
-        public string[] testFragments;
-        public int[] count;
+        public Atom[] Atoms;
+        public FunctionalGroup FunctionalGroup;
+
+        public FunctionalGroupAtoms(FunctionalGroup group, Atom[] atoms)
+        {
+            FunctionalGroup = group;
+            Atoms = atoms;
+        }
     }
 
 
@@ -22,14 +25,14 @@ namespace ChemInfo
     {
         List<Atom> m_Atoms;
         List<List<Atom>> cycles;
-        List<Atom[]> groupAtoms;
+        List<FunctionalGroupAtoms> groupAtoms;
         List<Atom[]> paths;
         bool[,] touching;
         bool[,] fused;
         bool ringsFound;
         bool pathsFound;
         System.Collections.Hashtable atomsCount;
-        FunctionalGroupCollection m_FunctionalGroups;
+        //FunctionalGroupCollection m_FunctionalGroups;
         bool aromaticitySet;
         bool[] isRingAromatic;
         bool[] isRingHeterocyclic;
@@ -38,8 +41,8 @@ namespace ChemInfo
         public Molecule()
         {
             m_Atoms = new List<Atom>();
-            m_FunctionalGroups = new FunctionalGroupCollection();
-            groupAtoms = new List<Atom[]>();
+            //m_FunctionalGroups = new FunctionalGroupCollection();
+            groupAtoms = new List<FunctionalGroupAtoms>();
             atomsCount = new System.Collections.Hashtable();
             aromaticitySet = false;
             Aromatic = false;
@@ -59,26 +62,11 @@ namespace ChemInfo
             smilesParser parser = new smilesParser(new Antlr4.Runtime.CommonTokenStream(lexer));
             int err = parser.NumberOfSyntaxErrors;
             this.m_Atoms.AddRange((Atom[])new SmilesVisitor().Visit(parser.smiles()));
-            m_FunctionalGroups = new FunctionalGroupCollection();
+            groupAtoms = new List<FunctionalGroupAtoms>();
             this.FindRings();
-            groupAtoms = new List<Atom[]>();
+            //groupAtoms = new List<Atom[]>();
             Smiles = smiles;
         }
-
-        //public Molecule(Atom[] atoms)
-        //{
-        //    atomsCount = new System.Collections.Hashtable();
-        //    m_Atoms = new List<Atom>();
-        //    m_Atoms.AddRange(atoms);
-        //    aromaticitySet = false;
-        //    Aromatic = false;
-        //    ringsFound = false;
-        //    pathsFound = false;
-        //    m_FunctionalGroups = new FunctionalGroupCollection();
-        //    this.FindRings();
-        //    groupAtoms = new List<Atom[]>();
-        //    //Smiles = smiles;
-        //}
 
         [Newtonsoft.Json.JsonProperty]
         public bool Aromatic { get; internal set; }
@@ -86,7 +74,6 @@ namespace ChemInfo
         public bool Heterocyclic { get; internal set; }
         [Newtonsoft.Json.JsonProperty]
         public bool HeterocyclicAromatic { get; internal set; }
-
         [Newtonsoft.Json.JsonProperty]
         public string Smiles { get; }
 
@@ -125,15 +112,6 @@ namespace ChemInfo
             ringsFound = false;
             pathsFound = false;
         }
-
-        //public void AddAtom(string element)
-        //{
-        //    Atom a = new Atom(element);
-        //    if (m_Atoms.Contains(a)) return;
-        //    m_Atoms.Add(a);
-        //    ringsFound = false;
-        //    pathsFound = false;
-        //}
 
         void IncrementAtomCount(Atom a)
         {
@@ -520,15 +498,19 @@ namespace ChemInfo
 
         // VF2 Implementation
 
+        public bool FunctionalGroupsFound { get; set; } = false;
+
         [Newtonsoft.Json.JsonProperty]
         public FunctionalGroup[] FunctionalGroups
         {
             get
             {
-                //List<FunctionalGroup> groups = new List<FunctionalGroup>();
-                //foreach (FunctionalGroup g in this.m_FunctionalGroups)
-                //    groups.Add(g.Name);
-                return m_FunctionalGroups.ToArray<FunctionalGroup>();
+                List<FunctionalGroup> groups = new List<FunctionalGroup>();
+                foreach(FunctionalGroupAtoms g in groupAtoms)
+                {
+                    if (!groups.Contains(g.FunctionalGroup)) groups.Add(g.FunctionalGroup);
+                }
+                return groups.ToArray<FunctionalGroup>();
             }
         }
 
@@ -566,7 +548,7 @@ namespace ChemInfo
                     Atom[] atoms = { m_Atoms[at[0]], m_Atoms[at[1]] };
                     if (this.RingContains(atoms))
                     {
-                        group.AddAtoms(at);
+                        //groupAtoms.AddAtoms(at);
                         retVal = true;
                     }
                 }
@@ -575,67 +557,26 @@ namespace ChemInfo
                     Atom[] atoms = { m_Atoms[at[0]], m_Atoms[at[1]] };
                     if (this.RingContains(atoms))
                     {
-                        group.AddAtoms(at);
+                        //group.AddAtoms(at);
                         retVal = true;
                     }
                 }
                 else
                 {
-                    group.AddAtoms(at);
+                    //group.AddAtoms(at);
                     retVal = true;
                 }
                 matched = this.Match(ref pn, ref matches, ref at, new FunctionalGroupState(m, this, false));
             }
-            if (retVal) this.m_FunctionalGroups.Add(group);
+            if (retVal)
+            {
+                Atom[] atoms = new Atom[at.Length];
+                for (int i = 0; i < at.Length; i++) atoms[i] = m_Atoms[at[i]];
+                this.groupAtoms.Add(new FunctionalGroupAtoms(group, atoms));
+            }
             return retVal;
         }
 
-        //public bool FindRingFunctionalGroup(string name, string smart, FunctionalGroupCollection fGroups)
-        //{
-        //    Molecule m = new Molecule(smart);
-        //    int pn = 0;
-        //    int[] matches = null;
-        //    int[] at = null;
-        //    foreach (List<Atom> ring in cycles)
-        //    {
-        //        Molecule ringMolecule = new Molecule(ring.ToArray());
-        //        bool found = this.Match(ref pn, ref matches, ref at, new FunctionalGroupState(m, ringMolecule, false));
-        //        if (found)
-        //        {
-        //            foreach (FunctionalGroup f in fGroups)
-        //            {
-        //                if (f.Name == smart) this.m_FunctionalGroups.Add(f);
-        //            }
-        //            Atom[] a = null;
-        //            if (at != null)
-        //            {
-        //                a = new Atom[at.Length];
-        //                for (int i = 0; i < at.Length; i++) a[i] = this.Atoms[i];
-        //            }
-        //            this.groupAtoms.Add(a);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        //public bool FindSmarts(string smart, ref int[] group)
-        //{
-        //    Molecule m = new Molecule(smart);
-        //    int pn = 0;
-        //    int[] matches = null;
-        //    return this.Match(ref pn, ref matches, ref group, new VF2SubState(m, this, false));
-        //}
-
-        //public bool FindSmarts2(string smart, ref Atom[] group)
-        //{
-        //    Molecule m = new Molecule(smart);
-        //    Stack<Atom> temp = new Stack<Atom>();
-        //    Stack<Atom> matches = new Stack<Atom>();
-        //    bool result = this.Match(temp, matches, new VF2SubState2(m, this, false));
-        //    //bool result = this.Match(null, null, temp, matches, m);
-        //    return result;
-        //}
 
         internal bool Match(ref int pn, ref int[] c1, ref int[] c2, State s)
         {
@@ -1345,42 +1286,5 @@ namespace ChemInfo
                 v.Location2D = new System.Drawing.Point((int)x, (int)y);
             }
         }
-
-        //public int GetBondAngle(Atom atom1, Atom atom2)
-        //{
-        //    foreach (Bond b in atom1.BondedAtoms)
-        //    {
-        //        if (b.ConnectedAtom == atom2) return b.Angle;
-        //    }
-        //    foreach (Bond b in atom2.BondedAtoms)
-        //    {
-        //        if (b.ConnectedAtom == atom1) return (b.Angle + 180) % 360;
-        //    }
-        //    return -1;
-        //}
-
-        //public int SetBondAngle(Atom atom1, Atom atom2, int angle)
-        //{
-        //    foreach (Bond b in atom1.BondedAtoms)
-        //    {
-        //        if (b.ConnectedAtom == atom2)
-        //        {
-        //            b.Angle = angle;
-        //            //b.SetBondededAtomLocation();
-        //            return angle;
-        //        }
-        //    }
-        //    foreach (Bond b in atom2.BondedAtoms)
-        //    {
-        //        if (b.ConnectedAtom == atom1)
-        //        {
-        //            b.Angle = (angle + 180) % 360;
-        //            //b.SetParentAtomLocation();
-        //            return (angle + 180) % 360;
-        //        }
-        //    }
-        //    return 0;
-        //}
-
     }
 }

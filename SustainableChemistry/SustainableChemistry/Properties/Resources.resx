@@ -118,43 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="achs_jacsat105_661" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\achs_jacsat105_661.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="achs_oprdfk4_175" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\achs_oprdfk4_175.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BIB" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BIB.RIS;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="europepmc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\europepmc.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="europepmc1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\europepmc1.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Icon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Icon1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="S0040403900813763" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\S0040403900813763.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="S0040403900942163" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\S0040403900942163.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="S0040403901904617" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\S0040403901904617.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="S1001841712003142" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\S1001841712003142.ris;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="References1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\References.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="HarvardCiteThemRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HarvardCiteThemRight.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="_10_1002_2Fchin_199605199" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\10.1002%2Fchin.199605199.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
