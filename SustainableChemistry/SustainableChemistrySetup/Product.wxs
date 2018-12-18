@@ -8,14 +8,28 @@
     <Feature Id="ProductFeature" Title="SustainableChemistrySetup" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentRef Id="ApplicationShortcut" />
+      <ComponentGroupRef Id="SQLiteData" />
     </Feature>
   </Product>
 
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="LocalAppDataFolder">
-        <Directory Id="INSTALLFOLDER" Name="SustainableChemistry" />
-      </Directory>
+        <Directory Id="INSTALLFOLDER" Name="SustainableChemistry">
+          <Directory Id="DATAFOLDER" Name="Data" />
+          <!--
+          <Directory Id="IMAGEFOLDER" Name="Images">
+            <Directory Id="FUNCTGROUPFOLDER" Name="FunctionalGroups">
+
+            </Directory>
+            <Directory Id="REACTIONFOLDER" Name="Reactions">
+
+            </Directory>
+            
+          </Directory>
+        -->
+        </Directory>
+    </Directory>
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ApplicationProgramsFolder" Name="SustainableChemistry"/>
       </Directory>
@@ -36,9 +50,26 @@
         <RemoveFolder Id="LocalAppDataFolder" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\USEPA\SustainableChemistry" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
+      <Component Id="SQLLite" Guid = "20402149-5DF9-42B6-94BD-E9C472223B73">
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Source="$(var.SustainableChemistry.TargetDir)System.Data.SQLite.dll" />
+        <RegistryValue Root="HKCU" Key="Software\USEPA\SustainableChemistrySQLLite" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
     </ComponentGroup>
   </Fragment>
 
+  <Fragment>
+    <ComponentGroup Id="SQLiteData" Directory="DATAFOLDER">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <Component Id="SustainableChemistryData" Guid = "980D33EB-7DA5-413D-ADF9-976E40E47473">
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Source="$(var.ProjectDir)..\..\Data\SustainableChemistry.sqlite" />
+        <RemoveFolder Id="DATAFOLDER" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\USEPA\SustainableChemistry" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+  
   <Fragment>
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="284AA4D9-DBB3-44D2-82EF-608066BC9D39">

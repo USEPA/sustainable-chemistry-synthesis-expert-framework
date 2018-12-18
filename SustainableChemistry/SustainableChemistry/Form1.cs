@@ -26,13 +26,19 @@ namespace SustainableChemistry
         List<ChemInfo.Reference> currentReferences;
         System.Data.SQLite.SQLiteConnection m_dbConnection;
         System.Data.SQLite.SQLiteDataAdapter db_Adapter;
-        System.Data.SQLite.SQLiteCommand db_Command;
-        string dataPath = "..\\..\\..\\..\\Data\\";
-        string imagePath = "..\\..\\..\\..\\Images\\";
+        System.Data.SQLite.SQLiteCommand db_Command;        
+        string dataPath;
+        string imagePath;
 
         public Form1()
         {
             InitializeComponent();
+            dataPath = "Data\\";
+            if (!System.IO.Directory.Exists(dataPath)) dataPath = "..\\..\\..\\..\\Data\\";
+
+            imagePath = "Images\\";
+            if (!System.IO.Directory.Exists("Images")) imagePath = "..\\..\\..\\..\\Images\\";
+            
             m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=" + dataPath + "SustainableChemistry.sqlite;Version=3;");
 
             FunctionalGroups = GetDataTable("FunctionalGroups");

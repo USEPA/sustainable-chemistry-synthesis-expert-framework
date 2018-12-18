@@ -21,17 +21,19 @@ namespace ChemInfo
             row["Smarts"] = Smart;
             //m_Reactions = new NamedReactionCollection();
             string fileName = "..\\..\\..\\..\\Images\\FunctionalGroups\\" + Name + ".jpg";
+            if (System.IO.Directory.Exists("Images")) fileName = "Images\\FunctionalGroups\\" + Name + ".jpg";
             if (System.IO.File.Exists(fileName))
             {
                 Image = System.Drawing.Image.FromFile(fileName);
-                row["Image"] = fileName;
             }
         }
 
-        public FunctionalGroup(string name, string smart, string imageFile)
+        public FunctionalGroup(string name, string smart)
         {
             Name = name;
             Smart = smart;
+            string imageFile = "..\\..\\..\\..\\Images\\FunctionalGroups\\" + Name + ".jpg";
+            if (System.IO.Directory.Exists("Images")) imageFile = "Images\\FunctionalGroups\\" + Name + ".jpg";
             if (System.IO.File.Exists(imageFile))
             {
                 Image = System.Drawing.Image.FromFile(imageFile);

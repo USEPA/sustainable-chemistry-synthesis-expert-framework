@@ -43,7 +43,7 @@ namespace ChemInfo
         {
             foreach (System.Data.DataRow row in table.Rows)
             {
-                this.Add(new FunctionalGroup(row["Name"].ToString(), row["Smarts"].ToString(), row["Image"].ToString()));
+                this.Add(new FunctionalGroup(row["Name"].ToString(), row["Smarts"].ToString()));
             }            
             m_NamedReactions = new NamedReactionCollection();
         }
