@@ -44,8 +44,30 @@ namespace SustainableChemistry
             molecule = new ChemInfo.Molecule();
             this.trackBar1.Value = (int)(this.moleculeViewer1.Zoom * 100);
             documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\USEPA\\SustainableChemistry";
-            currentReferences = new List<ChemInfo.Reference>();
 
+            currentReferences = new List<ChemInfo.Reference>();
+            
+            //string[] dir = System.IO.Directory.GetDirectories(dataPath + "PHOSPHONATE ESTER");
+            //List<ChemInfo.Reference> refs = new List<ChemInfo.Reference>();
+            //foreach (string d in dir)
+            //{
+            //    string react = d.Remove(0, dataPath.Length + "PHOSPHONATE ESTER".Length + 1);
+            //    string[] files = System.IO.Directory.GetFiles(d, "*.ris");
+            //    foreach (string f in files)
+            //    {
+            //        System.IO.StreamReader r = new System.IO.StreamReader(f);
+            //        string refData = r.ReadToEnd();
+            //        refs.Add(new ChemInfo.Reference("PHOSPHONATE ESTER", react, refData));
+            //        DataRow row = References.NewRow();
+            //        row["FunctionalGroup"] = "PHOSPHONATE ESTER";
+            //        row["ReactionName"] = react;
+            //        row["RISData"] = refData;
+            //        References.Rows.Add(row);
+            //    }
+            //    //files = System.IO.Directory.GetFiles(d, "*.jpg");
+            //    //System.Drawing.Image image = System.Drawing.Image.FromFile(files[0]);
+            //    //image.Save(imagePath + "Reactions\\" + "PHOSPHONATE ESTER_" + react + ".jpg");
+            //}
             //this.OpenFunctionGroupExcelResource();
         }
 
@@ -294,7 +316,7 @@ namespace SustainableChemistry
         {
             //this.SaveDataTable(FunctionalGroups);
             //this.SaveDataTable(NamedReactions);
-            //this.SaveDataTable(References);
+            this.SaveDataTable(References);
         }
 
         private void showReferencesToolStripMenuItem_Click(object sender, EventArgs e)
