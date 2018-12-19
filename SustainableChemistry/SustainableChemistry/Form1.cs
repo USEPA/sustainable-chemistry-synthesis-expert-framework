@@ -322,7 +322,7 @@ namespace SustainableChemistry
         {
             //this.SaveDataTable(FunctionalGroups);
             //this.SaveDataTable(NamedReactions);
-            this.SaveDataTable(References);
+            //this.SaveDataTable(References);
         }
 
         private void showReferencesToolStripMenuItem_Click(object sender, EventArgs e)

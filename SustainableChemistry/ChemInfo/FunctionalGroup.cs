@@ -20,8 +20,9 @@ namespace ChemInfo
             Smart = parts[1].Trim();
             row["Smarts"] = Smart;
             //m_Reactions = new NamedReactionCollection();
-            string fileName = "..\\..\\..\\..\\Images\\FunctionalGroups\\" + Name + ".jpg";
-            if (System.IO.Directory.Exists("Images")) fileName = "Images\\FunctionalGroups\\" + Name + ".jpg";
+            string imagePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData) + "\\SustainableChemistry\\Images\\FunctionalGroups\\";
+            if (!System.IO.Directory.Exists(imagePath)) imagePath = "..\\..\\..\\..\\Images\\FunctionalGroups\\";
+            string fileName = imagePath + Name + ".jpg";
             if (System.IO.File.Exists(fileName))
             {
                 Image = System.Drawing.Image.FromFile(fileName);
@@ -32,13 +33,13 @@ namespace ChemInfo
         {
             Name = name;
             Smart = smart;
-            string imageFile = "..\\..\\..\\..\\Images\\FunctionalGroups\\" + Name + ".jpg";
-            if (System.IO.Directory.Exists("Images")) imageFile = "Images\\FunctionalGroups\\" + Name + ".jpg";
-            if (System.IO.File.Exists(imageFile))
+            string imagePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData) + "\\SustainableChemistry\\Images\\FunctionalGroups\\";
+            if (!System.IO.Directory.Exists(imagePath)) imagePath = "..\\..\\..\\..\\Images\\FunctionalGroups\\";
+            string fileName = imagePath + Name + ".jpg";
+            if (System.IO.File.Exists(fileName))
             {
-                Image = System.Drawing.Image.FromFile(imageFile);
+                Image = System.Drawing.Image.FromFile(fileName);
             }
-            ImageFile = imageFile;
         }
 
         //public FunctionalGroup(string func, string directory)
