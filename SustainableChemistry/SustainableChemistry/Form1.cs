@@ -33,10 +33,10 @@ namespace SustainableChemistry
         public Form1()
         {
             InitializeComponent();
-            dataPath = "Data\\";
+            dataPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData) + "\\SustainableChemistry\\Data\\";
             if (!System.IO.Directory.Exists(dataPath)) dataPath = "..\\..\\..\\..\\Data\\";
 
-            imagePath = "Images\\";
+            imagePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData) + "\\SustainableChemistry\\Images\\";
             if (!System.IO.Directory.Exists("Images")) imagePath = "..\\..\\..\\..\\Images\\";
             
             m_dbConnection = new System.Data.SQLite.SQLiteConnection("Data Source=" + dataPath + "SustainableChemistry.sqlite;Version=3;");
