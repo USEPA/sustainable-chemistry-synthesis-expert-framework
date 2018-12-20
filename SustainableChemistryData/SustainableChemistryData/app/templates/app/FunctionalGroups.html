@@ -1,0 +1,34 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+    <h2>Functional Groups</h2>
+
+    <ul>
+        {% for group in functionalGroups %}
+        <div class="row">
+        <div class="col-md-4">
+            <a href="/FunctionalGroup/{{ group.id }}">
+                {{ group.Name }}
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/FunctionalGroup/{{ group.id }}">
+                {{ group.Smarts }}
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/FunctionalGroup/{{ group.id }}">
+                <img src="/Images/{{ group.Name }}.jpg" class="img-responsive">
+            </a>
+        </div>
+        <!--
+            <div class="col-md-4">
+            <a href="/FunctionalGroup/{{ group.id }}">
+                "/Images/{{ group.Name }}.jpg"
+            </a>
+        </div>
+            -->
+        </div>
+		{% endfor %}
+    </ul>
+{% endblock %}

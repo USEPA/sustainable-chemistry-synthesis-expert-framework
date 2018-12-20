@@ -44,7 +44,7 @@ namespace ChemInfo
                 string name = row["Name"].ToString();
                 string fGroup = row["FunctionalGroup"].ToString().ToUpper();
                 row["FunctionalGroup"] = fGroup.ToUpper();
-                string imageFile = row["Image"].ToString();
+                //string imageFile = row["Image"].ToString();
                 string URL = row["URL"].ToString();
                 string reactA = row["ReactantA"].ToString();
                 string reactB = row["ReactantB"].ToString();
