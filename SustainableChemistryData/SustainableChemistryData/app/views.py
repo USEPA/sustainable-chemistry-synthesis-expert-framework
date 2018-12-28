@@ -7,23 +7,43 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
 from app.models import *
+from django.views.generic import *
+from django.core.urlresolvers import reverse_lazy
 
-def functionalGroup(request):
+class FunctionalGroupList(ListView):
+    model = FunctionalGroup
+
+class FunctionalGroupDetail(DetailView):
+    model = FunctionalGroup
+
+class FunctionalGroupCreate(CreateView):
+    model = FunctionalGroup
+    fields = ['Name', 'Smarts', 'Image']
+
+class FunctionalGroupUpdate(UpdateView):
+    model = FunctionalGroup
+    fields = ['Name', 'Smarts', 'Image']
+
+class FunctionalGroupDelete(DeleteView):
+    model = FunctionalGroup
+    success_url = reverse_lazy('FunctionalGroup_List') 
+
+def functionalGroups(request):
     functionalGroups = FunctionalGroup.objects.all
-    return render_to_response('app/FunctionalGroups.html', { 'functionalGroups': functionalGroups})
+    return render_to_response('app/FunctionalGroup_List.html', { 'functionalGroups': functionalGroups})
 
 def functionalGroupDetails(request, id):
     functionalGroup = FunctionalGroup.objects.get(pk = id)
-    return render_to_response('app/FunctionalGroupDetails.html', { 'functionalGroup': functionalGroup})
+    return render_to_response('app/FunctionalGroup_Detail.html', { 'FunctionalGroup': functionalGroup})
 
-def FunctionalGroup_Create(request):
-    if request.Method == 'GET':
+def functionalGroupCreate(request):
+    if request.method == 'GET':
         form = FunctionalGroupForm()
         return render(request, 'app/Create.html', { 'form':form })
-    if request.Method == 'POST':
+    if request.method == 'POST':
         form = FunctionalGroupForm(request.POST)
         form.save()
-        return render(request, '/FunctionalGroups', { 'form':form })
+        return HttpResponseRedirect('/FunctionalGroups', { 'form':form })
 
 def home(request):
     """Renders the home page."""

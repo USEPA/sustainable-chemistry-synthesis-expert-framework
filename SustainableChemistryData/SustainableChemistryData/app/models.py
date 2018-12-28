@@ -4,17 +4,33 @@ Definition of models.
 
 from django.db import models
 from django import forms
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 
 class FunctionalGroup (models.Model):
-    Name = models.TextField("Functional Group")
-    Smarts = models.TextField()
+    Name = models.CharField(max_length=150)
+    Smarts = models.CharField(max_length=150)
+    Image = models.ImageField(upload_to='Images/FunctionalGroups/')
+
+    def __str__(self):
+        return self.Name
+
+    def get_absolute_url(self):
+        return reverse('FunctionalGroup_Detail', kwargs={ 'pk': self.pk})
+
+def user_directory_path(instance, filename):
+    ext = filename.split('.')[-1]
+    if instance.pk:
+        return '/images/FunctionalGroup/{}.{}'.format(instance.Name, ext)
+    else:
+        pass
+        # do something if pk is not there yet
 
 class FunctionalGroupForm(forms.ModelForm):
     class Meta:
         model = FunctionalGroup
-        fields = ['Name', 'Smarts']
+        fields = ['Name', 'Smarts', 'Image']
 
 class NamedReaction (models.Model):
     Name = models.TextField("Named Reaction")
