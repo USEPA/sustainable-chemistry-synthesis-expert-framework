@@ -1,0 +1,38 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="table-responsive-md">
+  <!--Table-->
+ 
+    <table class="table">
+	<!--Table head-->
+	<thead>
+	  <tr>
+		<th class="th">Product Functional Group</th>
+		<th class="th">Name</th>
+		<th class="th">Image</th>
+		<th class="th"></th>
+		<th class="th"></th>
+	  </tr>
+	</thead>
+	<!--Table head-->
+
+	<!--Table body-->
+	<tbody>
+        {% for reaction in object_list %}
+        <tr>
+            <td><a href="{% url 'FunctionalGroup_Detail' reaction.pk %}"/a> {{ reaction.Functional_Group }} </td>
+            <td><a href="{% url 'NamedReaction_Detail' reaction.pk %}"/a> {{ reaction.Name }}</td>            
+            <td><img class="img-responsive" src="../{{ reaction.Image.url }}" alt="{{ reaction.Name }}" class="img-fluid"></td>
+            <td><a class="btn btn-primary" href="{% url 'NamedReaction_Update' reaction.pk %}">Edit</a></td>            
+            <td><a class="btn btn-primary" href="{% url 'NamedReaction_Delete' reaction.pk %}">Delete</a></td>
+        </tr>        
+        {% endfor %}
+    </tbody>
+	<!--Table body-->
+
+  </table>
+  <!--Table-->
+</div>
+{% endblock %}

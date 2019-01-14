@@ -1,0 +1,36 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="table-responsive">
+  <!--Table-->
+ 
+    <table class="table">
+	<!--Table head-->
+	<thead>
+	  <tr>
+		<th class="th-lg">Name</th>
+		<th class="th-lg"></th>
+		<th class="th-lg"></th>
+		<th class="th-lg"></th>
+		<th class="th-lg"></th>
+	  </tr>
+	</thead>
+	<!--Table head-->
+
+	<!--Table body-->
+	<tbody>
+        {% for obj in object_list %}
+        <tr>
+            <td><a href="{% url 'Reactant_Detail' obj.pk %}"/a> {{ obj.Name }} </td>
+            <td><a class="btn btn-primary" href="{% url 'Reactant_Update' obj.pk %}">Edit</a></td>            
+            <td><a class="btn btn-primary" href="{% url 'Reactant_Delete' obj.pk %}">Delete</a></td>
+        </tr>        
+        {% endfor %}
+    </tbody>
+	<!--Table body-->
+
+  </table>
+  <!--Table-->
+</div>
+{% endblock %}

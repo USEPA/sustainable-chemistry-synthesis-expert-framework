@@ -1,0 +1,64 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3"><strong>NAME:</strong></div>
+        <div class="col-md-9">{{ object.Name }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>Functional Group:</strong></div>
+        <div class="col-md-9">{{ object.Functional_Group }}</div>
+    </div>
+    {% for reactant in object.Reactants.all %}
+        <div class="row">
+            <div class="col-md-3"><strong>Reactants:</strong></div>
+            <div class="col-md-9">{{ reactant.Name }}</div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-3"><strong>Products:</strong></div>
+        <div class="col-md-9">{{ object.Product }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>By Products:</strong></div>
+        <div class="col-md-9">{{ object.ByProducts }}</div>
+    </div>
+    {% for reactant in object.ByProd.all %}
+        <div class="row">
+            <div class="col-md-3"><strong>By Products:</strong></div>
+            <div class="col-md-9">{{ reactant.Name }}</div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-3"><strong>Solvent:</strong></div>
+        <div class="col-md-9">{{ object.Solv}}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>Catalyst:</strong></div>
+        <div class="col-md-9">{{ object.Catal }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>Acid/Base Conditions:</strong></div>
+        <div class="col-md-9">{{ object.get_Temp2_display }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>Heated:</strong></div>
+        <div class="col-md-9">{{ object.get_Temp_display }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>Image URL:</strong></div>
+        <div class="col-md-9">{{ object.Image.url }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"><strong>Image:</strong></div>
+        <img class="img-responsive" src="../{{ object.Image.url }}" alt="{{ object.Name }}">
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="{% url 'NamedReaction_List' %}">Return to Named Reaction List</a>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-primary" href="{% url 'NamedReaction_Update' object.pk %}">Edit</a>
+        </div>
+    </div>
+{% endblock %}
