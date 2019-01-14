@@ -91,6 +91,7 @@
     <Compile Include="ReactionEditor.Designer.cs">
       <DependentUpon>ReactionEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reference.cs" />
     <Compile Include="ReferenceList.cs">
       <SubType>Form</SubType>
     </Compile>

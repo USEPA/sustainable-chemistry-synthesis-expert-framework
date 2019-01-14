@@ -12,21 +12,24 @@ namespace SustainableChemistry
 {
     public partial class FunctionalGroupViewer : Form
     {
-        ChemInfo.FunctionalGroupCollection m_FunctGroups;
+        System.Data.DataTable m_FunctGroups;
 
-        public FunctionalGroupViewer(ChemInfo.FunctionalGroupCollection groups)
+        public FunctionalGroupViewer(System.Data.DataTable groups)
         {
             InitializeComponent();
             m_FunctGroups = groups;
-            this.comboBox1.Items.AddRange(m_FunctGroups.FunctionalGroups);
+            foreach (System.Data.DataRow row in m_FunctGroups.Rows)
+            {
+                this.comboBox1.Items.Add(row["Name"].ToString());
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.tableLayoutPanel1.Controls.Clear();
-            ChemInfo.FunctionalGroup g = this.m_FunctGroups[this.comboBox1.SelectedItem.ToString()];
+            //ChemInfo.FunctionalGroup g = this.m_FunctGroups[this.comboBox1.SelectedItem.ToString()];
             int i = 0;
-        //    foreach (ChemInfo.NamedReaction r in g.NamedReactions)
+        //    foreach (ChemInfo.NamedReaction r in g.app_namedreaction)
         //    {
         //        NamedReactionViewControl myControl = new NamedReactionViewControl();
         //        myControl.ReactionName = r.Name;

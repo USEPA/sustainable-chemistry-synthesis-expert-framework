@@ -319,7 +319,6 @@
             this.moleculeViewer1.TabIndex = 0;
             this.moleculeViewer1.Zoom = 1.7272727272727273D;
             this.moleculeViewer1.SelectionChanged += new SustainableChemistry.MoleculeViewer.SelectionChangedHandler(this.moleculeViewer1_SelectionChanged);
-            this.moleculeViewer1.Load += new System.EventHandler(this.moleculeViewer1_Load);
             // 
             // splitContainer2
             // 

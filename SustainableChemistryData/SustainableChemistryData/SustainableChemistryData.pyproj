@@ -9,7 +9,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>3cca16b3-5a85-4350-a89d-1652ea720686</ProjectGuid>
+    <ProjectGuid>8a9e0efd-ea12-4ae1-bb51-f51a360be29e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <StartupFile>manage.py</StartupFile>
@@ -31,6 +31,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\admin.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
     <Compile Include="app\tests.py" />
@@ -54,16 +57,29 @@
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
     <Folder Include="SustainableChemistryData\" />
-    <Folder Include="SustainableChemistryData\media\" />
-    <Folder Include="SustainableChemistryData\media\Images\" />
-    <Folder Include="SustainableChemistryData\media\Images\FunctionalGroups\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\templates\app\Catalyst_Detail.html" />
+    <Content Include="app\templates\app\Catalyst_Form.html" />
+    <Content Include="app\templates\app\Catalyst_List.html" />
     <Content Include="app\templates\app\Create.html" />
     <Content Include="app\templates\app\FunctionalGroup_Confirm_Delete.html" />
     <Content Include="app\templates\app\FunctionalGroup_Detail.html" />
     <Content Include="app\templates\app\FunctionalGroup_Form.html" />
-    <Content Include="app\templates\app\functionalGroup_List.html" />
+    <Content Include="app\templates\app\FunctionalGroup_List.html" />
+    <Content Include="app\templates\app\NamedReaction_Confirm_Delete.html" />
+    <Content Include="app\templates\app\NamedReaction_Detail.html" />
+    <Content Include="app\templates\app\NamedReaction_Form.html" />
+    <Content Include="app\templates\app\NamedReaction_List.html" />
+    <Content Include="app\templates\app\Reactant_Detail.html" />
+    <Content Include="app\templates\app\Reactant_Form.html" />
+    <Content Include="app\templates\app\Reactant_List.html" />
+    <Content Include="app\templates\app\Reference_Detail.html" />
+    <Content Include="app\templates\app\Reference_Form.html" />
+    <Content Include="app\templates\app\Reference_List.html" />
+    <Content Include="app\templates\app\Solvent_Detail.html" />
+    <Content Include="app\templates\app\Solvent_Form.html" />
+    <Content Include="app\templates\app\Solvent_List.html" />
     <Content Include="requirements.txt" />
     <Content Include="SustainableChemistry.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
@@ -94,12 +110,6 @@
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
-    <Content Include="SustainableChemistryData\media\Images\FunctionalGroups\Acetal.jpg" />
-    <Content Include="SustainableChemistryData\media\Images\FunctionalGroups\Acyloin.jpg" />
-    <Content Include="SustainableChemistryData\media\Images\FunctionalGroups\Alcohol.jpg" />
-    <Content Include="SustainableChemistryData\media\Images\FunctionalGroups\Alcohol_allylic.jpg" />
-    <Content Include="SustainableChemistryData\media\Images\FunctionalGroups\Aldehyde.jpg" />
-    <Content Include="SustainableChemistryData\media\Images\FunctionalGroups\th.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
@@ -109,8 +119,8 @@
   <ItemGroup>
     <Interpreter Include="env\">
       <Id>env</Id>
-      <Version>3.6</Version>
-      <Description>env (Python 3.6 (32-bit))</Description>
+      <Version>3.7</Version>
+      <Description>env (Python 3.7 (32-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>

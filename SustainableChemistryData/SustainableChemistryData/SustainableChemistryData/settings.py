@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '746ac1fe-9203-4258-9bb5-4da2788c3630'
+SECRET_KEY = '730582e9-a785-42ee-91b3-ca414e270615'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,15 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Select2
+    'django_select2',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -124,7 +125,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
-
 # Setting up serving media as described here: 
 # https://timmyomahony.com/blog/static-vs-media-and-root-vs-path-in-django/ 
 #
@@ -132,7 +132,7 @@ STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 # This will automatically detect the absolute path to the settings.py file and then append media/ 
 # to it given you a dynamically generated path to your media root.
 ENV_PATH = os.path.abspath(os.path.dirname(__file__))
-MEDIA_ROOT = os.path.join(ENV_PATH, 'media/')
+MEDIA_ROOT = os.path.join(ENV_PATH, '../static/media/')
 
 # MEDIA_URL this is the relative browser URL to be used when accessing our media files in the browser.
 MEDIA_URL = "media/"

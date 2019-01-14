@@ -17,12 +17,12 @@ namespace SustainableChemistry
             InitializeComponent();
         }
 
-        public ChemInfo.References References
-        {
-            set
-            {
-                this.dataGridView1.DataSource = value;
-            }
-        }
+        //public ChemInfo.References References
+        //{
+        //    set
+        //    {
+        //        this.dataGridView1.DataSource = value;
+        //    }
+        //}
     }
 }

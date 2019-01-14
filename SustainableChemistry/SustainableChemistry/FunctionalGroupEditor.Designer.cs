@@ -28,46 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FunctionalGroupEditor));
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.moleculeViewer1 = new SustainableChemistry.MoleculeViewer();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.moleculeViewer1 = new SustainableChemistry.MoleculeViewer();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 27);
+            this.label1.Location = new System.Drawing.Point(45, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.Size = new System.Drawing.Size(49, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Name:";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(76, 23);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(301, 20);
-            this.textBox1.TabIndex = 1;
-            // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(34, 140);
+            this.pictureBox1.Location = new System.Drawing.Point(13, 135);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(327, 282);
+            this.pictureBox1.Size = new System.Drawing.Size(386, 348);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(412, 22);
+            this.button1.Location = new System.Drawing.Point(549, 27);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 3;
             this.button1.Text = "Next";
             this.button1.UseVisualStyleBackColor = true;
@@ -76,34 +74,55 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(31, 63);
+            this.label2.Location = new System.Drawing.Point(41, 78);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.Size = new System.Drawing.Size(56, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "SMART";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(79, 59);
+            this.textBox2.Location = new System.Drawing.Point(105, 73);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(285, 20);
+            this.textBox2.Size = new System.Drawing.Size(379, 22);
             this.textBox2.TabIndex = 5;
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.propertyGrid1.Location = new System.Drawing.Point(1211, 135);
+            this.propertyGrid1.Margin = new System.Windows.Forms.Padding(4);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(451, 576);
+            this.propertyGrid1.TabIndex = 7;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(105, 29);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(379, 24);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // moleculeViewer1
             // 
             this.moleculeViewer1.AutoScroll = true;
-            this.moleculeViewer1.AutoScrollMinSize = new System.Drawing.Size(1056, 816);
+            this.moleculeViewer1.AutoScrollMinSize = new System.Drawing.Size(2280, 1761);
             this.moleculeViewer1.AutoSize = true;
             this.moleculeViewer1.BackColor = System.Drawing.SystemColors.Window;
             this.moleculeViewer1.GridLineColor = System.Drawing.Color.LightBlue;
             this.moleculeViewer1.GridLineDashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
             this.moleculeViewer1.GridLineWidth = 1;
             this.moleculeViewer1.GridSize = 50D;
-            this.moleculeViewer1.Location = new System.Drawing.Point(367, 110);
+            this.moleculeViewer1.Location = new System.Drawing.Point(408, 135);
+            this.moleculeViewer1.Margin = new System.Windows.Forms.Padding(5);
             this.moleculeViewer1.MarginColor = System.Drawing.Color.Green;
             this.moleculeViewer1.MarginLineDashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
             this.moleculeViewer1.MarginLineWidth = 1;
-            this.moleculeViewer1.MaximumSize = new System.Drawing.Size(1100, 850);
+            this.moleculeViewer1.MaximumSize = new System.Drawing.Size(1467, 1046);
             this.moleculeViewer1.MinimumGridSize = 1D;
             this.moleculeViewer1.Name = "moleculeViewer1";
             this.moleculeViewer1.NonPrintingAreaColor = System.Drawing.Color.Gray;
@@ -113,34 +132,28 @@
             this.moleculeViewer1.SelectedObjects = new SustainableChemistry.GraphicObject[0];
             this.moleculeViewer1.ShowGrid = false;
             this.moleculeViewer1.ShowMargins = false;
-            this.moleculeViewer1.Size = new System.Drawing.Size(572, 468);
+            this.moleculeViewer1.Size = new System.Drawing.Size(763, 576);
             this.moleculeViewer1.SurfaceBounds = new System.Drawing.Rectangle(0, 0, 1100, 850);
             this.moleculeViewer1.SurfaceMargins = new System.Drawing.Rectangle(100, 100, 900, 650);
             this.moleculeViewer1.TabIndex = 6;
-            this.moleculeViewer1.Zoom = 1D;
+            this.moleculeViewer1.Zoom = 1.7272727272727273D;
             this.moleculeViewer1.SelectionChanged += new SustainableChemistry.MoleculeViewer.SelectionChangedHandler(this.moleculeViewer1_SelectionChanged);
-            // 
-            // propertyGrid1
-            // 
-            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.propertyGrid1.Location = new System.Drawing.Point(946, 110);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(301, 468);
-            this.propertyGrid1.TabIndex = 7;
             // 
             // FunctionalGroupEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1259, 590);
+            this.ClientSize = new System.Drawing.Size(1679, 726);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.moleculeViewer1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FunctionalGroupEditor";
             this.Text = "FunctionalGroupEditor";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -152,12 +165,12 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
         private MoleculeViewer moleculeViewer1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

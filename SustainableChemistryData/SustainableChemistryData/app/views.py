@@ -7,9 +7,15 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
 from app.models import *
+from app.forms import *
 from django.views.generic import *
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
+#from django.forms.widgets import SelectMultiple
+#from django.contrib.admin.widgets import FilteredSelectMultiple
+#from django.contrib import admin
+#from django.urls import path
 
+# Class-based Functional Group Views
 class FunctionalGroupList(ListView):
     model = FunctionalGroup
 
@@ -28,22 +34,105 @@ class FunctionalGroupDelete(DeleteView):
     model = FunctionalGroup
     success_url = reverse_lazy('FunctionalGroup_List') 
 
-def functionalGroups(request):
-    functionalGroups = FunctionalGroup.objects.all
-    return render_to_response('app/FunctionalGroup_List.html', { 'functionalGroups': functionalGroups})
+# Class-based Named Reaction Views
+class ReactionList(ListView):
+    model = NamedReaction
 
-def functionalGroupDetails(request, id):
-    functionalGroup = FunctionalGroup.objects.get(pk = id)
-    return render_to_response('app/FunctionalGroup_Detail.html', { 'FunctionalGroup': functionalGroup})
+class ReactionDetail(DetailView):
+    model = NamedReaction
 
-def functionalGroupCreate(request):
-    if request.method == 'GET':
-        form = FunctionalGroupForm()
-        return render(request, 'app/Create.html', { 'form':form })
-    if request.method == 'POST':
-        form = FunctionalGroupForm(request.POST)
-        form.save()
-        return HttpResponseRedirect('/FunctionalGroups', { 'form':form })
+class ReactionCreate(CreateView):
+    model = NamedReaction
+    fields = ['Name', 'Functional_Group', 'Product', 'ReactantA','ReactantB','ReactantC','Reactants', 'Image']
+
+class ReactionUpdate(UpdateView):
+    model = NamedReaction
+    form_class = NamedReactionForm
+
+class ReactionDelete(DeleteView):
+    model = NamedReaction
+    success_url = reverse_lazy('NamedReaction_List') 
+
+# Class-based Reference Views
+class ReferenceList(ListView):
+    model = Reference
+
+class ReferenceDetail(DetailView):
+    model = Reference
+
+class ReferenceCreate(CreateView):
+    model = Reference
+    fields = ['Name', 'Functional_Group', ]
+
+class ReferenceUpdate(UpdateView):
+    model = Reference
+    fields = ['Name', 'Functional_Group', 'RISData']
+
+class ReferenceDelete(DeleteView):
+    model = Reference
+    success_url = reverse_lazy('Reference_List') 
+
+# Class-based Solvent Views
+class SolventList(ListView):
+    model = Solvent
+
+class SolventDetail(DetailView):
+    model = Solvent
+
+class SolventUpdate(UpdateView):
+    model = Solvent
+    fields = ['Name', ]
+
+class SolventDelete(DeleteView):
+    model = Solvent
+    success_url = reverse_lazy('Solvent_List') 
+
+# Class-based Catalyst Views
+class CatalystList(ListView):
+    model = Catalyst
+
+class CatalystDetail(DetailView):
+    model = Catalyst
+
+class CatalystUpdate(UpdateView):
+    model = Catalyst
+    fields = ['Name', ]
+
+class CatalystDelete(DeleteView):
+    model = Catalyst
+    success_url = reverse_lazy('Solvent_List') 
+
+# Class-based Reactant Views
+class ReactantList(ListView):
+    model = Reactant
+
+class ReactantDetail(DetailView):
+    model = Reactant
+
+class ReactantUpdate(UpdateView):
+    model = Reactant
+    fields = ['Name', ]
+
+class ReactantDelete(DeleteView):
+    model = Reactant
+    success_url = reverse_lazy('Solvent_List') 
+
+#def functionalGroups(request):
+#    functionalGroups = FunctionalGroup.objects.all
+#    return render_to_response('app/FunctionalGroup_List.html', { 'functionalGroups': functionalGroups})
+
+#def functionalGroupDetails(request, id):
+#    functionalGroup = FunctionalGroup.objects.get(pk = id)
+#    return render_to_response('app/FunctionalGroup_Detail.html', { 'FunctionalGroup': functionalGroup})
+
+#def functionalGroupCreate(request):
+#    if request.method == 'GET':
+#        form = FunctionalGroupForm()
+#        return render(request, 'app/Create.html', { 'form':form })
+#    if request.method == 'POST':
+#        form = FunctionalGroupForm(request.POST)
+#        form.save()
+#        return HttpResponseRedirect('/FunctionalGroups', { 'form':form })
 
 def home(request):
     """Renders the home page."""

@@ -1,14 +1,11 @@
 ﻿{% extends "app/layout.html" %}
 
-{% load static %}
-<img src="{% static " my_app/example.jpg" %}" alt="My image">
-
 {% block content %}
-<div class="table-responsive">
 
+<div class="table-responsive-md">
   <!--Table-->
-  <table class="table">
-
+ 
+    <table class="table">
 	<!--Table head-->
 	<thead>
 	  <tr>
@@ -25,8 +22,8 @@
 	<tbody>
         {% for group in object_list %}
         <tr>
-            <td>{{ group.Name }}</td>
-            <td>{{ group.Name }}</td>            
+            <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}"/a> {{ group.Name }} </td>
+            <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}"/a> {{ group.Smarts }}</td>            
             <td><img class="img-responsive" src="../{{ group.Image.url }}" alt="{{ object.Name }}"></td>
             <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' group.pk %}">Edit</a></td>            
             <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Delete' group.pk %}">Delete</a></td>
