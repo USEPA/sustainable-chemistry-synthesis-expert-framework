@@ -123,11 +123,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
-# Setting up serving media as described here: 
-# https://timmyomahony.com/blog/static-vs-media-and-root-vs-path-in-django/ 
+# Setting up serving media as described here:
+# https://timmyomahony.com/blog/static-vs-media-and-root-vs-path-in-django/
 #
-#Tip...
-# This will automatically detect the absolute path to the settings.py file and then append media/ 
+# Tip...
+# This will automatically detect the absolute path to the settings.py file and then append media/
 # to it given you a dynamically generated path to your media root.
 ENV_PATH = os.path.abspath(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(ENV_PATH, '../static/media/')
