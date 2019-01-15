@@ -1,11 +1,11 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
-    <form enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        
-        {{ form.as_p }}
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
 
-        <div><input type="submit" class="btn btn-primary" value="Update"/></div>
-    </form>
+    {{ form.as_p }}
+
+    <div><input type="submit" class="btn btn-primary" value="Update" /></div>
+</form>
 {% endblock %}

@@ -9,13 +9,18 @@ from django_select2.forms import HeavySelect2Widget
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from app.models import *
 
+class FunctionalGroupForm(forms.ModelForm):
+    class Meta:
+        model = FunctionalGroup
+        fields = ['Name', 'Smarts', 'Image']
+
 class NamedReactionForm(forms.ModelForm):
     class Meta:
         model = NamedReaction
         fields = ['Name', 'Functional_Group', 'Product', 'Reactants', 'ByProd', 'Temp', 'Temp2', 'Catal', 'Solv', 'Image']
         widgets = {
-            'Reactants': FilteredSelectMultiple('Reactant', False),
-            'ByProd': FilteredSelectMultiple('Reactant', False)
+            'Reactants': FilteredSelectMultiple('Reactants', False),
+            'ByProd': FilteredSelectMultiple('By Products', False)
         }
 
     class Media:

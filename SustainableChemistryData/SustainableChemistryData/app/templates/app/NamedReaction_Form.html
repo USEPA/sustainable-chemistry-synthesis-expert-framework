@@ -1,27 +1,27 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
-    <form enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        <div class="table-responsive">
-            <!--Table-->
-            <table class="table">
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="table-responsive">
+        <!--Table-->
+        <table class="table">
+            <!--Table head-->
+            <thead>
                 <!--Table head-->
-                <thead>
-                    <!--Table head-->
-                    <!--Table body-->
-                </thead>
-                <tbody>
-                    <!--Table body-->
-                    {{ form.as_table }}
-                    <tr>
-                        <td class="col-md-3"><strong>Image:</strong></td>
-                        <td><img class="img-responsive" src="../{{ object.Image.url }}" alt="{{ object.Name }}"/></td>
-                    </tr>
-                </tbody>
-            </table>
-            <!--Table-->
-        </div>
-        <div><input type="submit" class="btn btn-primary" value="Update"/></div>
-    </form>
+                <!--Table body-->
+            </thead>
+            <tbody>
+                <!--Table body-->
+                {{ form.as_table }}
+                <tr>
+                    <td class="col-md-3"><strong>Image:</strong></td>
+                    <td><img class="img-responsive" src="../{{ object.Image.url }}" alt="{{ object.Name }}" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <!--Table-->
+    </div>
+    <div><input type="submit" class="btn btn-primary" value="Update" /></div>
+</form>
 {% endblock %}

@@ -9,8 +9,8 @@ from django.urls import reverse
 # Create your models here.
 
 class FunctionalGroup (models.Model):
-    Name = models.CharField(max_length=150)
-    Smarts = models.CharField(max_length=150)
+    Name = models.CharField(max_length=150, help_text="The name of the functional group.")
+    Smarts = models.CharField(max_length=150, help_text="Structure of the functional group as a SMILES string.")
     Image = models.ImageField(upload_to='Images/FunctionalGroups/')
 
     def __str__(self):
@@ -26,11 +26,6 @@ def user_directory_path(instance, filename):
     else:
         pass
         # do something if pk is not there yet
-
-class FunctionalGroupForm(forms.ModelForm):
-    class Meta:
-        model = FunctionalGroup
-        fields = ['Name', 'Smarts', 'Image']
 
 class NamedReaction (models.Model):
     Name = models.CharField(max_length=150, blank = True)
@@ -56,6 +51,7 @@ class NamedReaction (models.Model):
         max_length=2,
         choices=HEAT_CHOICES,
         default=NONE,
+        verbose_name='Heated Reaction',
     )
     AcidBase = models.CharField(max_length=150, blank = True)
     ACID = 'AC'
@@ -71,6 +67,7 @@ class NamedReaction (models.Model):
         max_length=2,
         choices=ACID_BASE_CHOICES,
         default=NONE,
+        verbose_name='Acid or Base Conditions:',
     )
     Catalyst = models.CharField(max_length=150, blank = True)
     Catal = models.ForeignKey(
@@ -83,7 +80,12 @@ class NamedReaction (models.Model):
         on_delete=models.PROTECT,
     )
     ByProducts = models.CharField(max_length=150, blank = True)
-    ByProd = models.ManyToManyField('Reactant', related_name = 'ByProduct', blank = True)
+    ByProd = models.ManyToManyField(
+        'Reactant', 
+        related_name = 'ByProduct', 
+        blank = True,
+        verbose_name='Reaction By-Products:',
+    )
     Image = models.ImageField(upload_to='Images/Reactions/')
 
     def __str__(self):

@@ -1,28 +1,28 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-3"><strong>NAME:</strong></div>
-        <div class="col-md-9">{{ object.Name }}</div>
+<div class="row">
+    <div class="col-md-3"><strong>NAME:</strong></div>
+    <div class="col-md-9">{{ object.Name }}</div>
+</div>
+<div class="row">
+    <div class="col-md-3"><strong>SMARTS:</strong></div>
+    <div class="col-md-9">{{ object.Smarts }}</div>
+</div>
+<div class="row">
+    <div class="col-md-3"><strong>Image URL:</strong></div>
+    <div class="col-md-9">{{ object.Image.url }}</div>
+</div>
+<div class="row">
+    <div class="col-md-3"><strong>Image:</strong></div>
+    <img class="img-responsive" src="../{{ object.Image.url }}" alt="{{ object.Name }}">
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <a class="btn btn-primary" href="{% url 'FunctionalGroup_List' %}">Return to Functional Group List</a>
     </div>
-    <div class="row">
-        <div class="col-md-3"><strong>SMARTS:</strong></div>
-        <div class="col-md-9">{{ object.Smarts }}</div>
+    <div class="col-md-1">
+        <a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' object.pk %}">Edit</a>
     </div>
-    <div class="row">
-        <div class="col-md-3"><strong>Image URL:</strong></div>
-        <div class="col-md-9">{{ object.Image.url }}</div>
-    </div>
-    <div class="row">
-        <div class="col-md-3"><strong>Image:</strong></div>
-        <img class="img-responsive" src="../{{ object.Image.url }}" alt="{{ object.Name }}">
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <a class="btn btn-primary" href="{% url 'FunctionalGroup_List' %}">Return to Functional Group List</a>
-        </div>
-        <div class="col-md-1">
-            <a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' object.pk %}">Edit</a>
-        </div>
-    </div>
+</div>
 {% endblock %}
