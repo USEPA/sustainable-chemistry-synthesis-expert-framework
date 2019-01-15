@@ -3,9 +3,21 @@
 {% block content %}
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
-        
-        {{ form.as_p }}
-
+        <div class="table-responsive">
+            <!--Table-->
+            <table class="table">
+                <!--Table head-->
+                <thead>
+                    <!--Table head-->
+                    <!--Table body-->
+                </thead>
+                <tbody>
+                    <!--Table body-->
+                    {{ form.as_table }}
+                </tbody>
+            </table>
+            <!--Table-->
+        </div>
         <div><input type="submit" class="btn btn-primary" value="Update"/></div>
     </form>
 {% endblock %}

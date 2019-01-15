@@ -22,8 +22,8 @@
 	<tbody>
         {% for group in object_list %}
         <tr>
-            <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}"/a> {{ group.Name }} </td>
-            <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}"/a> {{ group.Smarts }}</td>            
+            <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}"/> {{ group.Name }} </td>
+            <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}"/> {{ group.Smarts }}</td>            
             <td><img class="img-responsive" src="../{{ group.Image.url }}" alt="{{ object.Name }}"></td>
             <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' group.pk %}">Edit</a></td>            
             <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Delete' group.pk %}">Delete</a></td>

@@ -22,7 +22,7 @@
 	<tbody>
         {% for obj in object_list %}
         <tr>
-            <td><a href="{% url 'Solvent_Detail' obj.pk %}"/a> {{ obj.Name }} </td>
+            <td><a href="{% url 'Solvent_Detail' obj.pk %}"> {{ obj.Name }} </a></td>
             <td><a class="btn btn-primary" href="{% url 'Solvent_Update' obj.pk %}">Edit</a></td>            
             <td><a class="btn btn-primary" href="{% url 'Solvent_Delete' obj.pk %}">Delete</a></td>
         </tr>        
