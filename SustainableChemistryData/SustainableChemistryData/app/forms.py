@@ -6,7 +6,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from app.models import *
+from app.models import FunctionalGroup, NamedReaction
 
 
 class FunctionalGroupForm(forms.ModelForm):

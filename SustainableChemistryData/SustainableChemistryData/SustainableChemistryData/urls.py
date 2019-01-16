@@ -1,42 +1,38 @@
-from django.conf.urls.static import static
-from django.conf import settings
-import app.views
-import app.forms
-from django.views.i18n import JavaScriptCatalog
 """
 Definition of urls for SustainableChemistryData.
 """
 
 from datetime import datetime
 from django.conf.urls import url
-#from django.contrib.auth import views
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib import admin
+import app.views
+import app.forms
+
 # Reverse after login/logut
 from django.urls import reverse_lazy
-from django.urls import path, include
-
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 
 
-# Adding static filese per https://docs.djangoproject.com/en/1.11/howto/static-files/
+# Adding static files per https://docs.djangoproject.com/en/1.11/howto/static-files/
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Uncomment the next lines to enable the admin:
-# from django.conf.urls import include
-# from django.contrib import admin
+from django.urls import path, include
+from django.contrib import admin
 admin.autodiscover()
+
+# Required for FilteredMultipleSelect
+from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     # FunctionalGroups
-    #url(r'^FunctionalGroups$', app.views.functionalGroups, name='functionalGroup'),
     url(r'^FunctionalGroups$', app.views.FunctionalGroupList.as_view(),
         name='FunctionalGroup_List'),
-    #url(r'^FunctionalGroup/(?P<id>\d+)$', app.views.functionalGroupDetails, name='functionalGroupDetails'),
     url(r'^FunctionalGroup/Create$', app.views.FunctionalGroupCreate.as_view(),
         name='FunctionalGroup_Create'),
-    #url(r'^FunctionalGroup/Create$', app.views.functionalGroupCreate, name='functionalGroupCreate'),
     url(r'^FunctionalGroup/(?P<pk>\d+)$',
         app.views.FunctionalGroupDetail.as_view(), name='FunctionalGroup_Detail'),
     url(r'^FunctionalGroup/Update/(?P<pk>\d+)$',
@@ -57,7 +53,6 @@ urlpatterns = [
 
     # References
     url(r'^References$', app.views.ReferenceList.as_view(), name='Reference_List'),
-    #url(r'^Reference/Create$', app.views.ReferenceCreate.as_view(), name='Reactant_Create'),
     url(r'^Reference/(?P<pk>\d+)$',
         app.views.ReferenceDetail.as_view(), name='Reference_Detail'),
     url(r'^Reference/Update/(?P<pk>\d+)$',
@@ -67,7 +62,6 @@ urlpatterns = [
 
     # Reactants
     url(r'^Reactants$', app.views.ReactantList.as_view(), name='Reactant_List'),
-    #url(r'^Reactant/Create$', app.views.ReactantCreate.as_view(), name='Reactant_Create'),
     url(r'^Reactant/(?P<pk>\d+)$',
         app.views.ReactantDetail.as_view(), name='Reactant_Detail'),
     url(r'^Reactant/Update/(?P<pk>\d+)$',
@@ -77,7 +71,6 @@ urlpatterns = [
 
     # Solvents
     url(r'^Solvents$', app.views.SolventList.as_view(), name='Solvent_List'),
-    #url(r'^Solvent/Create$', app.views.SolventCreate.as_view(), name='Solvent_Create'),
     url(r'^Solvent/(?P<pk>\d+)$',
         app.views.SolventDetail.as_view(), name='Solvent_Detail'),
     url(r'^Solvent/Update/(?P<pk>\d+)$',
@@ -87,7 +80,6 @@ urlpatterns = [
 
     # Catalysts
     url(r'^Catalysts$', app.views.CatalystList.as_view(), name='Catalyst_List'),
-    #url(r'^Catalyst/Create$', app.views.CatalystCreate.as_view(), name='Catalyst_Create'),
     url(r'^Catalyst/(?P<pk>\d+)$',
         app.views.CatalystDetail.as_view(), name='Catalyst_Detail'),
     url(r'^Catalyst/Update/(?P<pk>\d+)$',
@@ -126,7 +118,7 @@ urlpatterns = [
     # Uncomment the next line to enable the admin:
     url(r'^admin', admin.site.urls),
 
-    # Select2 URL
+    # Required for FilteredSelectMultiple
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]
 

@@ -10,10 +10,6 @@ from app.models import *
 from app.forms import *
 from django.views.generic import *
 from django.urls import reverse_lazy
-#from django.forms.widgets import SelectMultiple
-#from django.contrib.admin.widgets import FilteredSelectMultiple
-#from django.contrib import admin
-#from django.urls import path
 
 # Class-based Functional Group Views
 

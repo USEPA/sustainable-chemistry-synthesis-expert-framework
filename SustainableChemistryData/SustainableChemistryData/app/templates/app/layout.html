@@ -16,7 +16,8 @@
 </head>
 
 <body>
-  <div nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
+    <div class="container">
+  <div nav class="navbar navbar-expand fixed-top lg navbar-dark bg-primary navbar-fixed-top">
     <a class="navbar-brand" href="/">Sustainable Chemistry</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +42,8 @@
       {% include 'app/loginpartial.html' %}
     </div>
   </div>
+        </div>
+    <div id="fix-for-navbar-fixed-top-spacing" style="height: 42px;">&nbsp;</div>
   <div class="container body-content">
     {% block content %}{% endblock %}
     <hr />

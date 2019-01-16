@@ -1,38 +1,26 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
-
-<div class="table-responsive-md">
-  <!--Table-->
-
-  <table class="table">
-    <!--Table head-->
-    <thead>
-      <tr>
-        <th class="th-lg">Name</th>
-        <th class="th-lg">SMARTS</th>
-        <th class="th-lg">Image</th>
-        <th class="th-lg"></th>
-        <th class="th-lg"></th>
-      </tr>
-    </thead>
-    <!--Table head-->
-
-    <!--Table body-->
-    <tbody>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">SMARTS</th>
+      <th scope="col">Image</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
       {% for group in object_list %}
       <tr>
         <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}" /> {{ group.Name }} </td>
         <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}" /> {{ group.Smarts }}</td>
-        <td><img class="img-responsive" src="../{{ group.Image.url }}" alt="{{ object.Name }}"></td>
+        <td><img class="img-fluid" src="../{{ group.Image.url }}" alt="{{ object.Name }}"></td>
         <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' group.pk %}">Edit</a></td>
         <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Delete' group.pk %}">Delete</a></td>
       </tr>
       {% endfor %}
-    </tbody>
-    <!--Table body-->
-
-  </table>
-  <!--Table-->
-</div>
+  </tbody>
+</table>
 {% endblock %}
