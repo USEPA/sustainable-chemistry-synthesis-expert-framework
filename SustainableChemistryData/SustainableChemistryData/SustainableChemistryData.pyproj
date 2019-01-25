@@ -67,10 +67,12 @@
     <Content Include="app\templates\app\FunctionalGroup_Detail.html" />
     <Content Include="app\templates\app\FunctionalGroup_Form.html" />
     <Content Include="app\templates\app\FunctionalGroup_List.html" />
+    <Content Include="app\templates\app\layout1.html" />
     <Content Include="app\templates\app\NamedReaction_Confirm_Delete.html" />
     <Content Include="app\templates\app\NamedReaction_Detail.html" />
     <Content Include="app\templates\app\NamedReaction_Form.html" />
     <Content Include="app\templates\app\NamedReaction_List.html" />
+    <Content Include="app\templates\app\NavSidebarPartial.html" />
     <Content Include="app\templates\app\Reactant_Detail.html" />
     <Content Include="app\templates\app\Reactant_Form.html" />
     <Content Include="app\templates\app\Reactant_List.html" />

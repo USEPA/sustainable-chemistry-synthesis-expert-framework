@@ -48,9 +48,32 @@
     </div>
 
     <div class="container-fluid">
-        <div class="container body-content">
-            {% block content %}{% endblock %}
-            <hr />
+        <div class="row">
+            <div class="col-md-2">
+                <div class="container">
+                    {% url 'FunctionalGroup_List' as groups %}
+                    {% url 'NamedReaction_List' as rxns %}
+                    {% url 'Reference_List' as refs %}
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == groups %} active {% endif %}" href="{% url 'FunctionalGroup_List' %}" >Functional Groups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == rxns %} active {% endif %}" href="{% url 'NamedReaction_List' %}" >Named Reactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == refs %} active {% endif %}" href="{% url 'Reference_List' %}" >References</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-md-10">
+                <div class="container body-content">
+                    {% block content %}{% endblock %}
+                    <hr />
+                </div>
+            </div>
         </div>
 
         <footer>

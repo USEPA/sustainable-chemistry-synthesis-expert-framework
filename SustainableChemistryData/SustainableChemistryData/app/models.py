@@ -8,12 +8,11 @@ from django.urls import reverse
 
 # Create your models here.
 
-
 class FunctionalGroup (models.Model):
     Name = models.CharField(
-        max_length=150, help_text="The name of the functional group.")
+        max_length=150, unique = True, help_text="The name of the functional group.")
     Smarts = models.CharField(
-        max_length=150, help_text="Structure of the functional group as a SMILES string.")
+        max_length=150, unique = True, help_text="Structure of the functional group as a SMILES string.")
     Image = models.ImageField(upload_to='Images/FunctionalGroups/')
 
     def __str__(self):
@@ -36,8 +35,7 @@ class NamedReaction (models.Model):
     Name = models.CharField(max_length=150, blank=True)
     Functional_Group = models.ForeignKey(
         'FunctionalGroup',
-        on_delete=models.PROTECT,
-        null=True
+        on_delete=models.PROTECT
     )
     URL = models.TextField(blank=True)
     ReactantA = models.CharField(max_length=150, blank=True)
@@ -51,14 +49,12 @@ class NamedReaction (models.Model):
         ('NA', 'None'),
         ('HE', 'Heat'),
     )
-    Heat = models.CharField(max_length=150, blank=True)
-    Temp = models.CharField(
+    Heat = models.CharField(
         max_length=2,
         choices=HEAT_CHOICES,
         default=NONE,
         verbose_name='Heated Reaction',
     )
-    AcidBase = models.CharField(max_length=150, blank=True)
     ACID = 'AC'
     ACID_BASE = 'AB'
     BASE = 'BA'
@@ -68,30 +64,30 @@ class NamedReaction (models.Model):
         ('BA', 'Base'),
         ('NA', 'Not Applicable'),
     )
-    Temp2 = models.CharField(
+    AcidBase = models.CharField(
         max_length=2,
         choices=ACID_BASE_CHOICES,
         default=NONE,
         verbose_name='Acid or Base Conditions:',
     )
-    Catalyst = models.CharField(max_length=150, blank=True)
-    Catal = models.ForeignKey(
+    Catalyst = models.ForeignKey(
         'Catalyst',
         on_delete=models.PROTECT,
     )
-    Solvent = models.CharField(max_length=150, blank=True)
-    Solv = models.ForeignKey(
+    Solvent = models.ForeignKey(
         'Solvent',
         on_delete=models.PROTECT,
     )
-    ByProducts = models.CharField(max_length=150, blank=True)
-    ByProd = models.ManyToManyField(
+    ByProducts = models.ManyToManyField(
         'Reactant',
         related_name='ByProduct',
         blank=True,
         verbose_name='Reaction By-Products:',
     )
     Image = models.ImageField(upload_to='Images/Reactions/')
+
+    class Meta:
+        unique_together = ('Functional_Group', 'Name')
 
     def __str__(self):
         return self.Name
@@ -101,7 +97,6 @@ class NamedReaction (models.Model):
 
 
 class Reference (models.Model):
-    Name = models.CharField(max_length=150)
     Functional_Group = models.ForeignKey(
         'FunctionalGroup',
         on_delete=models.PROTECT,
@@ -122,7 +117,7 @@ class Reference (models.Model):
 
 
 class Compound (models.Model):
-    Name = models.CharField(max_length=150)
+    Name = models.CharField(max_length=150, unique = True, )
     Description = models.TextField()
     CasNumber = models.CharField(max_length=10, blank=True)
 
@@ -134,7 +129,7 @@ class Compound (models.Model):
 
 
 class Solvent (models.Model):
-    Name = models.CharField(max_length=150)
+    Name = models.CharField(max_length=150, unique = True, )
     Description = models.TextField()
 
     def __str__(self):
@@ -145,7 +140,7 @@ class Solvent (models.Model):
 
 
 class Reactant (models.Model):
-    Name = models.CharField(max_length=150)
+    Name = models.CharField(max_length=150, unique = True, )
     Description = models.TextField()
     FUNCTIONAL_GROUP = 'FG'
     COMPOUND = 'CO'
@@ -167,7 +162,7 @@ class Reactant (models.Model):
 
 
 class Catalyst (models.Model):
-    Name = models.CharField(max_length=150)
+    Name = models.CharField(max_length=150, unique = True, )
     Description = models.TextField()
 
     def __str__(self):
@@ -176,4 +171,3 @@ class Catalyst (models.Model):
     def get_absolute_url(self):
         return reverse('Catalyst_Detail', kwargs={'pk': self.pk})
 
-# Create your models here.

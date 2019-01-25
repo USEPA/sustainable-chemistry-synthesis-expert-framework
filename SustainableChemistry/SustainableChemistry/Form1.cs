@@ -47,7 +47,7 @@ namespace SustainableChemistry
             app_functionalgroup = GetDataTable("app_functionalgroup");
             app_namedreaction = GetDataTable("app_namedreaction");
             app_reference = GetDataTable("app_reference");
-            app_namedreaction_ByProd = GetDataTable("app_namedreaction_ByProd");
+            app_namedreaction_ByProd = GetDataTable("app_namedreaction_ByProducts");
             app_namedreaction_ByProd.Rows.Clear();
             app_namedreaction_Reactants = GetDataTable("app_namedreaction_Reactants");
             app_namedreaction_Reactants.Rows.Clear();
@@ -312,7 +312,7 @@ namespace SustainableChemistry
             //        this.namedReactionComboBox.Items.Add(row["Name"].ToString());
             //    }
             //}
-            Results results = new Results(molecule.Smiles, app_functionalgroup, app_namedreaction, app_reactant, app_namedreaction_Reactants, app_namedreaction_ByProd, app_reference);
+            Results results = new Results(molecule.Smiles, app_functionalgroup, app_namedreaction, app_reactant, app_namedreaction_Reactants, app_catalyst, app_solvent, app_namedreaction_ByProd, app_reference);
             this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(molecule, Newtonsoft.Json.Formatting.Indented);
 
             //  System.Diagnostics.Process.Start(documentPath + "\\output.json");
@@ -533,7 +533,7 @@ namespace SustainableChemistry
             }
             else
             {
-                Results results = new Results(molecule.Smiles, app_functionalgroup, app_namedreaction, app_reactant, app_namedreaction_Reactants, app_namedreaction_ByProd, app_reference);
+                Results results = new Results(molecule.Smiles, app_functionalgroup, app_namedreaction, app_reactant, app_namedreaction_Reactants, app_catalyst, app_solvent, app_namedreaction_ByProd, app_reference);
                 this.textBox1.Text = Newtonsoft.Json.JsonConvert.SerializeObject(results, Newtonsoft.Json.Formatting.Indented);
             }
         }

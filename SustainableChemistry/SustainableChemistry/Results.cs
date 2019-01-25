@@ -12,11 +12,11 @@ namespace SustainableChemistry
     internal class Results
     {
         List<FunctionalGroup> groups;
-        public Results(string smiles, System.Data.DataTable fGroups, System.Data.DataTable namedReactions, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable byProducts, System.Data.DataTable references)
+        public Results(string smiles, System.Data.DataTable fGroups, System.Data.DataTable namedReactions, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable catalysts, System.Data.DataTable solvents, System.Data.DataTable byProducts, System.Data.DataTable references)
         {
             Molecule = new ChemInfo.Molecule(smiles);
             groups = new List<FunctionalGroup>();
-            this.AddFunctionalGroups(smiles, fGroups, namedReactions, reactants, rxnReactants, byProducts, references);
+            this.AddFunctionalGroups(smiles, fGroups, namedReactions, reactants, rxnReactants, catalysts, solvents, byProducts, references);
         }
 
         [Newtonsoft.Json.JsonProperty]
@@ -30,14 +30,14 @@ namespace SustainableChemistry
             }
         }
 
-        private void AddFunctionalGroups(string smiles, System.Data.DataTable fGroups, System.Data.DataTable namedReactions, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable byProducts, System.Data.DataTable references)
+        private void AddFunctionalGroups(string smiles, System.Data.DataTable fGroups, System.Data.DataTable namedReactions, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable catalysts, System.Data.DataTable solvents, System.Data.DataTable byProducts, System.Data.DataTable references)
         {
             foreach (System.Data.DataRow dr in fGroups.Rows)
             {
                 string smarts = dr["Smarts"].ToString();
                 if (this.Molecule.FindFunctionalGroup(dr))
                 {
-                    groups.Add(new FunctionalGroup(dr, namedReactions, reactants, rxnReactants, byProducts, references));
+                    groups.Add(new FunctionalGroup(dr, namedReactions, reactants, rxnReactants, catalysts, solvents, byProducts, references));
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace SustainableChemistry
         List<ReactionOutput> m_Reactions;
 
 
-        public FunctionalGroup(System.Data.DataRow fGroup, System.Data.DataTable namedReactions, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable byProducts, System.Data.DataTable references)
+        public FunctionalGroup(System.Data.DataRow fGroup, System.Data.DataTable namedReactions, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable catalysts, System.Data.DataTable solvents, System.Data.DataTable byProducts, System.Data.DataTable references)
         {
             Name = fGroup["Name"].ToString();
             Smarts = fGroup["Smarts"].ToString();
@@ -61,7 +61,7 @@ namespace SustainableChemistry
                           select myRow;
             foreach (System.Data.DataRow row in results)
             {
-                m_Reactions.Add(new ReactionOutput(row, reactants, rxnReactants, byProducts, references));
+                m_Reactions.Add(new ReactionOutput(row, reactants, rxnReactants, catalysts,  solvents, byProducts, references));
             }
         }
 
@@ -84,7 +84,7 @@ namespace SustainableChemistry
     [Newtonsoft.Json.JsonObject(Newtonsoft.Json.MemberSerialization.OptIn)]
     internal class ReactionOutput
     {
-        public ReactionOutput(System.Data.DataRow reaction, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable byProducts, System.Data.DataTable references)
+        public ReactionOutput(System.Data.DataRow reaction, System.Data.DataTable reactants, System.Data.DataTable rxnReactants, System.Data.DataTable catalysts, System.Data.DataTable solvents, System.Data.DataTable byProducts, System.Data.DataTable references)
         {
             Name = reaction["Name"].ToString();
             Int64 id = Convert.ToInt64(reaction["id"]);
@@ -93,8 +93,10 @@ namespace SustainableChemistry
             Product = reaction["Product"].ToString();
             //ByProducts = reaction["ByProducts"].ToString();
             //Reactants = reaction["Reactants"].ToString();
-            Catalyst = reaction["Catalyst"].ToString();
-            Solvent = reaction["Solvent"].ToString();
+            Int64 catalystId = Convert.ToInt64(reaction["Catalyst_id"]);
+            Catalyst = catalysts.Rows[Convert.ToInt32(catalystId)]["Name"].ToString();
+            Int64 solventId = Convert.ToInt64(reaction["Solvent_id"]);
+            Solvent = solvents.Rows[Convert.ToInt32(solventId)]["Name"].ToString();
             AcidBase = reaction["AcidBase"].ToString();
             List<string> m_Reactants = new List<string>();
             var results = from myRow in rxnReactants.AsEnumerable()

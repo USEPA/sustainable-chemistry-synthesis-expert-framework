@@ -3,6 +3,16 @@
 {% block content %}
 <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
+    <!--
+        {% if form.non_field_errors %}
+        <div class="non-field-errors">
+            {% for err in form.non_field_errors %}
+            <p class="alert alert-danger" role="alert">{{ err }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    -->
+
     <div class="table-responsive">
         <!--Table-->
         <table class="table">
@@ -22,6 +32,13 @@
         </table>
         <!--Table-->
     </div>
-    <div><input type="submit" class="btn btn-primary" value="Update" /></div>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="submit" class="btn btn-primary" value="Update" />
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-primary" href="{{ view.get_success_url }}">Cancel</a>
+        </div>
+    </div>
 </form>
 {% endblock %}

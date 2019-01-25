@@ -1,4 +1,4 @@
-﻿{% extends "app/layout.html" %}
+﻿{% extends "app/layout1.html" %}
 
 {% block content %}
 
@@ -23,7 +23,7 @@
 			{% for obj in object_list %}
 			<tr>
 				<td><a href="{% url 'FunctionalGroup_Detail' obj.Functional_Group.pk %}"/a> {{ obj.Functional_Group }} </td> 
-                <td><a href="{% url 'Reference_Detail' obj.pk %}"/a> {{ obj.Name }} </td> 
+                <td><a href="{% url 'Reference_Detail' obj.pk %}"/a> {{ obj.Reaction }} </td> 
                 <td><a class="btn btn-primary" href="{% url 'Reference_Update' obj.pk %}">Edit</a></td>
 				<td><a class="btn btn-primary" href="{% url 'Reference_Delete' obj.pk %}">Delete</a></td>
 			</tr>

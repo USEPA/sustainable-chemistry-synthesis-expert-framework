@@ -49,8 +49,7 @@ class ReactionDetail(DetailView):
 
 class ReactionCreate(CreateView):
     model = NamedReaction
-    fields = ['Name', 'Functional_Group', 'Product', 'ReactantA',
-              'ReactantB', 'ReactantC', 'Reactants', 'Image']
+    form_class = NamedReactionForm
 
 
 class ReactionUpdate(UpdateView):
@@ -80,7 +79,7 @@ class ReferenceCreate(CreateView):
 
 class ReferenceUpdate(UpdateView):
     model = Reference
-    fields = ['Name', 'Functional_Group', 'RISData']
+    fields = ['Reaction', 'Functional_Group', 'RISData']
 
 
 class ReferenceDelete(DeleteView):
