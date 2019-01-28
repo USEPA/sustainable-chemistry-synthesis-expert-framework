@@ -21,9 +21,6 @@ The purpose of this project is to develop a web service that can (1) identify ch
 ## Home
 See [Wiki/Home](https://github.com/USEPA/sustainable-chemistry-synthesis-expert-framework/wiki).
 ***
-## Local Installation for Programmers
-See [Wiki/Local Installation for Programmers](https://github.com/USEPA/sustainable-chemistry-synthesis-expert-framework/wiki/Local-Installation-for-Programmers).
-***
 ## Build & run
 See [Wiki/Build & run](https://github.com/USEPA/sustainable-chemistry-synthesis-expert-framework/wiki/Build-&-Run).
 ***
