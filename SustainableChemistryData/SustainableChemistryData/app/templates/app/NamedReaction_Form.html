@@ -3,16 +3,41 @@
 {% block content %}
 <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
-    <!--
-        {% if form.non_field_errors %}
-        <div class="non-field-errors">
-            {% for err in form.non_field_errors %}
-            <p class="alert alert-danger" role="alert">{{ err }}</p>
-            {% endfor %}
+    {% if form.non_field_errors %}
+    <div class="non-field-errors">
+        {% for err in form.non_field_errors %}
+        <p class="alert alert-danger" role="alert">{{ err }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+   <!-- 
+    <div class="form-group row">
+        <label for="colFormLabelSm" class="col-md-2 col-form-label col-form-label-sm">{{ form.Name.label_tag }}</label>
+        <div class="col-sm-10">
+            {{ form.Name }}
         </div>
-        {% endif %}
-    -->
-
+    </div>
+    <div class="form-group row">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.Reactants.label_tag }}</label>
+        <div class="col-sm-10">
+            {{ form.Reactants }}
+        </div>
+        <div class="col-sm-10">
+            <a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={% url 'NamedReaction_Update' object.pk %}">Add Reactant</a>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.Image.label_tag }}</label>
+        <div class="col-md-5">
+        <img src="../../{{ object.Image.url }}" class="img-fluid" alt="Responsive image">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <input type="file" name="Image" />
+        </div>
+    </div>
+-->
     <div class="table-responsive">
         <!--Table-->
         <table class="table">
@@ -20,13 +45,70 @@
             <thead>
                 <!--Table head-->
                 <!--Table body-->
+                <tr>
+                    <td class="col-md-3"></td>
+                    <td class="col-md-3"></td>
+                    <td class="col-md-3"></td>
+                </tr>
             </thead>
             <tbody>
                 <!--Table body-->
-                {{ form.as_table }}
+                <!-- Should I need to do this to add reactants, catalysts, solvents...
+                    fields = ['Name', 'Functional_Group', 'Product', 'Reactants',
+                  'ByProducts', 'Heat', 'AcidBase', 'Catalyst', 'Solvent', 'Image']
+                -->
+
+                <tr> 
+                    <td><strong>{{ form.Name.label_tag }}</strong></td>
+                    <td>{{ form.Name }}</td>
+                </tr>
                 <tr>
-                    <td class="col-md-3"><strong>Image:</strong></td>
-                    <td><img class="img-responsive" src="../{{ object.Image.url }}" alt="{{ object.Name }}" /></td>
+                    <td><strong>{{ form.Functional_Group.label_tag }}</strong></td>
+                    <td>{{ form.Functional_Group }}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.URL.label_tag }}</strong></td>
+                    <td>{{ form.URL }}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.Product.label_tag }}</strong></td>
+                    <td>{{ form.Product }}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.Reactants.label_tag }}</strong></td>
+                    <td>{{ form.Reactants }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={% url 'NamedReaction_Update' object.pk %}">Add New Reactant</a></td>
+                </tr>
+                <tr>
+                    <td><strong>ByProducts:</strong></td>
+                    <td>{{ form.ByProducts }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={% url 'NamedReaction_Update' object.pk %}">Add New ByProduct</a></td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.Heat.label_tag }}</strong></td>
+                    <td>{{ form.Heat }}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.AcidBase.label_tag }}</strong></td>
+                    <td>{{ form.AcidBase }}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.Catalyst.label_tag }}</strong></td>
+                    <td>{{ form.Catalyst }}</td>
+                </tr>
+                <tr>
+                    <td><strong>{{ form.Solvent.label_tag }}</strong></td>
+                    <td>{{ form.Solvent }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Image:</strong></td>
+                    <td><img src="../../{{ object.Image.url }}" class="img-fluid" alt="Responsive image"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        {{ form.Image }}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -36,7 +118,7 @@
         <div class="col-md-3">
             <input type="submit" class="btn btn-primary" value="Update" />
         </div>
-        <div class="col-md-1">
+        <div class="col-md-3">
             <a class="btn btn-primary" href="{{ view.get_success_url }}">Cancel</a>
         </div>
     </div>

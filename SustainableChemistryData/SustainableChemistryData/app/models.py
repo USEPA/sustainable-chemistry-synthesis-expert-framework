@@ -5,11 +5,13 @@ Definition of models.
 from django.db import models
 from django import forms
 from django.urls import reverse
+from app.fields import CICharField
+
 
 # Create your models here.
 
 class FunctionalGroup (models.Model):
-    Name = models.CharField(
+    Name = CICharField(
         max_length=150, unique = True, help_text="The name of the functional group.")
     Smarts = models.CharField(
         max_length=150, unique = True, help_text="Structure of the functional group as a SMILES string.")
@@ -21,7 +23,6 @@ class FunctionalGroup (models.Model):
     def get_absolute_url(self):
         return reverse('FunctionalGroup_Detail', kwargs={'pk': self.pk})
 
-
 def user_directory_path(instance, filename):
     ext = filename.split('.')[-1]
     if instance.pk:
@@ -32,12 +33,12 @@ def user_directory_path(instance, filename):
 
 
 class NamedReaction (models.Model):
-    Name = models.CharField(max_length=150, blank=True)
+    Name = CICharField(max_length=150)
     Functional_Group = models.ForeignKey(
         'FunctionalGroup',
         on_delete=models.PROTECT
     )
-    URL = models.TextField(blank=True)
+    URL = models.URLField(blank=True)
     ReactantA = models.CharField(max_length=150, blank=True)
     ReactantB = models.CharField(max_length=150, blank=True)
     ReactantC = models.CharField(max_length=150, blank=True)
@@ -91,10 +92,10 @@ class NamedReaction (models.Model):
 
     def __str__(self):
         return self.Name
-
+    
     def get_absolute_url(self):
         return reverse('NamedReaction_Detail', kwargs={'pk': self.pk})
-
+   
 
 class Reference (models.Model):
     Functional_Group = models.ForeignKey(
@@ -117,7 +118,7 @@ class Reference (models.Model):
 
 
 class Compound (models.Model):
-    Name = models.CharField(max_length=150, unique = True, )
+    Name = CICharField(max_length=150, unique = True, )
     Description = models.TextField()
     CasNumber = models.CharField(max_length=10, blank=True)
 
@@ -129,7 +130,7 @@ class Compound (models.Model):
 
 
 class Solvent (models.Model):
-    Name = models.CharField(max_length=150, unique = True, )
+    Name = CICharField(max_length=150, unique = True, )
     Description = models.TextField()
 
     def __str__(self):
@@ -140,7 +141,7 @@ class Solvent (models.Model):
 
 
 class Reactant (models.Model):
-    Name = models.CharField(max_length=150, unique = True, )
+    Name = CICharField(max_length=150, unique = True, )
     Description = models.TextField()
     FUNCTIONAL_GROUP = 'FG'
     COMPOUND = 'CO'
@@ -152,6 +153,7 @@ class Reactant (models.Model):
         max_length=2,
         choices=REACTANT_TYPE_CHOICES,
         default=COMPOUND,
+        verbose_name='Reactant Type:',
     )
 
     def __str__(self):
@@ -162,7 +164,7 @@ class Reactant (models.Model):
 
 
 class Catalyst (models.Model):
-    Name = models.CharField(max_length=150, unique = True, )
+    Name = CICharField(max_length=150, unique = True, )
     Description = models.TextField()
 
     def __str__(self):

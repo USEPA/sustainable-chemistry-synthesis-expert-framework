@@ -18,6 +18,13 @@
         </table>
         <!--Table-->
     </div>
-    <div><input type="submit" class="btn btn-primary" value="Update" /></div>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="submit" class="btn btn-primary" value="Update" />
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-primary" href="{{ view.get_success_url }}">Cancel</a>
+        </div>
+    </div>
 </form>
 {% endblock %}

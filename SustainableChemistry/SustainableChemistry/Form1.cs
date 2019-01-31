@@ -197,7 +197,7 @@ namespace SustainableChemistry
             string filepath = test.FilePath;
             if (string.IsNullOrEmpty(filepath)) return;
             molecule = ChemInfo.MoleFileReader.ReadMoleFile(test.FilePath);
-            this.listBox1.Items.Clear();
+            this.dataGridView1.Rows.Clear();
             this.moleculeViewer1.Molecule = molecule;
             this.propertyGrid1.SelectedObject = this.molecule;
             foreach (System.Data.DataRow dr in app_functionalgroup.Rows)
@@ -216,7 +216,7 @@ namespace SustainableChemistry
             smiles.ShowDialog();
             if (string.IsNullOrEmpty(smiles.SMILES)) return;
             this.molecule = new ChemInfo.Molecule(smiles.SMILES);
-            this.listBox1.Items.Clear();
+            this.dataGridView1.Rows.Clear();
             if (molecule == null) return;
             this.moleculeViewer1.Molecule = this.molecule;
             this.propertyGrid1.SelectedObject = this.molecule;
@@ -559,7 +559,7 @@ namespace SustainableChemistry
             checkedListBox1.Items.Clear();
             List<DSSToxChemicals>.Enumerator enumerator = (List<DSSToxChemicals>.Enumerator)tabPage4.Tag;
             enumerator.MoveNext();
-            this.listBox1.Items.Clear();
+            this.dataGridView1.Rows.Clear();
             if (string.IsNullOrEmpty(enumerator.Current.Structure_SMILES)) return;
             molecule = new ChemInfo.Molecule(enumerator.Current.Structure_SMILES);
             if (molecule == null) return;
@@ -585,7 +585,7 @@ namespace SustainableChemistry
 
         private void namedReactionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.listBox1.Items.Clear();
+            this.dataGridView1.Rows.Clear();
             currentReferences.Clear();
             Int64 fGroup = this.GetFunctionalGroupId(this.functionalGroupComboBox.SelectedItem.ToString());
             Int64 rxn = this.GetNamedReactionId(fGroup, this.namedReactionComboBox.SelectedItem.ToString());
@@ -596,7 +596,7 @@ namespace SustainableChemistry
             foreach (DataRow row in results)
             {
                 Reference reference = new Reference((Int64)row["Functional_Group_id"], (Int64)row["Reaction_id"], row["RISData"].ToString());
-                this.listBox1.Items.Add(reference.ToString());
+                this.dataGridView1.Rows.Add(reference.ToString());
                 currentReferences.Add(reference);
             }
             results = from myRow in this.app_namedreaction.AsEnumerable()
@@ -613,11 +613,12 @@ namespace SustainableChemistry
             {
                 this.pictureBox1.Image = System.Drawing.Image.FromFile(filename);
             }
+            this.dataGridView1.CurrentCell = null;
         }
 
-        private void listBox1_DoubleClick(object sender, EventArgs e)
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            String testStr = this.listBox1.SelectedItem.ToString();
+            String testStr = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             Reference reference = null;
             foreach (Reference r in this.currentReferences)
             {
@@ -630,6 +631,7 @@ namespace SustainableChemistry
                 else if (!string.IsNullOrEmpty(reference.doi))
                     System.Diagnostics.Process.Start("https://doi.org/" + reference.doi);
             }
+            this.dataGridView1.CurrentCell = null;
         }
     }
 }

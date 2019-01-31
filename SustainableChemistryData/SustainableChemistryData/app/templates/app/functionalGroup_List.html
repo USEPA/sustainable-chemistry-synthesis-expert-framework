@@ -18,7 +18,9 @@
         <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}" /> {{ group.Smarts }}</td>
         <td><img class="img-fluid" src="../{{ group.Image.url }}" alt="{{ object.Name }}"></td>
         <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' group.pk %}">Edit</a></td>
-        <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Delete' group.pk %}">Delete</a></td>
+        <!--
+            <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Delete' group.pk %}">Delete</a></td>
+            -->
       </tr>
       {% endfor %}
   </tbody>

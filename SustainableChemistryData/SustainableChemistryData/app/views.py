@@ -13,13 +13,15 @@ from django.urls import reverse_lazy
 
 # Class-based Functional Group Views
 
-
 class FunctionalGroupList(ListView):
     model = FunctionalGroup
 
 
 class FunctionalGroupDetail(DetailView):
     model = FunctionalGroup
+
+    def get_success_url(self):
+        return reverse('FunctionalGroup_List')
 
 
 class FunctionalGroupCreate(CreateView):
@@ -36,8 +38,8 @@ class FunctionalGroupDelete(DeleteView):
     model = FunctionalGroup
     success_url = reverse_lazy('FunctionalGroup_List')
 
-# Class-based Named Reaction Views
 
+# Class-based Named Reaction Views
 
 class ReactionList(ListView):
     model = NamedReaction
@@ -50,6 +52,9 @@ class ReactionDetail(DetailView):
 class ReactionCreate(CreateView):
     model = NamedReaction
     form_class = NamedReactionForm
+    
+    def get_success_url(self):
+        return reverse('NamedReaction_List')
 
 
 class ReactionUpdate(UpdateView):
@@ -63,18 +68,20 @@ class ReactionDelete(DeleteView):
 
 # Class-based Reference Views
 
-
 class ReferenceList(ListView):
-    model = Reference
-
-
-class ReferenceDetail(DetailView):
     model = Reference
 
 
 class ReferenceCreate(CreateView):
     model = Reference
-    fields = ['Name', 'Functional_Group', ]
+    fields = ['Reaction', 'Functional_Group', 'RISData']
+    
+    def get_success_url(self):
+        return reverse('Reference_List')
+
+
+class ReferenceDetail(DetailView):
+    model = Reference
 
 
 class ReferenceUpdate(UpdateView):
@@ -86,14 +93,10 @@ class ReferenceDelete(DeleteView):
     model = Reference
     success_url = reverse_lazy('Reference_List')
 
+
 # Class-based Solvent Views
 
-
 class SolventList(ListView):
-    model = Solvent
-
-
-class SolventDetail(DetailView):
     model = Solvent
 
 
@@ -102,18 +105,9 @@ class SolventUpdate(UpdateView):
     fields = ['Name', ]
 
 
-class SolventDelete(DeleteView):
-    model = Solvent
-    success_url = reverse_lazy('Solvent_List')
-
 # Class-based Catalyst Views
 
-
 class CatalystList(ListView):
-    model = Catalyst
-
-
-class CatalystDetail(DetailView):
     model = Catalyst
 
 
@@ -122,29 +116,44 @@ class CatalystUpdate(UpdateView):
     fields = ['Name', ]
 
 
-class CatalystDelete(DeleteView):
-    model = Catalyst
-    success_url = reverse_lazy('Solvent_List')
-
 # Class-based Reactant Views
-
 
 class ReactantList(ListView):
     model = Reactant
 
 
-class ReactantDetail(DetailView):
+class ReactantCreate(CreateView):
     model = Reactant
+    fields = ['Name', 'Description', 'Temp2']
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(ReactantCreate, self).get_form_kwargs()
+        redirect = self.request.GET.get('next')
+        if redirect:
+            if 'initial' in kwargs.keys():
+                kwargs['initial'].update({'next': redirect})
+            else:
+                kwargs['initial'] = {'next': redirect}
+        return kwargs
+
+    def form_invalid(self, form):
+        import pdb;pdb.set_trace()  # debug example
+        # inspect the errors by typing the variable form.errors
+        # in your command line debugger. See the pdb package for
+        # more useful keystrokes
+        return super(ReactantCreate, self).form_invalid(form)
+
+    def form_valid(self, form):
+        redirect = form.initial.get('next')
+        if redirect:
+            self.success_url = redirect
+        return super(ReactantCreate, self).form_valid(form)
 
 
 class ReactantUpdate(UpdateView):
     model = Reactant
-    fields = ['Name', ]
+    fields = ['Name', 'Description', 'Temp2']
 
-
-class ReactantDelete(DeleteView):
-    model = Reactant
-    success_url = reverse_lazy('Solvent_List')
 
 # def functionalGroups(request):
 #    functionalGroups = FunctionalGroup.objects.all
