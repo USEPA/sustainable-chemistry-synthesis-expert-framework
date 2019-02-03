@@ -18,7 +18,7 @@
     <div class="form-group row">
         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.Image.label_tag }}</label>
         <div class="col-md-5">
-        <img src="../../{{ object.Image.url }}" class="img-fluid" alt="Responsive image">
+        <img src="../../{{ object.Image.url }}" class="img-fluid"/>
         </div>
     </div>
     <div class="form-group row">
@@ -32,7 +32,7 @@
             <input type="submit" class="btn btn-primary" value="Update" />
         </div>
         <div class="col-md-1">
-            <a class="btn btn-primary" href="{{ view.get_success_url }}">Cancel</a>
+            <a class="btn btn-primary" href="{{ FunctionalGroup_List }}">Cancel</a>
         </div>
     </div>
 </form>
