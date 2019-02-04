@@ -27,6 +27,9 @@ class FunctionalGroupDetail(DetailView):
 class FunctionalGroupCreate(CreateView):
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
+    widgets = {
+            'Image': AdminFileWidget(),
+    }
 
 
 class FunctionalGroupUpdate(UpdateView):

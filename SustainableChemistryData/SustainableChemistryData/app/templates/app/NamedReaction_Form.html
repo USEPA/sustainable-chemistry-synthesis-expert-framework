@@ -23,7 +23,7 @@
             {{ form.Reactants }}
         </div>
         <div class="col-sm-10">
-            <a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={% url 'NamedReaction_Update' object.pk %}">Add Reactant</a>
+            <a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={{ request.get_full_path }}">Add Reactant</a>
         </div>
     </div>
     <div class="form-group row">
@@ -46,9 +46,9 @@
                 <!--Table head-->
                 <!--Table body-->
                 <tr>
-                    <td class="col-md-3"></td>
-                    <td class="col-md-3"></td>
-                    <td class="col-md-3"></td>
+                    <td scope="col"></td>
+                    <td scope="col"></td>
+                    <td scope="col"></td>
                 </tr>
             </thead>
             <tbody>
@@ -77,12 +77,12 @@
                 <tr>
                     <td><strong>{{ form.Reactants.label_tag }}</strong></td>
                     <td>{{ form.Reactants }}</td>
-                    <td><a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={% url 'NamedReaction_Update' object.pk %}">Add New Reactant</a></td>
+                    <td><a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={{ request.get_full_path }}">Add New Reactant</a></td>
                 </tr>
                 <tr>
                     <td><strong>ByProducts:</strong></td>
                     <td>{{ form.ByProducts }}</td>
-                    <td><a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={% url 'NamedReaction_Update' object.pk %}">Add New ByProduct</a></td>
+                    <td><a class="btn btn-primary" href="{% url 'Reactant_Create' %}?next={{ request.get_full_path }}">Add New ByProduct</a></td>
                 </tr>
                 <tr>
                     <td><strong>{{ form.Heat.label_tag }}</strong></td>

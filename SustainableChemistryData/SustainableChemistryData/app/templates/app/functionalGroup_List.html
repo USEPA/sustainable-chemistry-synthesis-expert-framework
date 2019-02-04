@@ -1,7 +1,8 @@
 ﻿{% extends "app/layout1.html" %}
 
 {% block content %}
-<table class="table">
+<div class="table-responsive">
+    <table class="table">
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -25,4 +26,5 @@
       {% endfor %}
   </tbody>
 </table>
+    </div>
 {% endblock %}
