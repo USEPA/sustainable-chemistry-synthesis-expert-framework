@@ -28,10 +28,13 @@ obj/
 # Visual Studio (machine-specific files, should be committed once but never updated)
 .vscode/
 .vs/
+<<<<<<< HEAD
+=======
 *.pyperf
 *.pyproj*
 *.suo
 *.sln
+>>>>>>> 349004223039fd1e4aeaa0aab9fdb4d7befe7f82
 
 # C extensions
 *.so
@@ -98,4 +101,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+<<<<<<< HEAD
 /Output-Solution.txt
+=======
+/Output-Solution.txt
+>>>>>>> 349004223039fd1e4aeaa0aab9fdb4d7befe7f82
