@@ -78,7 +78,6 @@
     <Content Include="app\templates\app\NamedReaction_Detail.html" />
     <Content Include="app\templates\app\NamedReaction_Form.html" />
     <Content Include="app\templates\app\NamedReaction_List.html" />
-    <Content Include="app\templates\app\NavSidebarPartial.html" />
     <Content Include="app\templates\app\Reactant_Detail.html" />
     <Content Include="app\templates\app\Reactant_Form.html" />
     <Content Include="app\templates\app\Reactant_List.html" />
@@ -116,9 +115,15 @@
     <Content Include="templates\contact.html" />
     <Content Include="templates\index.html" />
     <Content Include="templates\layout.html" />
+    <Content Include="templates\registration\logged_out.html" />
     <Content Include="templates\registration\login.html" />
     <Content Include="templates\registration\loginpartial.html" />
+    <Content Include="templates\registration\password_reset_complete.html" />
+    <Content Include="templates\registration\password_reset_confirm.html" />
+    <Content Include="templates\registration\password_reset_done.html" />
+    <Content Include="templates\registration\password_reset_email.html" />
     <Content Include="templates\registration\password_reset_form.html" />
+    <Content Include="templates\registration\signup.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

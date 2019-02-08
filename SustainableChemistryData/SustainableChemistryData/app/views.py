@@ -2,7 +2,7 @@
 Definition of views.
 """
 
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
@@ -196,7 +196,7 @@ def home(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        '/index.html',
+        'index.html',
         {
             'title': 'Home Page',
             'year': datetime.now().year,
@@ -209,7 +209,7 @@ def contact(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/contact.html',
+        'contact.html',
         {
             'title': 'Contact',
             'message': 'Your contact page.',
@@ -223,10 +223,29 @@ def about(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/about.html',
+        'about.html',
         {
             'title': 'About',
             'message': 'Your application description page.',
             'year': datetime.now().year,
         }
     )
+
+
+# New user sign up from https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})

@@ -1,4 +1,4 @@
-{% extends "app/layout.html" %}
+{% extends "layout.html" %}
 
 {% block content %}
 
@@ -9,6 +9,7 @@
             <form action="." method="post" class="form-horizontal">
                 {% csrf_token %}
                 <h4>Use a local account to log in.</h4>
+                <p><a href="{% url 'signup'%}">Click here to register for a new account.</a></p>
                 <hr />
                 <div class="form-group">
                     <label for="id_username" class="col-md-2 control-label">User name</label>

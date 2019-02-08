@@ -58,7 +58,7 @@ ROOT_URLCONF = 'SustainableChemistryData.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,5 +135,5 @@ MEDIA_ROOT = os.path.join(ENV_PATH, '../static/media/')
 # MEDIA_URL this is the relative browser URL to be used when accessing our media files in the browser.
 MEDIA_URL = "media/"
 
-# Login URL
-LOGIN_URL="/login/"
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
