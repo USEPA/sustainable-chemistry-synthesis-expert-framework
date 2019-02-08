@@ -133,3 +133,6 @@ MEDIA_ROOT = os.path.join(ENV_PATH, '../static/media/')
 
 # MEDIA_URL this is the relative browser URL to be used when accessing our media files in the browser.
 MEDIA_URL = "media/"
+
+# Login URL 
+LOGIN_URL="/login/"

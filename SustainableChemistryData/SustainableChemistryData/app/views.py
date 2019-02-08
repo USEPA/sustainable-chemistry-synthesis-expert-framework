@@ -10,6 +10,7 @@ from app.models import *
 from app.forms import *
 from django.views.generic import *
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Class-based Functional Group Views
 
@@ -24,7 +25,7 @@ class FunctionalGroupDetail(DetailView):
         return reverse('FunctionalGroup_List')
 
 
-class FunctionalGroupCreate(CreateView):
+class FunctionalGroupCreate(LoginRequiredMixin, CreateView):
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
     widgets = {
@@ -32,12 +33,12 @@ class FunctionalGroupCreate(CreateView):
     }
 
 
-class FunctionalGroupUpdate(UpdateView):
+class FunctionalGroupUpdate(LoginRequiredMixin, UpdateView):
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
 
 
-class FunctionalGroupDelete(DeleteView):
+class FunctionalGroupDelete(LoginRequiredMixin, DeleteView):
     model = FunctionalGroup
     success_url = reverse_lazy('FunctionalGroup_List')
 
@@ -52,7 +53,7 @@ class ReactionDetail(DetailView):
     model = NamedReaction
 
 
-class ReactionCreate(CreateView):
+class ReactionCreate(LoginRequiredMixin, CreateView):
     model = NamedReaction
     form_class = NamedReactionForm
     
@@ -60,12 +61,12 @@ class ReactionCreate(CreateView):
         return reverse('NamedReaction_List')
 
 
-class ReactionUpdate(UpdateView):
+class ReactionUpdate(LoginRequiredMixin, UpdateView):
     model = NamedReaction
     form_class = NamedReactionForm
 
 
-class ReactionDelete(DeleteView):
+class ReactionDelete(LoginRequiredMixin, DeleteView):
     model = NamedReaction
     success_url = reverse_lazy('NamedReaction_List')
 
@@ -75,7 +76,7 @@ class ReferenceList(ListView):
     model = Reference
 
 
-class ReferenceCreate(CreateView):
+class ReferenceCreate(LoginRequiredMixin, CreateView):
     model = Reference
     fields = ['Reaction', 'Functional_Group', 'RISData']
     
@@ -87,12 +88,12 @@ class ReferenceDetail(DetailView):
     model = Reference
 
 
-class ReferenceUpdate(UpdateView):
+class ReferenceUpdate(LoginRequiredMixin, UpdateView):
     model = Reference
     fields = ['Reaction', 'Functional_Group', 'RISData']
 
 
-class ReferenceDelete(DeleteView):
+class ReferenceDelete(LoginRequiredMixin, DeleteView):
     model = Reference
     success_url = reverse_lazy('Reference_List')
 
@@ -103,7 +104,14 @@ class SolventList(ListView):
     model = Solvent
 
 
-class SolventUpdate(UpdateView):
+class SolventCreate(LoginRequiredMixin, CreateView):
+    model = NamedReaction
+    form_class = NamedReactionForm
+    
+    def get_success_url(self):
+        return reverse('NamedReaction_List')
+
+class SolventUpdate(LoginRequiredMixin, UpdateView):
     model = Solvent
     fields = ['Name', ]
 
@@ -114,7 +122,14 @@ class CatalystList(ListView):
     model = Catalyst
 
 
-class CatalystUpdate(UpdateView):
+class CatalystCreate(LoginRequiredMixin, CreateView):
+    model = NamedReaction
+    form_class = NamedReactionForm
+    
+    def get_success_url(self):
+        return reverse('NamedReaction_List')
+
+class CatalystUpdate(LoginRequiredMixin, UpdateView):
     model = Catalyst
     fields = ['Name', ]
 
@@ -125,7 +140,7 @@ class ReactantList(ListView):
     model = Reactant
 
 
-class ReactantCreate(CreateView):
+class ReactantCreate(LoginRequiredMixin, CreateView):
     model = Reactant
     fields = ['Name', 'Description', 'Temp2']
 
@@ -153,7 +168,7 @@ class ReactantCreate(CreateView):
         return super(ReactantCreate, self).form_valid(form)
 
 
-class ReactantUpdate(UpdateView):
+class ReactantUpdate(LoginRequiredMixin, UpdateView):
     model = Reactant
     fields = ['Name', 'Description', 'Temp2']
 

@@ -95,10 +95,12 @@
                 <tr>
                     <td><strong>{{ form.Catalyst.label_tag }}</strong></td>
                     <td>{{ form.Catalyst }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'Catalyst_Create' %}?next={{ request.get_full_path }}">Add New Catalyst</a></td>
                 </tr>
                 <tr>
                     <td><strong>{{ form.Solvent.label_tag }}</strong></td>
                     <td>{{ form.Solvent }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'Solvent_Create' %}?next={{ request.get_full_path }}">Add New Solvent</a></td>
                 </tr>
                 <tr>
                     <td><strong>Image:</strong></td>
@@ -119,7 +121,7 @@
             <input type="submit" class="btn btn-primary" value="Update" />
         </div>
         <div class="col-md-3">
-            <a class="btn btn-primary" href="{{ view.get_success_url }}">Cancel</a>
+            <a class="btn btn-primary" href="{% url 'NamedReaction_List' %}">Cancel</a>
         </div>
     </div>
 </form>
