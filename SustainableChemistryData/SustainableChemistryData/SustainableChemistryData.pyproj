@@ -44,6 +44,7 @@
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
     <Compile Include="manage.py" />
+    <Compile Include="SustainableChemistryData\local_settings.py" />
     <Compile Include="SustainableChemistryData\__init__.py" />
     <Compile Include="SustainableChemistryData\settings.py" />
     <Compile Include="SustainableChemistryData\urls.py" />
