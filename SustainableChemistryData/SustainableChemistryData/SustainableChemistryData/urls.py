@@ -99,8 +99,8 @@ urlpatterns = [
     url(r'^$', app.views.home, name='home'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
-    url(r'^login/$', LoginView.as_view(template_name='app/login.html'), name='login'),
-    url(r'^logout$', LogoutView.as_view(next_page='/'), name='logout'),
+    #url(r'^/login/$', LoginView.as_view(template_name='app/login.html'), name='login'),
+    #url(r'^/logout$', LogoutView.as_view(next_page='/'), name='logout'),
     # url(r'^login/$',
     #    django.contrib.auth.views.login,
     #    {
@@ -133,3 +133,8 @@ urlpatterns = [
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+
+#Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]

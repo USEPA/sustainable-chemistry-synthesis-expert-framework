@@ -59,7 +59,9 @@
     <Folder Include="app\static\app\scripts\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
+    <Folder Include="templates\" />
     <Folder Include="SustainableChemistryData\" />
+    <Folder Include="templates\registration\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\templates\app\Catalyst_Detail.html" />
@@ -70,7 +72,7 @@
     <Content Include="app\templates\app\FunctionalGroup_Detail.html" />
     <Content Include="app\templates\app\FunctionalGroup_Form.html" />
     <Content Include="app\templates\app\FunctionalGroup_List.html" />
-    <Content Include="app\templates\app\layout1.html" />
+    <Content Include="templates\layout1.html" />
     <Content Include="app\templates\app\NamedReaction_Confirm_Delete.html" />
     <Content Include="app\templates\app\NamedReaction_Detail.html" />
     <Content Include="app\templates\app\NamedReaction_Form.html" />
@@ -109,12 +111,13 @@
     <Content Include="app\static\app\scripts\respond.js" />
     <Content Include="app\static\app\scripts\respond.min.js" />
     <Content Include="app\static\app\scripts\_references.js" />
-    <Content Include="app\templates\app\about.html" />
-    <Content Include="app\templates\app\contact.html" />
-    <Content Include="app\templates\app\index.html" />
-    <Content Include="app\templates\app\layout.html" />
-    <Content Include="app\templates\app\login.html" />
-    <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="templates\about.html" />
+    <Content Include="templates\contact.html" />
+    <Content Include="templates\index.html" />
+    <Content Include="templates\layout.html" />
+    <Content Include="templates\registration\login.html" />
+    <Content Include="templates\registration\loginpartial.html" />
+    <Content Include="templates\registration\password_reset_form.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
