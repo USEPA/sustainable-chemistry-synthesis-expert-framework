@@ -20,8 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
+# This should be in local_settings.py
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '730582e9-a785-42ee-91b3-ca414e270615'
+SECRET_KEY = '__SECRET__'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -134,5 +135,5 @@ MEDIA_ROOT = os.path.join(ENV_PATH, '../static/media/')
 # MEDIA_URL this is the relative browser URL to be used when accessing our media files in the browser.
 MEDIA_URL = "media/"
 
-# Login URL 
+# Login URL
 LOGIN_URL="/login/"
