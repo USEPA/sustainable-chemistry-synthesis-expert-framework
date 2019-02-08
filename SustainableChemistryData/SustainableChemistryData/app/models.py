@@ -7,6 +7,30 @@ from django import forms
 from django.urls import reverse
 from app.fields import CICharField
 
+# User profile information, see https://simpleisbetterthancomplex.com/tutorial/2016/11/23/how-to-add-user-profile-to-django-admin.html
+
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    organization = models.CharField(max_length = 150, blank = True, verbose_name='Organization')
+    address1 = models.CharField(max_length = 150, blank = True, verbose_name='Address 1')
+    address2 = models.CharField(max_length = 150, blank = True, verbose_name='Address 2')
+    city = models.CharField(max_length = 150, blank = True, verbose_name='City')
+    state = models.CharField(max_length = 150, blank = True, verbose_name='State')
+    country = models.CharField(max_length = 150, blank = True, verbose_name='Country')
+
+    def __str__(self):  # __unicode__ for Python 2
+        return self.user.username
+
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
+
 
 # Create your models here.
 

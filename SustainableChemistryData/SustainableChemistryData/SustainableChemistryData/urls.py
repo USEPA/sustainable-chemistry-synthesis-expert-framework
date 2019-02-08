@@ -99,6 +99,7 @@ urlpatterns = [
     url(r'^$', app.views.home, name='home'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
+    url(r'^signup/$', app.views.signup, name='signup'),
     #url(r'^/login/$', LoginView.as_view(template_name='app/login.html'), name='login'),
     #url(r'^/logout$', LogoutView.as_view(next_page='/'), name='logout'),
     # url(r'^login/$',
