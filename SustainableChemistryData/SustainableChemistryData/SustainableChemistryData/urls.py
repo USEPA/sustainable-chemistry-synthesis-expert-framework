@@ -64,35 +64,35 @@ urlpatterns = [
 
     # Reactants
     url(r'^Reactants$', app.views.ReactantList.as_view(), name='Reactant_List'),
-    #url(r'^Reactant/(?P<pk>\d+)$',
+    # url(r'^Reactant/(?P<pk>\d+)$',
     #    app.views.ReactantDetail.as_view(), name='Reactant_Detail'),
     url(r'^Reactant/Create$', app.views.ReactantCreate.as_view(),
         name='Reactant_Create'),
     url(r'^Reactant/Update/(?P<pk>\d+)$',
         app.views.ReactantUpdate.as_view(), name='Reactant_Update'),
-    #url(r'^Reactant/Delete/(?P<pk>\d+)$',
+    # url(r'^Reactant/Delete/(?P<pk>\d+)$',
     #    app.views.ReactantDelete.as_view(), name='Reactant_Delete'),
 
     # Solvents
     url(r'^Solvents$', app.views.SolventList.as_view(), name='Solvent_List'),
-    #url(r'^Solvent/(?P<pk>\d+)$',
+    # url(r'^Solvent/(?P<pk>\d+)$',
     #    app.views.SolventDetail.as_view(), name='Solvent_Detail'),
     url(r'^Solvent/Create$',
         app.views.SolventCreate.as_view(), name='Solvent_Create'),
     url(r'^Solvent/Update/(?P<pk>\d+)$',
         app.views.SolventUpdate.as_view(), name='Solvent_Update'),
-    #url(r'^Solvent/Delete/(?P<pk>\d+)$',
+    # url(r'^Solvent/Delete/(?P<pk>\d+)$',
     #    app.views.SolventDelete.as_view(), name='Solvent_Delete'),
 
     # Catalysts
     url(r'^Catalysts$', app.views.CatalystList.as_view(), name='Catalyst_List'),
-    #url(r'^Catalyst/(?P<pk>\d+)$',
+    # url(r'^Catalyst/(?P<pk>\d+)$',
     #    app.views.CatalystDetail.as_view(), name='Catalyst_Detail'),
     url(r'^Catalyst/Create$',
         app.views.CatalystCreate.as_view(), name='Catalyst_Create'),
     url(r'^Catalyst/Update/(?P<pk>\d+)$',
         app.views.CatalystUpdate.as_view(), name='Catalyst_Update'),
-    #url(r'^Catalyst/Delete/(?P<pk>\d+)$',
+    # url(r'^Catalyst/Delete/(?P<pk>\d+)$',
     #    app.views.CatalystDelete.as_view(), name='Catalyst_Delete'),
 
     # Examples:
@@ -100,8 +100,8 @@ urlpatterns = [
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
     url(r'^signup/$', app.views.signup, name='signup'),
-    #url(r'^/login/$', LoginView.as_view(template_name='app/login.html'), name='login'),
-    #url(r'^/logout$', LogoutView.as_view(next_page='/'), name='logout'),
+    # url(r'^/login/$', LoginView.as_view(template_name='app/login.html'), name='login'),
+    # url(r'^/logout$', LogoutView.as_view(next_page='/'), name='logout'),
     # url(r'^login/$',
     #    django.contrib.auth.views.login,
     #    {
@@ -135,7 +135,7 @@ if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
 
-#Add Django site authentication urls (for login, logout, password management)
+# Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
