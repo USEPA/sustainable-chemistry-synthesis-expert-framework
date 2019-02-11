@@ -18,12 +18,10 @@ LOGOUT_URL = reverse_lazy('logout')
 # Adding static files per https://docs.djangoproject.com/en/1.11/howto/static-files/
 from django.conf import settings
 from django.conf.urls.static import static
-
 # Uncomment the next lines to enable the admin:
 from django.urls import path, include
 from django.contrib import admin
 admin.autodiscover()
-
 # Required for FilteredMultipleSelect
 from django.views.i18n import JavaScriptCatalog
 

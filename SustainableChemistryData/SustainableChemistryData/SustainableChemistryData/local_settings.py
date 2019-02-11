@@ -48,4 +48,3 @@ ROOT_URLCONF = 'scsef.urls'
 # From GEMM local_settings, trying to get Admin to work properly.
 STATIC_ROOT = 'scsef/static/'
 STATIC_URL = '/static/'
-
