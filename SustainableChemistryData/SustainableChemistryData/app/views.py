@@ -15,30 +15,41 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Class-based Functional Group Views
 
 class FunctionalGroupList(ListView):
+    """Add class docstring"""
+
     model = FunctionalGroup
 
 
 class FunctionalGroupDetail(DetailView):
+    """Add class docstring"""
+
     model = FunctionalGroup
 
     def get_success_url(self):
+        """Add method docstring"""
         return reverse('FunctionalGroup_List')
 
 
 class FunctionalGroupCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
     widgets = {
-            'Image': AdminFileWidget(),
+        'Image': AdminFileWidget(),
     }
 
 
 class FunctionalGroupUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
 
 
 class FunctionalGroupDelete(LoginRequiredMixin, DeleteView):
+    """Add class docstring"""
+
     model = FunctionalGroup
     success_url = reverse_lazy('FunctionalGroup_List')
 
@@ -46,54 +57,74 @@ class FunctionalGroupDelete(LoginRequiredMixin, DeleteView):
 # Class-based Named Reaction Views
 
 class ReactionList(ListView):
+    """Add class docstring"""
+
     model = NamedReaction
 
 
 class ReactionDetail(DetailView):
+    """Add class docstring"""
+
     model = NamedReaction
 
 
 class ReactionCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
-    
+
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
 
 class ReactionUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
 
 
 class ReactionDelete(LoginRequiredMixin, DeleteView):
+    """Add class docstring"""
+
     model = NamedReaction
     success_url = reverse_lazy('NamedReaction_List')
 
 # Class-based Reference Views
 
 class ReferenceList(ListView):
+    """Add class docstring"""
+
     model = Reference
 
 
 class ReferenceCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = Reference
     fields = ['Reaction', 'Functional_Group', 'RISData']
-    
+
     def get_success_url(self):
         return reverse('Reference_List')
 
 
 class ReferenceDetail(DetailView):
+    """Add class docstring"""
+
     model = Reference
 
 
 class ReferenceUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Reference
     fields = ['Reaction', 'Functional_Group', 'RISData']
 
 
 class ReferenceDelete(LoginRequiredMixin, DeleteView):
+    """Add class docstring"""
+
     model = Reference
     success_url = reverse_lazy('Reference_List')
 
@@ -101,17 +132,23 @@ class ReferenceDelete(LoginRequiredMixin, DeleteView):
 # Class-based Solvent Views
 
 class SolventList(ListView):
+    """Add class docstring"""
+
     model = Solvent
 
 
 class SolventCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
-    
+
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
 class SolventUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Solvent
     fields = ['Name', ]
 
@@ -119,17 +156,23 @@ class SolventUpdate(LoginRequiredMixin, UpdateView):
 # Class-based Catalyst Views
 
 class CatalystList(ListView):
+    """Add class docstring"""
+
     model = Catalyst
 
 
 class CatalystCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
-    
+
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
 class CatalystUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Catalyst
     fields = ['Name', ]
 
@@ -137,10 +180,14 @@ class CatalystUpdate(LoginRequiredMixin, UpdateView):
 # Class-based Reactant Views
 
 class ReactantList(ListView):
+    """Add class docstring"""
+
     model = Reactant
 
 
 class ReactantCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = Reactant
     fields = ['Name', 'Description', 'Temp2']
 
@@ -169,6 +216,8 @@ class ReactantCreate(LoginRequiredMixin, CreateView):
 
 
 class ReactantUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Reactant
     fields = ['Name', 'Description', 'Temp2']
 
@@ -237,6 +286,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 def signup(request):
+    """Add function docstring"""
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
