@@ -1,0 +1,182 @@
+Functional Group	Name Reaction	URL	Reactant A	Reactant B	Reactant C	Acid/Base Conditions	Heat	Catalyst	Solvent	Product	By Product
+ACETAL	Acetalisation	https://en.wikipedia.org/wiki/Acetylation	ALDEHYDE	ALCOHOL	None	Acid				Hemi Acetyl	Water
+ACYLOIN	Acyloin condensation	https://en.wikipedia.org/wiki/Acyloin_condensation	CARBOXYLIC ESTER			Base				Alph-hydroxyketone	
+ALCOHOL	Grignard	https://en.wikipedia.org/wiki/Grignard_reaction	ALKENE	WATER		Acid				Alcohol 	
+"ALCOHOL, ALLYLIC"	Luche reduction/ Prins 	https://www.name-reaction.com/luche-reduction	KETONE	ALKENE		Acid			Water	Allylic alcohol	
+ALDEHYDE	Swern oxidation	https://www.name-reaction.com/swern-oxidation	PRIMARY ALCOHOL					oxidant	DCM	Aldehyde	
+ALKANE	Clemmensen reduction	https://www.name-reaction.com/clemmensen-reduction	CARBON MONOXIDE	HYDROGEN						Alkanes 	
+ALKANE	Wolff-Kishner reduction	https://www.name-reaction.com/wolff-kishner-reduction									
+ALKANE	Wurtz reaction	https://www.name-reaction.com/wurtz-reaction	ALKYL HALIDE					Sodium Metal 		Alkane 	
+ALKENE-ALCOHOL			ALKENE	WATER		Acid				Alkene alcohol	
+ALKENE	Hofmann elimination	https://www.name-reaction.com/hofmann-elimination	ALKANE				Heat	catalyst/heat 		Alkane	Alkene
+ALKENE	Wittig Reaction	https://www.name-reaction.com/wittig-reaction	KETONE	TRIPHENYL PHOSPHONIUM						Alkene 	
+ALKYNE-ALCOHOL			FORMALDEHYDE	ACETYLENE				Cu		Alkyne-alcohol	
+ALKYNE	Corey-Fuchs 	http://www.organic-chemistry.org/namedreactions/corey-fuchs-reaction.shtm	ALDEHYDE					"Catalyst (Ph3P, CBr4) (BuLi)"	Water	Terminal alkyne	
+ALLENE	Skattebol Rearrangment 	https://en.wikipedia.org/wiki/Skatteb%C3%B8l_rearrangement	ALKYNE			Base				Allenes	
+ALLOPHANATE			ISOCYANATE	URETHANE			Heat			Allophanate	
+AMIDE	Beckmann rearrangement	https://www.name-reaction.com/beckmann-rearrangement	CARBOXYLIC ACID	AMINE						Amides	
+AMIDE	Ritter Reaction	https://www.name-reaction.com/ritter-reaction									
+AMIDE	Schotten-Baumann Reaction	https://www.name-reaction.com/schotten-baumann-reaction									
+AMIDINE	Pinner Reaction	http://www.organic-chemistry.org/namedreactions/pinner-reaction.shtm	NITRILE	AZIDE		Acid			Methanol	Amidines	
+AMINE OXIDE			TERTIARY AMINE	HYDROGEN PEROXIDE						Tertiary amine oxide	
+AMINE	Schmidt	https://www.name-reaction.com/schmidt-reaction	CARBOXYLIC ACID	AZIDE		Acid				Amines	
+AMINE	Gabriel Syntheis 	https://www.name-reaction.com/gabriel-synthesis									
+AMINE	Hofmann Rearrangement 	https://www.name-reaction.com/hofmann-rearrangement									
+AMINE	Staudinger Reaction	https://www.name-reaction.com/staudinger-reaction									
+AMINO-ACID	Strecker amino acid synthesis	https://www.name-reaction.com/strecker-amino-acid-synthesis	ALPHA KETOACID	GLUTAMATE						Amino acid	Alpha ketoglutarate
+AMINO-ALCOHOL			EPOXIDE	PRIMARY AMINES					Water	Amino alcohols 	
+ANHYDRIDES			CARBOXYLIC ACID	CARBOXYLIC ACID				condensed 		Anhydrides	
+ARENES			TOULENE	HYDROGEN						Arenes 	Methane
+AROMATIC	Cyclo Trimerisation	https://en.wikipedia.org/wiki/Alkyne_trimerisation									
+AZIDE	Wislicenus Process		SODIUM	AZIDE						Sodium Azide 	Hydrogen
+AZIDO-ALCOHOL			3-BROMO-1-PROPANOL	SODIUM AZIDE					Acetone	Azido Alcohol 	
+AZIRIDINE	Corey-chykovsky 	http://www.organic-chemistry.org/namedreactions/corey-chaykovsky-reaction.shtm	SULFUR	ALKENE				KETONE	Dimethyl sulfoxide	Aziridines	
+AZIRINE			VINYL AZIDES					N2	Nitrene	Azirine	
+AZO COMPOUND			AROMATIC DIAZONIUM	PHENOL						Azo	
+AZOXY COMPOUND			NITROBENZENE					Arsenous oxide		Azoxy 	Water
+BIARYL	Ullmann 	https://pubs.acs.org/doi/abs/10.1021/cr60119a004	ARYL HALIDE				Heat	Copper/heat		Symmetric Biaryls	Copper Iodine
+BISAMIDE			AROMATIC AMINE					Acetylacetone		Bisamides	
+BORONIC ACID	Grignards	http://www.organic-chemistry.org/synthesis/C1B/boronicacids/arylboronicacids.shtm	PHENYLBORONIC ACID	WATER						Boronic Acid	Methanol
+BUNTE SALT			RX	SODIUM THIOSULFATE						Bunte	
+CARBAMATES	Curtius Rearrangemnet 	https://www.name-reaction.com/curtius-rearrangement	AMMONIA	CARBON DIOXIDE						Ammonium carbamate	
+CARBONATE			ALCOHOL	ESTER				Oxidizer		Carbonates	
+CARBOXYLIC ACID	Jones oxidation	https://www.name-reaction.com/jones-oxidation	ALCOHOL	ALCOHOL				Oxidizer 		Carboxylic acid	
+CARBOXYLIC ESTER	Fisher Esterfication	https://www.name-reaction.com/fischer-esterification	CARBOXYL	ALCOHOL		Acid				Carboxylic Ester 	Water
+COUMARIN	Pechmann Courmarins 	http://www.organic-chemistry.org/namedreactions/pechmann-condensation.shtm	PHENOL	B-KETO ESTER				Aluminum trichloride 		Coumarin	
+CUMULENE	Dimerization	https://chem.libretexts.org/Reference/Organic_Chemistry_Glossary/Dimerization	CARBENES					metal Catalyst 		Cumulenes	
+CYANAMIDE	Hydrolysis 	https://pubs.acs.org/doi/abs/10.1021/ja01193a010	CALCIUM CYANAMIDE	WATER + CO2						Cyanamide	Calcium carbonate
+"CYANIDES, ACYL"			KETENE	HYDROGEN CYANIDE			Heat			Acyl cyanides 	
+CYANOHYDRIN	Cyanohydrin Reaction	https://en.wikipedia.org/wiki/Cyanohydrin_reaction	KETONE	HYDROGEN CYANIDE				Sodium cyanide		Cyanohydrins	
+CYCLOBUTANE	Alkene dimerize		2 ALKENES					Uv Light		Cyclobutanes	
+CYCLOBUTENE			CYCLOBUTANOL					dehydration		Cyclobutnes	
+CYCLOPROPANE	Wurtz Coupling		"1,3-DIBROMOPROPANE"					Na		Cyclopropanes	Sodium Bromide
+DIALDEHYDE	Diels-Alder 	https://www.name-reaction.com/diels-alder-reaction	CYCLOPENTENE					Oxidizer		Dialdehyde	
+DIAMINE			ALKENE	2 AZIDES						Diamines	
+DIAZO COMPOUND			ALIPHATIC AMINES	NITROUS ACID						Diazo 	
+DIAZONIUM COMPOUND	Diazoniation	http://www.organic-chemistry.org/namedreactions/diazotisation.shtm	AROMATIC AMINE					Nitrous Acid + Acid 		Diazonium 	Water
+DICARBOXYLIC ACID			ALKYL DIAOL					KmNO4/Acid		Dicarboxylic Acid	Water 
+DIENE	Cope rearrangement	https://www.name-reaction.com/cope-rearrangement	3-BROMO-1-BUTENE			Base	Heat			Dienes	
+DIESTER			DICARBOXYLIC ACID	 ROH		Acid				Diesters	
+DIHALIDES (GEMINAL)	Addition Reaction 	https://en.wikipedia.org/wiki/Geminal	ALKYNE					H-Br		Dihalides	
+DIHALIDE			ALKENE					H-Br		Dihalides 	
+DIKETONE	Nucleophilic Addition		ENOLATES	CARBOXYLIC ACID						Diketones	
+DIOL			ALKENE					KMnO4 / H2O		Diols  	
+DISULFIDE			2 SULFHYDRYL GROUPS					Oxidation		Disulfides	H+ + 2e-
+DITHIOACETAL			FORMALDHYDE	"1,3 PROPANEDITHIOL"		Acid				Dithioacetals 	Water
+DITHIOCARBAMATE			PRIMARY AMINES	CARBON DISULFIDE		Base				Dithiocarbamate 	Water
+DITHIOKETAL			"N,N-DIALKYLHYDRAZONES"	"1,2-ETHANEDITHIOL"		Acid			Dichloromethane	Dithioketal 	
+DITHIOL			"1,3-DICHLOROPROPANE"	THIOUREA			Heat	Sodium Carbonate		Dithiols	
+DIYNE	Cadiot-Chodkiewicz 	http://www.organic-chemistry.org/namedreactions/cadiot-chodkiewicz-coupling.shtm	PROPYNE	PROPYNYL BROMIDE				Copper Chloride/Base		Diynes	
+ENAMIDE	Blaise	http://www.organic-chemistry.org/synthesis/C2C/unsaturated-compounds/enamines.shtm	NITRILE	ALPHA HALOESTER				Zinc/Reflux ------> Potassium Carbonate	Tetrahydrofuran	Enamides	
+ENAMINE	Condensation		ALDEHYDE	AMINE					Water	Enamine	
+ENOL ETHER			ACETAL					Catalytic Acid		Enol Ether	
+ENOL			ACETONE					Sodium Hydride		Enols	
+EPISULFIDE			EPOXIDE	THIOUREA						episulfides 	Ammonium Cyanate
+EPOXY-ALCOHOL	Sharpless epoxidation	http://www.organic-chemistry.org/namedreactions/sharpless-epoxidation.shtm	ETHENOL					MCPBA 		Epoxy Alcohol	
+EPOXY-CARBOXYLIC ACID			KETONE	ALPHA HALOESTER		Base				epoxy carboxylic acid	
+EPOXY-KETONE			VINYL KETONE					Epoxidation 		Epoxy-Ketone	
+ESTER	Baeyer-Villiger oxidation	https://www.name-reaction.com/baeyer-villiger-oxidation	CARBOXYLIC ACID	ALCOHOL		Acid				Ester 	Water
+ESTER	Yamaguchi Esterification	https://www.name-reaction.com/yamaguchi-esterification	CARBOXYLIC ACID	ALCOHOL				Yamaguchi Reagent		Ester 	
+ESTER	Schotten_Baumann	https://www.name-reaction.com/schotten-baumann-reaction	ACYL HALIDE	ALCOHOL		Base				Ester 	
+ESTER	Fisher Esterification	https://www.name-reaction.com/fischer-esterification	CARBOXYLIC ACID	ALCOHOL		Acid				Ester 	
+ETHER	Williamson ether synthesis	https://www.name-reaction.com/williamson-ether-synthesis	2 ALCOHOL			Acid				Ether	
+"ETHER, SILYL"	Silylation 	https://en.wikipedia.org/wiki/Silylation	ALCOHOL	SILYL CHLORIDE				amine base 		Silyl ethers 	
+FORMAMIDE			ETHYL FORMATE					ammonia		Formamides	Ethylalcohol
+GLYCIDIC ESTER	Darzens 	https://en.wikipedia.org/wiki/Darzens_reaction	KETONE	ALPHA HALOESTER		Base				Glycidic ester	
+"HALIDE, ACYL"			CARBOXYLIC ACID					thionyl chloride		Acyl Halides	
+"HALIDE, ALKYL"			ALCOHOL					HCl		Alkyl Halide	
+"HALIDE, ALLYLIC"	Moffatt-Swern	http://www.chem.wisc.edu/areas/reich/chem842/_chem842-08-sulfur%7B08%7D.htm	ALLYL ACETATE					Acetyl chloride 	Ethanol	allylic halides	
+"HALIDE, SULFONYL"			THIOL					Peroxide/SOCl2/amines		Sulfonyl Halides	
+HALO-ALKYNE			ALKYNE	CBr4		Base				Halo alkynes 	
+HALO-CARBOXYLIC ACID	Hell-Volhard-Zelinsky reaction	https://www.name-reaction.com/hell-volhard-zelinsky-reaction	CARBOXYLIC ACID	Br2				Phosphorus 		Halo carboxylic Acid 	
+HALO-ETHER			ACETAL	ACID HALIDES				Metal Salt		Halo Ethers	
+HALO-KETONE			ACETONE	X2					Halo Ketones	Hydrochloric Acid	
+HALOHYDRIN			ALKENE	X					Water	Halohydrins	
+HYDRAZINE			CHLORAMINE	AMMONIA						Hydrazine	Hydrochloric Acid
+HYDRAZONE			ACETONE					Hydrazine	Water	Hydrazone	
+HYDROXAMIC ACID	Angeli-Rimini 	https://en.wikipedia.org/wiki/Angeli%E2%80%93Rimini_reaction	ALDEHYDE	SULFONAMIDE		Base			Methanol	Hydroxamic Acid	Sulfinic Acid
+HYDROXY-ESTER	Reformatsky reaction	https://en.wikipedia.org/wiki/Reformatsky_reaction	KETONE	ALPHA HALOESTER				Metallic Zinc	Water	Hydroxy Esters	
+HYDROXY-KETONE	Rubottom Oxidation	http://www.organic-chemistry.org/namedreactions/rubottom-oxidation.shtm	SILYL ENOL ETHERS					meta-Chloroperoxybenzoic acid	Water	Hydroxy Ketones	
+HYDROXYLAMINE	Raschig Process	http://www.lookchem.com/Chempedia/Chemical-Technology/Inorganic-Chemical-Technology/2899.html	NITROUS ACID					Bisulfite		Hydroxylamine	
+IMIDE			DICARBOXYLIC ACID	AMMONIA				Heat		Imides	Water
+AMIDINE			NITRILE	TRIHALOETHANOL				HCl		Amidines	
+IMINE	Schmidt reaction	https://www.name-reaction.com/schmidt-reaction	AROMATIC ALDEHYDE	ALKYL BROMIDE				Aqueous Ammonia		Imines	
+IMINO ESTER			?-OXOESTERS	AMINE		Acid		Dehydrating agent		Imino ester	
+ISOCYANATE	Lossen rearrangement	https://en.wikipedia.org/wiki/Lossen_rearrangement	AMINE					Phosgene		Isocyanates	Hydrochloric acid
+ISONITRILE			FORMAMIDE	CHLOROPHOSPHATE				Triethylamine	Dimethyl carbonate	Isonitriles	
+ISOTHIOCYANATE			ANILINE	CARBON DISULFIDE					aqueous ammonia/ the treated with lead nitrate	isothiocyanates 	
+KETENE	Schmidlin ketene synthesis	https://onlinelibrary.wiley.com/doi/pdf/10.1002/9780470638859.conrr564	ACETONE					Pyrolysis 		Ketene	Methane 
+KETENIMINE			(N-TERT-ALKYLIMINO)ACYLPALLADIM			Base				Ketenimine	
+KETO-ALDEHYDE			ACETONE	METHYLFOMATE				Sodium Carbonate	Water	Ketone Aldehyde 	
+KETO-AMIDE			BENZYLIMIDATES					Oxygen/Copper Salt	Dimethylformamide	Ketoamides	
+KETO-CARBOXYLIC ACID			ALDEHYDE	ALKENOIC ACID				Rhodium(I) comples and 2-amino-3-picoline	benzoic acid /toluene	Keto carboxylic acids	
+KETO-ESTER	Claisen condensation	https://www.name-reaction.com/claisen-condensation	2 ESTERS			Acid				Keto Ester	
+KETO-SULFONE			ALDEHYDE	RSO2I					Methanol/ Triethylamine	Keto Sulfones	
+KETONE	Oppenauer oxidation	https://www.name-reaction.com/oppenauer-oxidation	ALCOHOL					Oxidizer		Ketone 	
+KETONE	Swern Oxidation	https://www.name-reaction.com/swern-oxidation	SECONDARY ALCOHOL	OXALYL CHLORIDE		Base			Dimethyl sulfoxide	Ketone	
+LACTAM	Beckmann rearrangement	https://www.name-reaction.com/beckmann-rearrangement	OXIME			Acid				Lactam	
+LACTONE	Baeyer-Villiger Oxidation	https://www.name-reaction.com/baeyer-villiger-oxidation	CYCLIC KETONE					Peroxide		Lactone	
+NITRILE	Letts 	https://en.wikipedia.org/wiki/Letts_nitrile_synthesis	CARBOXYLIC ACID					Methal thiocyanate		Nitrile	SO2 + Hydrochloric Acid
+NITRITE	Meyer	https://en.wikipedia.org/wiki/Nitrite	ALKYL HALIDE					Metalic nitrites + nitroalkanes + nitrites	Nitrites		
+NITRO			SODIUM CHLOROACETATE					Sodium nitrite		Aliphatic Nitro	
+NITRO-ALCOHOL	Henry reaction	http://www.organic-chemistry.org/namedreactions/henry-reaction.shtm	NITROALKANES	ALDEHYDE		Base				Nitro Compound 	
+NITRONE			KETONE	HYDROXYLAMINE				Light Base		Nitrone 	
+NITROSO-AMINE			NITROUS ACID	SECONDARY AMINE						Nitrosoamine 	Water
+ORTHO ESTER	Pinner reaction	http://www.organic-chemistry.org/namedreactions/pinner-reaction.shtm	CYANIDE	ALCOHOL						Orthoesters 	ammonium 
+OSAZONE			SUGAR	PHENYLHYDRAZINE						Osazone	
+OXIME			ALDEHYDE	HYDROXYLAMINE						Oximes	
+PEROXIDE	Griesbaum Coozonolysis 	http://www.organic-chemistry.org/namedreactions/griesbaum-coozonolysis.shtm	DIALKYLSULFATES	ALKALINE HYDROGEN PEROXIDE						Hydrogen Peroxide	
+PHOSPHATE											
+PHOSPHINAMIDE	Nucleophilic Addition										
+PHOSPHINATE	Oxidative Cross Coupling										
+PHOSPHINE	Selective Reduction		PHOSPHINE OXIDE					Silanes	Toluene	Phosphines	
+PHOSPHINE OXIDE	Wittig Reaction	https://en.wikipedia.org/wiki/Phosphine_oxide	Phosphine	Aldehyde							
+PHOSPHINE OXIDE	Thermolysis of Phosphonium Hydroxides	https://en.wikipedia.org/wiki/Phosphine_oxide	Phosphonium Hydroxides	sodium hydroxide							
+PHOSPHINE OXIDE	Phosphine Oxidation	https://en.wikipedia.org/wiki/Phosphine_oxide	PHOSPHINE	Oxygen							
+PHOSPHINE OXIDE	Hydrolysis of Phosphorus(V) Dihalides	https://en.wikipedia.org/wiki/Phosphine_oxide	Phosphorus(V) Dihalides	Water							
+PHOSPHINITE	Alcoholysis of Organophosphinous Chlorides										
+PHOSPHITE	Phosphite Production										
+PHOSPHONAMIDATE	Mass Spec										
+PHOSPHONAMIDE	Diels-Alder										
+PHOSPHONAMIDITE	Synthesis										
+PHOSPHONATE	Michaelis-Arbuzov										
+PHOSPHONITE	non-Strecker reaction										
+PHOSPHONATE ESTER	Michaelis-Abruzov	https://en.wikipedia.org/wiki/Michaelis%E2%80%93Arbuzov_reaction	PHOSPHITE	"HALIDE, ALKYL"						Phosphonate Esters 	
+PHOSPHONATE ESTER	TMS-promoted Michaelis-Abruzov		PHOSPHITE	TMS-Br						Phosphonate Esters 	
+PHOSPHONATE ESTER	Alkylphosphonic acid esterification		PHOSPHONIC ACID	ALCOHOL						Phosphonate Esters 	
+PHOSPHONATE ESTER	Solid Phase		Methylphosphonic dichloride	ALCOHOL						Phosphonate Esters 	
+PHOSPHORAMIDATE	biosynthetic										
+PHOSPHORAMIDE	Chemoselective Electrophilic Oxidation										
+PHOSPHORAMIDITE											
+PHOSPHORANE											
+PHOSPHORODIAMIDATE	Synthesis										
+PHOSPHORODIAMIDITE	Preparation										
+PHOSPHORODITHIOATE	Direct Conversion										
+PHOSPHORODITHIOITE											
+PHOSPHOROTHIOATE	Sulfurisation										
+PHOSPHOROTHIOITE											
+QUINONE			AROMATIC	PHENOL						Quinones	
+SILANE			HYDROGEN CHLORIDE					Magnesium Silicide		Silane 	Magnesium Chloride
+SULFINIC ACID			THIOUREA					Hydrogen Peroxide		Thiourea Dioxide 	Water
+SULFONAMIDE			SULFONYL CHLORIDE	AMMONIA						Sulfonamides	
+SULFONATE ESTER			1-DECANOL	TOSYL CHLORIDE		Base				Sulfonate Esters	
+SULFONE			SULFIDES					Hydrogen Peroxide/ Tantalum Carbide		Sulfones	
+SULFONYL IMINE			EMAMTOPURE 1 SULFINAMIDES	ALDEHYDE						Sulfinyl Imines	
+SULFOXIDE	Friedel Crafts	https://pubs.acs.org/doi/abs/10.1021/jo2006335	SULFIDES					Hydrogen Peroxide		Sulfoxides	
+THIIRANE			ETHYLENE CARBONATE	POTASSIUM THIOCYANATE						Thiirane	CO2 + Potassium cyanate
+THIOCARBAMATE			THIOCYANATE					water		Thiocarbamate	
+THIOCARBOXYLIC ACID			ACID CHLORIDE					Potassium Hydrosulfide		Thiocarboxylic Acid	Potassium Chloride
+THIOESTER			ACID CHLORIDE	alkali Metal salt thiol 						Thioester	Sodium Chloride
+THIOKETONE			KETONE					Lawessons's Reagent		Thioketones	
+THIOLACTAM			KETONE	THIOPHOSPHORYL CHLORIDE		Base			Water	Thiolactams	
+THIOL			HYDROGEN SULFIDE	METHANOL						Thiol 	Water
+THIOUREA			HYDROGEN SULFIDE	CALCIUM CYANAMIDE				Carbon dioxide 		Thiourea	
+TRIAZOLE	Huisgen Azide-Alkyne	https://en.wikipedia.org/wiki/Azide-alkyne_Huisgen_cycloaddition	AZIDE	ALKYNE			Heat			Triazoles	
+TRIAZOLINE			OXAZOLONES	AZODICARBOXYLATE				Sodium hydroxide 	Acetonitrile 	Triazolines	
+TRIOXANE			3 FORMALDEHYDE					3 Water		Trioxane	Water
+UREA			AMMONIUM CARBAMATE					Decomposition		Urea 	Water
+VINYL ETHER			ALCOHOL	VINYL ACETATE				iridium complex		Vinyl Ethers	
+VINYL PHOSPHINE			KETONE	VINYL TRIFLATES				Plladium-Catalyzed		Vinyl Phosphines	
+VINYL SULFIDE			VINYL HALIDES	THIOL				CuO	Dimethyl sulfoxide	Vinyl Sulfides	
+VINYL SULFONE			ALKENE	SODIUM SULFINATE				Cul-bpy	Dimethyl sulfoxide	Vinyl Sulfones	
+XANTHATE			ALCOHOL	CARBON DISULFIDE		Base				Xanthate	water
