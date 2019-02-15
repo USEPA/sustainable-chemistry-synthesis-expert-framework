@@ -12,7 +12,7 @@ namespace SustainableChemistryWeb
 {
     // Scaffolding the database:
     // Open Nuget Package Manager Console
-    // run: Scaffold-DbContext "DataSource={% Path to Solution %}\Data\SustainableChemistry.sqlite3" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force
+    // run: Scaffold-DbContext "DataSource= ..\\..\\SustainableChemistryData\\SustainableChemistryData\\SustainableChemistry.sqlite3" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force
 
     public class Program
     {
