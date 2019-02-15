@@ -1,7 +1,14 @@
-﻿
+﻿@model IEnumerable<SustainableChemistryWeb.Controllers.AppFunctionalgroupDTO>
+
 @{
-    ViewData["Title"] = "FunctionalGroups";
+    ViewData["Title"] = "Functional Groups";
 }
 
 <h1>FunctionalGroups</h1>
 
+<ul>
+    @foreach (var item in Model)
+    {
+    <li>@Html.DisplayFor(modelItem => item.Name)</li>
+    }
+</ul>

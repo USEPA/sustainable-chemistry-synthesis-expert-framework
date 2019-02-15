@@ -42,13 +42,13 @@ namespace SustainableChemistryWeb.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlite("DataSource=..\\..\\Data\\SustainableChemistry.sqlite3");
+                optionsBuilder.UseSqlite("DataSource= ..\\\\\\\\..\\\\\\\\SustainableChemistryData\\\\\\\\SustainableChemistryData\\\\\\\\SustainableChemistry.sqlite3");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.1-servicing-10028");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
             modelBuilder.Entity<AppCatalyst>(entity =>
             {
