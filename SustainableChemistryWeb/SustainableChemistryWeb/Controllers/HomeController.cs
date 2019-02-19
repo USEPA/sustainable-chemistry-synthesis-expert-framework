@@ -24,11 +24,12 @@ namespace SustainableChemistryWeb.Controllers
             return View();
         }
 
-        // fg?smiles=O=P(OC)(OC)C
-        public async Task<IActionResult> FG(string smiles)
+        // Home/FunctionalGroups?smiles=O=P(OC)(OC)C
+        public async Task<IActionResult> FunctionalGroups(string smiles)
         {
+            ViewData["Smiles"] = smiles;
             ChemInfo.Molecule molecule = new ChemInfo.Molecule(smiles);
-            var fG = from f in _context.AppFunctionalgroup select f;
+            var fG = await _context.AppFunctionalgroup.ToListAsync();
             var retVal = new List<AppFunctionalgroupDTO>();
             foreach (var group in fG)
             {

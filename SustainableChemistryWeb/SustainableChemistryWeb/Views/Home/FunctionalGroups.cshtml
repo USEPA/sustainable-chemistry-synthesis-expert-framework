@@ -1,7 +1,15 @@
-﻿
+﻿@model List<SustainableChemistryWeb.Controllers.AppFunctionalgroupDTO>
+
 @{
-    ViewData["Title"] = "FunctionalGroups";
+    ViewData["Title"] = "Functional Groups";
 }
 
-<h1>FunctionalGroups</h1>
+<h1>
+    Functional Groups for Compound with SMILES: @ViewData["Smiles"]</h1>
 
+<ul>
+    @foreach (var item in @Model)
+    {
+        <li>@item.Name</li>
+    }
+</ul>
