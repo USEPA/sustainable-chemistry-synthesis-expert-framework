@@ -18,6 +18,7 @@ LOGOUT_URL = reverse_lazy('logout')
 # Adding static files per https://docs.djangoproject.com/en/1.11/howto/static-files/
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # Uncomment the next lines to enable the admin:
 from django.urls import path, include
 from django.contrib import admin
@@ -127,7 +128,9 @@ urlpatterns = [
 
     # Required for FilteredSelectMultiple
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-]
+] 
+
+urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL,
