@@ -2,6 +2,8 @@
 <html class="js" lang="en" dir="ltr">
 <head>
     <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Sustainable Chemistry</title>
+
     <meta http-equiv="ImageToolbar" content="false" />
     <meta http-equiv="cleartype" content="on" />
     <meta name="HandheldFriendly" content="true" />
@@ -23,8 +25,12 @@
     <meta name="DC.date.modified" content="" />
     <meta name="DC.date.reviewed" content="" />
     <meta name="DC.creator" content="" />
-    <title>@ViewData["Title"] | US EPA</title>
-
+    <title>Standalone Template for Applications | US EPA</title>
+    <!--googleoff: all-->
+    <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/standalone/css/core/style.css" media="all" />
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != "dataLayer" ? "&l=" + l : ""; j.async = true; j.src = "//www.googletagmanager.com/gtm.js?id=" + i + dl; f.parentNode.insertBefore(j, f); })(window, document, "script", "dataLayer", "GTM-L8ZB");</script>
+    <!-- End Google Tag Manager -->
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     </environment>
@@ -35,12 +41,7 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
-
-    <!--googleoff: all-->
-    <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/standalone/css/core/style.css" media="all" />
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != "dataLayer" ? "&l=" + l : ""; j.async = true; j.src = "//www.googletagmanager.com/gtm.js?id=" + i + dl; f.parentNode.insertBefore(j, f); })(window, document, "script", "dataLayer", "GTM-L8ZB");</script>
-    <!-- End Google Tag Manager -->
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body class="html">
     <!-- Google Tag Manager -->
@@ -70,6 +71,38 @@
             </div>
         </div>
     </header>
+    <!--
+        <body>
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sustainable Chemistry</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="FunctionalGroups" asp-action="Index">Functional Groups</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="NamedReactions" asp-action="Index">Named Reactions</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="AppReferences" asp-action="Index">References</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+        -->
+
     <nav class="nav main-nav clearfix" role="navigation">
         <div class="nav__inner">
             <h2 class="element-invisible">Main menu</h2>
@@ -99,33 +132,34 @@
                 <div class="view view-revision-hublinks view-id-revision_hublinks">
                     <span class="related-info"><strong>Related Topics:</strong></span>
                     <ul class="menu pipeline">
-                        <li class="menu-item"><a href="{% url 'FunctionalGroup_List' %}">Functional Groups</a></li>
-                        <li class="menu-item"><a href="{% url 'NamedReaction_List' %}">Named Reactions</a></li>
-                        <li class="menu-item"><a href="{% url 'Reference_List' %}">References</a></li>
-                        <li class="menu-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="menu-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="menu-item"><a asp-area="" asp-controller="FunctionalGroups" asp-action="Index">Functional Groups</a></li>
+                        <li class="menu-item"><a asp-area="" asp-controller="NamedReactions" asp-action="Index">Named Reactions</a></li>
+                        <li class="menu-item"><a asp-area="" asp-controller="AppReferences" asp-action="Index">References</a></li>
                     </ul>
                 </div>
             </div>
             <div class="block block-pane block-pane-epa-web-area-connect" id="block-pane-epa-web-area-connect">
                 <ul class="menu utility-menu">
-                    <li class="menu-item"><a class="menu-link" href="{% url 'contact' %}">Contact Us</a></li>
+                    <li class="menu-item"><a class="menu-link" href="{CONTACT URL}">Contact Us</a></li>
                 </ul>
             </div>
         </div>
-        <div class="main-column clearfix">
-            <!--googleon:all-->
-            <h1 class="page-title">@ViewData["Title"]</h1>
-            <div class="panel-pane pane-node-content">
-                <div class="pane-content">
-                    <div class="node node-page clearfix view-mode-full">
-                        <main role="main" class="pb-3">
-                            @RenderBody()
-                        </main>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
+
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Microsoft's footer - empty...
+    <footer class="border-top footer text-muted">
+        <div class="container">
+        </div>
+    </footer>
+        -->
     <footer class="main-footer clearfix" role="contentinfo">
         <div class="main-footer__inner">
             <div class="region-footer">
@@ -189,6 +223,7 @@
             </div>
         </div>
     </footer>
+
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>

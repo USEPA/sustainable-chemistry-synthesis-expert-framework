@@ -10,10 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace SustainableChemistryWeb
 {
-    // Scaffolding the database:
-    // Open Nuget Package Manager Console
-    // run: Scaffold-DbContext "DataSource= ..\\..\\SustainableChemistryData\\SustainableChemistryData\\SustainableChemistry.sqlite3" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force
-
     public class Program
     {
         public static void Main(string[] args)

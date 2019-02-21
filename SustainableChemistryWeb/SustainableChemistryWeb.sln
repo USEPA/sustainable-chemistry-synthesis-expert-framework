@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SustainableChemistryWeb", "SustainableChemistryWeb\SustainableChemistryWeb.csproj", "{DC371823-B875-4588-B70F-50D3E566A5F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SustainableChemistryWeb", "SustainableChemistryWeb\SustainableChemistryWeb.csproj", "{BC1C328F-830A-44CD-9564-8A2175F44B9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC371823-B875-4588-B70F-50D3E566A5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC371823-B875-4588-B70F-50D3E566A5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC371823-B875-4588-B70F-50D3E566A5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC371823-B875-4588-B70F-50D3E566A5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC1C328F-830A-44CD-9564-8A2175F44B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1C328F-830A-44CD-9564-8A2175F44B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1C328F-830A-44CD-9564-8A2175F44B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1C328F-830A-44CD-9564-8A2175F44B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DED36C9F-D64F-45E0-A731-C50F8700F4F6}
+		SolutionGuid = {F85B5951-6C21-4C98-BF43-020912D8F659}
 	EndGlobalSection
 EndGlobal
