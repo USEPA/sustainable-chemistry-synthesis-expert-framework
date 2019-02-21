@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using SustainableChemistryWeb.Models;
 
 namespace SustainableChemistryWeb
 {
     public class Startup
     {
+        // Scaffolding the database:
+        // Open Nuget Package Manager Console
+        // run: Scaffold-DbContext "DataSource= SustainableChemistry.sqlite3" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,9 +38,8 @@ namespace SustainableChemistryWeb
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            string dir = AppDomain.CurrentDomain.BaseDirectory;
-            var connection = Configuration["Production:SqliteConnectionString"];
 
+            var connection = Configuration["Production:SqliteConnectionString"];
             services.AddDbContext<SustainableChemistryContext>(opt =>
                    opt.UseSqlite(connection)
                    );
