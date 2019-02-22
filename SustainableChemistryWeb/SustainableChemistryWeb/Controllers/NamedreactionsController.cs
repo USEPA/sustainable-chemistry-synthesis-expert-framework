@@ -72,6 +72,20 @@ namespace SustainableChemistryWeb.Controllers
         // GET: Namedreactions/Create
         public IActionResult Create()
         {
+            List<SelectListItem> acidBaseList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "AC", Text = "Acid" },
+                new SelectListItem { Value = "BA", Text = "Base" },
+                new SelectListItem { Value = "AB", Text = "Acid Or Base" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text");
+            List<SelectListItem> heatList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "HE", Text = "Heat" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text");
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name");
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name");
@@ -108,6 +122,21 @@ namespace SustainableChemistryWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            List<SelectListItem> acidBaseList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "AC", Text = "Acid" },
+                new SelectListItem { Value = "BA", Text = "Base" },
+                new SelectListItem { Value = "AB", Text = "Acid Or Base" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text", appNamedreaction.AcidBase);
+            List<SelectListItem> heatList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "HE", Text = "Heat" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", appNamedreaction.Heat);
+            ViewData["Reactants"] = new MultiSelectList(_context.AppReactant, "Id", "Name", appNamedreaction.AppNamedreactionReactants);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
@@ -122,11 +151,30 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            var appNamedreaction = await _context.AppNamedreaction.FindAsync(id);
+            var appNamedreaction = await _context.AppNamedreaction
+                .Include(i => i.AppNamedreactionReactants)
+                .ThenInclude(i => i.Reactant)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
             if (appNamedreaction == null)
             {
                 return NotFound();
             }
+            PopulateReactantList(appNamedreaction);
+            List<SelectListItem> acidBaseList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "AC", Text = "Acid" },
+                new SelectListItem { Value = "BA", Text = "Base" },
+                new SelectListItem { Value = "AB", Text = "Acid Or Base" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text", appNamedreaction.AcidBase);
+            List<SelectListItem> heatList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "HE", Text = "Heat" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", appNamedreaction.Heat);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
@@ -182,10 +230,48 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateReactantList(appNamedreaction);
+            List<SelectListItem> acidBaseList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "AC", Text = "Acid" },
+                new SelectListItem { Value = "BA", Text = "Base" },
+                new SelectListItem { Value = "AB", Text = "Acid Or Base" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text", appNamedreaction.AcidBase);
+            List<SelectListItem> heatList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "HE", Text = "Heat" },
+                new SelectListItem { Value = "NA", Text = "Not Applicable" }
+            };
+            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", appNamedreaction.Heat);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
             return View(appNamedreaction);
+        }
+
+        private void PopulateReactantList(AppNamedreaction reaction)
+        {
+            var allReactants = _context.AppReactant;
+            var reactionReactants = new HashSet<long>(reaction.AppNamedreactionReactants.Select(c => c.ReactantId));
+            var optionGroup = new SelectListGroup() { Name = "Reactant" };
+            List<SelectListItem> items = new List<SelectListItem>();
+            List<bool> selected = new List<bool>();
+            foreach (var r in allReactants)
+            {
+                bool s = reactionReactants.Contains(r.Id);
+                selected.Add(s);
+                items.Add(new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = r.Name,
+                    Selected = s,
+                    Group = optionGroup
+                });
+            }
+            var retVal = new MultiSelectList(items, "Value", "Text", selected);
+            ViewData["Reactants"] = retVal;
         }
 
         // GET: Namedreactions/Delete/5
