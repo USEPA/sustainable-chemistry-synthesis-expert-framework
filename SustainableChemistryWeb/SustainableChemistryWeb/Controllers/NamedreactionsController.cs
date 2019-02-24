@@ -122,11 +122,17 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            var appNamedreaction = await _context.AppNamedreaction.FindAsync(id);
+            var appNamedreaction = await _context.AppNamedreaction
+                .Include(i => i.AppNamedreactionReactants).ThenInclude(i => i.Reactant)
+                .Include(i => i.AppNamedreactionByProducts).ThenInclude(i => i.Reactant)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+
             if (appNamedreaction == null)
             {
                 return NotFound();
             }
+            PopulateAssignedCourseData(appNamedreaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
@@ -182,10 +188,43 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateAssignedCourseData(appNamedreaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
             return View(appNamedreaction);
+        }
+
+        private void PopulateAssignedCourseData(AppNamedreaction reaction)
+        {
+            var allReactants = _context.AppReactant;
+            var reactionReactants = new HashSet<long>(reaction.AppNamedreactionReactants.Select(c => c.ReactantId));
+            var reactantList = new List<SelectListItem>();
+            List<string> selectedReactants = new List<string>();
+            var reactionByProducts = new HashSet<long>(reaction.AppNamedreactionByProducts.Select(c => c.ReactantId));
+            var byProductList = new List<SelectListItem>();
+            List<string> selectedByProducts = new List<string>();
+            foreach (var reactant in allReactants)
+            {
+                bool isReactant = reactionReactants.Contains(reactant.Id);
+                if (isReactant) selectedReactants.Add(reactant.Id.ToString());
+                reactantList.Add(new SelectListItem
+                {
+                    Value = reactant.Id.ToString(),
+                    Text = reactant.Name,
+                    Selected = isReactant
+                });
+                bool isByProduct = reactionByProducts.Contains(reactant.Id);
+                if (isByProduct) selectedByProducts.Add(reactant.Id.ToString());
+                byProductList.Add(new SelectListItem
+                {
+                    Value = reactant.Id.ToString(),
+                    Text = reactant.Name,
+                    Selected = isByProduct
+                });
+            }
+            ViewData["Reactants"] = new MultiSelectList(reactantList, "Value","Text", selectedReactants);
+            ViewData["ByProducts"] = new MultiSelectList(byProductList, "Value", "Text", selectedByProducts);
         }
 
         // GET: Namedreactions/Delete/5
