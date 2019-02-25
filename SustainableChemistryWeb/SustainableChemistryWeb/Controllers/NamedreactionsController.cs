@@ -72,6 +72,12 @@ namespace SustainableChemistryWeb.Controllers
         // GET: Namedreactions/Create
         public IActionResult Create()
         {
+            var reaction = new AppNamedreaction
+            {
+                AppNamedreactionReactants = new List<AppNamedreactionReactants>(),
+                AppNamedreactionByProducts = new List<AppNamedreactionByProducts>()
+            };
+            PopulateReactantData(reaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name");
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name");
@@ -83,7 +89,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction)
+        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction, string[] reactants, string[] byProducts)
         {
             if (appNamedreaction.Image != null && appNamedreaction.Image.Length > 0)
             {
@@ -108,6 +114,7 @@ namespace SustainableChemistryWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateReactantData(appNamedreaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
@@ -132,7 +139,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 return NotFound();
             }
-            PopulateAssignedCourseData(appNamedreaction);
+            PopulateReactantData(appNamedreaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
@@ -144,7 +151,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction, string[] reactants, string[] byProducts)
         {
             if (id != appNamedreaction.Id)
             {
@@ -167,35 +174,41 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 file.Close();
             }
+            var instructorToUpdate = await _context.AppNamedreaction
+                    .Include(i => i.AppNamedreactionReactants)
+                        .ThenInclude(i => i.Reactant)
+                    .Include(i => i.AppNamedreactionByProducts)
+                        .ThenInclude(i => i.Reactant)
+                    .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (ModelState.IsValid)
+            if (await TryUpdateModelAsync<AppNamedreaction>(
+                instructorToUpdate,
+                "", 
+                r => r.Name, r => r.ReactantA, r => r.ReactantB, r => r.ReactantC, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
             {
+                UpdateNamedReactionReactants(reactants, instructorToUpdate);
+                UpdateNamedReactionByProducts(byProducts, instructorToUpdate);
                 try
                 {
-                    _context.Update(appNamedreaction);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException /* ex */)
                 {
-                    if (!AppNamedreactionExists(appNamedreaction.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
                 }
                 return RedirectToAction(nameof(Index));
             }
-            PopulateAssignedCourseData(appNamedreaction);
+            PopulateReactantData(appNamedreaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
             return View(appNamedreaction);
         }
 
-        private void PopulateAssignedCourseData(AppNamedreaction reaction)
+        private void PopulateReactantData(AppNamedreaction reaction)
         {
             var allReactants = _context.AppReactant;
             var reactionReactants = new HashSet<long>(reaction.AppNamedreactionReactants.Select(c => c.ReactantId));
@@ -227,6 +240,70 @@ namespace SustainableChemistryWeb.Controllers
             ViewData["ByProducts"] = new MultiSelectList(byProductList, "Value", "Text", selectedByProducts);
         }
 
+        private void UpdateNamedReactionReactants(string[] selectedReactants, AppNamedreaction reactionToUpdate)
+        {
+            if (selectedReactants == null)
+            {
+                reactionToUpdate.AppNamedreactionReactants = new List<AppNamedreactionReactants>();
+                return;
+            }
+
+            var selectedCoursesHS = new HashSet<string>(selectedReactants);
+            var instructorCourses = new HashSet<long>
+                (reactionToUpdate.AppNamedreactionReactants.Select(c => c.Reactant.Id));
+            foreach (var reaction in _context.AppReactant)
+            {
+                if (selectedCoursesHS.Contains(reaction.Id.ToString()))
+                {
+                    if (!instructorCourses.Contains(reaction.Id))
+                    {
+                        reactionToUpdate.AppNamedreactionReactants.Add(new AppNamedreactionReactants { NamedreactionId = reactionToUpdate.Id, ReactantId = reaction.Id });
+                    }
+                }
+                else
+                {
+
+                    if (instructorCourses.Contains(reaction.Id))
+                    {
+                        AppNamedreactionReactants courseToRemove = reactionToUpdate.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reaction.Id);
+                        _context.Remove(courseToRemove);
+                    }
+                }
+            }
+        }
+
+        private void UpdateNamedReactionByProducts(string[] selectedByProducts, AppNamedreaction reactionToUpdate)
+        {
+            if (selectedByProducts == null)
+            {
+                reactionToUpdate.AppNamedreactionByProducts = new List<AppNamedreactionByProducts>();
+                return;
+            }
+
+            var selectedCoursesHS = new HashSet<string>(selectedByProducts);
+            var instructorCourses = new HashSet<long>
+                (reactionToUpdate.AppNamedreactionByProducts.Select(c => c.Reactant.Id));
+            foreach (var reaction in _context.AppReactant)
+            {
+                if (selectedCoursesHS.Contains(reaction.Id.ToString()))
+                {
+                    if (!instructorCourses.Contains(reaction.Id))
+                    {
+                        reactionToUpdate.AppNamedreactionByProducts.Add(new AppNamedreactionByProducts { NamedreactionId = reactionToUpdate.Id, ReactantId = reaction.Id });
+                    }
+                }
+                else
+                {
+
+                    if (instructorCourses.Contains(reaction.Id))
+                    {
+                        AppNamedreactionByProducts courseToRemove = reactionToUpdate.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reaction.Id);
+                        _context.Remove(courseToRemove);
+                    }
+                }
+            }
+        }
+
         // GET: Namedreactions/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
@@ -239,6 +316,8 @@ namespace SustainableChemistryWeb.Controllers
                 .Include(a => a.Catalyst)
                 .Include(a => a.FunctionalGroup)
                 .Include(a => a.Solvent)
+                .Include(a => a.AppNamedreactionReactants)
+                .Include(a => a.AppNamedreactionByProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (appNamedreaction == null)
             {
@@ -253,7 +332,17 @@ namespace SustainableChemistryWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var appNamedreaction = await _context.AppNamedreaction.FindAsync(id);
+            var appNamedreaction = await _context.AppNamedreaction
+                .Include(a => a.Catalyst)
+                .Include(a => a.FunctionalGroup)
+                .Include(a => a.Solvent)
+                .Include(a => a.AppNamedreactionReactants)
+                .Include(a => a.AppNamedreactionByProducts)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            var fileName = _hostingEnvironment.WebRootPath + appNamedreaction.Image;
+            if (System.IO.File.Exists(fileName)) System.IO.File.Exists(fileName);
+
             _context.AppNamedreaction.Remove(appNamedreaction);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
