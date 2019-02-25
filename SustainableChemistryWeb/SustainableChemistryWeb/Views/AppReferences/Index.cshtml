@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SustainableChemistryWeb.Models.AppReference>
+﻿@model IEnumerable<SustainableChemistryWeb.ViewModels.ReferenceViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Risdata)
+                @Html.DisplayNameFor(model => model.Text)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FunctionalGroup)
@@ -28,13 +28,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Risdata)
+                @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FunctionalGroup.Image)
+                @Html.DisplayFor(modelItem => item.FunctionalGroup.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Reaction.AcidBase)
+                @Html.DisplayFor(modelItem => item.Reaction.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

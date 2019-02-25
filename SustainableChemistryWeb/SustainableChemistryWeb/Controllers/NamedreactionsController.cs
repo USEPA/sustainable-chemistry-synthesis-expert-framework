@@ -60,18 +60,49 @@ namespace SustainableChemistryWeb.Controllers
                     .ThenInclude(a => a.Reactant)
                 .Include(a => a.AppNamedreactionByProducts)
                     .ThenInclude(a => a.Reactant)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (appNamedreaction == null)
             {
                 return NotFound();
             }
 
-            return View(appNamedreaction);
+            var reactionViewModel = new SustainableChemistryWeb.ViewModels.NamedReactionViewModel
+            {
+                Name = appNamedreaction.Name,
+                FunctionalGroup = appNamedreaction.FunctionalGroup,
+                Catalyst = appNamedreaction.Catalyst,
+                Solvent = appNamedreaction.Solvent,
+                Product = appNamedreaction.Product,
+                Image = appNamedreaction.Image,
+                AppNamedreactionByProducts = appNamedreaction.AppNamedreactionByProducts,
+                AppNamedreactionReactants = appNamedreaction.AppNamedreactionReactants,
+                AppReference = appNamedreaction.AppReference,
+            };
+
+            if (appNamedreaction.Heat == "HE") reactionViewModel.Heat = "Heat";
+            else reactionViewModel.Heat = "Not Applicable";
+
+            if (appNamedreaction.AcidBase == "AC") reactionViewModel.AcidBase = "Acid";
+            else if (appNamedreaction.AcidBase == "BA") reactionViewModel.AcidBase = "Base";
+            else if (appNamedreaction.AcidBase == "AB") reactionViewModel.AcidBase = "Acid Or Base";
+            else reactionViewModel.AcidBase = "Not Applicable";
+
+            return View(reactionViewModel);
         }
 
         // GET: Namedreactions/Create
         public IActionResult Create()
         {
+            var reaction = new AppNamedreaction
+            {
+                AppNamedreactionReactants = new List<AppNamedreactionReactants>(),
+                AppNamedreactionByProducts = new List<AppNamedreactionByProducts>()
+            };
+            PopulateReactantData(reaction);
+            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name");
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
+            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name");
             List<SelectListItem> acidBaseList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "AC", Text = "Acid" },
@@ -95,25 +126,41 @@ namespace SustainableChemistryWeb.Controllers
         // POST: Namedreactions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Needs fixed!
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction, string[] reactants, string[] byProducts)
         {
-            if (appNamedreaction.Image != null && appNamedreaction.Image.Length > 0)
+            appNamedreaction.ReactantA = string.Empty;
+            appNamedreaction.ReactantB = string.Empty;
+            appNamedreaction.ReactantC = string.Empty;
+            if (System.IO.File.Exists(appNamedreaction.Image))
             {
-                var file = System.IO.File.Open(appNamedreaction.Image, System.IO.FileMode.Open);
-                appNamedreaction.Image = "Images/Reactions/" + System.IO.Path.GetFileName(file.Name);
-                //There is an error here
-                //var uploads = System.IO.Path.Combine(_appEnvironment.WebRootPath, "uploads\\img");
-                if (file.Length > 0)
+                using (var stream = new System.IO.FileStream(appNamedreaction.Image, System.IO.FileMode.Open))
                 {
-                    var fileName = _hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(file.Name);
-                    using (var stream = new System.IO.FileStream(fileName, System.IO.FileMode.Create))
+                    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(appNamedreaction.Image), System.IO.FileMode.Create))
                     {
-                        await file.CopyToAsync(stream);
+                        await stream.CopyToAsync(file);
                     }
+                    appNamedreaction.Image = "Images/Reactions/" + System.IO.Path.GetFileName(appNamedreaction.Image);
                 }
-                file.Close();
+            }
+            if (reactants != null)
+            {
+                foreach (var reactant in reactants)
+                {
+                    var reactantToAdd = new AppNamedreactionReactants { NamedreactionId = appNamedreaction.Id, ReactantId = long.Parse(reactant) };
+                    appNamedreaction.AppNamedreactionReactants.Add(reactantToAdd);
+                }
+            }
+
+            if (byProducts != null)
+            {
+                foreach (var reactant in byProducts)
+                {
+                    var byProductToAdd = new AppNamedreactionByProducts { NamedreactionId = appNamedreaction.Id, ReactantId = long.Parse(reactant) };
+                    appNamedreaction.AppNamedreactionByProducts.Add(byProductToAdd);
+                }
             }
 
             if (ModelState.IsValid)
@@ -122,24 +169,7 @@ namespace SustainableChemistryWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            List<SelectListItem> acidBaseList = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "AC", Text = "Acid" },
-                new SelectListItem { Value = "BA", Text = "Base" },
-                new SelectListItem { Value = "AB", Text = "Acid Or Base" },
-                new SelectListItem { Value = "NA", Text = "Not Applicable" }
-            };
-            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text", appNamedreaction.AcidBase);
-            List<SelectListItem> heatList = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "HE", Text = "Heat" },
-                new SelectListItem { Value = "NA", Text = "Not Applicable" }
-            };
-            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", appNamedreaction.Heat);
-            ViewData["Reactants"] = new MultiSelectList(_context.AppReactant, "Id", "Name", appNamedreaction.AppNamedreactionReactants);
-            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
-            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
+            PopulateReactantData(appNamedreaction);
             return View(appNamedreaction);
         }
 
@@ -161,7 +191,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 return NotFound();
             }
-            PopulateReactantList(appNamedreaction);
+            PopulateReactantData(appNamedreaction);
             List<SelectListItem> acidBaseList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "AC", Text = "Acid" },
@@ -194,23 +224,7 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            if (appNamedreaction.Image != null && appNamedreaction.Image.Length > 0)
-            {
-                var file = System.IO.File.Open(appNamedreaction.Image, System.IO.FileMode.Open);
-                appNamedreaction.Image = "Images/Reactions/" + System.IO.Path.GetFileName(file.Name);
-                //There is an error here
-                //var uploads = System.IO.Path.Combine(_appEnvironment.WebRootPath, "uploads\\img");
-                if (file.Length > 0)
-                {
-                    var fileName = _hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(file.Name);
-                    using (var stream = new System.IO.FileStream(fileName, System.IO.FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-                }
-                file.Close();
-            }
-            var instructorToUpdate = await _context.AppNamedreaction
+            var reactionToUpdate = await _context.AppNamedreaction
                     .Include(i => i.AppNamedreactionReactants)
                         .ThenInclude(i => i.Reactant)
                     .Include(i => i.AppNamedreactionByProducts)
@@ -218,12 +232,25 @@ namespace SustainableChemistryWeb.Controllers
                     .SingleOrDefaultAsync(m => m.Id == id);
 
             if (await TryUpdateModelAsync<AppNamedreaction>(
-                instructorToUpdate,
+                reactionToUpdate,
                 "", 
-                r => r.Name, r => r.ReactantA, r => r.ReactantB, r => r.ReactantC, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
+                r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
             {
-                UpdateNamedReactionReactants(reactants, instructorToUpdate);
-                UpdateNamedReactionByProducts(byProducts, instructorToUpdate);
+                var fileName = _hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + reactionToUpdate.Image.Replace("Images/Reactions/", "");
+                if (System.IO.File.Exists(fileName))
+                {
+                    System.IO.File.Delete(fileName);
+                }
+                using (var stream = new System.IO.FileStream(appNamedreaction.Image, System.IO.FileMode.Open))
+                {
+                    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(appNamedreaction.Image), System.IO.FileMode.OpenOrCreate))
+                    {
+                        await stream.CopyToAsync(file);
+                    }
+                    reactionToUpdate.Image = "Images/Reactions/" + System.IO.Path.GetFileName(appNamedreaction.Image);
+                }
+                UpdateNamedReactionReactants(reactants, reactionToUpdate);
+                UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -284,14 +311,14 @@ namespace SustainableChemistryWeb.Controllers
                 return;
             }
 
-            var selectedCoursesHS = new HashSet<string>(selectedReactants);
-            var instructorCourses = new HashSet<long>
+            var selectedReactantsHS = new HashSet<string>(selectedReactants);
+            var reactionReactants = new HashSet<long>
                 (reactionToUpdate.AppNamedreactionReactants.Select(c => c.Reactant.Id));
             foreach (var reaction in _context.AppReactant)
             {
-                if (selectedCoursesHS.Contains(reaction.Id.ToString()))
+                if (selectedReactantsHS.Contains(reaction.Id.ToString()))
                 {
-                    if (!instructorCourses.Contains(reaction.Id))
+                    if (!reactionReactants.Contains(reaction.Id))
                     {
                         reactionToUpdate.AppNamedreactionReactants.Add(new AppNamedreactionReactants { NamedreactionId = reactionToUpdate.Id, ReactantId = reaction.Id });
                     }
@@ -299,10 +326,10 @@ namespace SustainableChemistryWeb.Controllers
                 else
                 {
 
-                    if (instructorCourses.Contains(reaction.Id))
+                    if (reactionReactants.Contains(reaction.Id))
                     {
-                        AppNamedreactionReactants courseToRemove = reactionToUpdate.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reaction.Id);
-                        _context.Remove(courseToRemove);
+                        AppNamedreactionReactants reactionToRemove = reactionToUpdate.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reaction.Id);
+                        _context.Remove(reactionToRemove);
                     }
                 }
             }
@@ -316,70 +343,28 @@ namespace SustainableChemistryWeb.Controllers
                 return;
             }
 
-            var selectedCoursesHS = new HashSet<string>(selectedByProducts);
-            var instructorCourses = new HashSet<long>
+            var selectedReactantsHS = new HashSet<string>(selectedByProducts);
+            var reactionByProducts = new HashSet<long>
                 (reactionToUpdate.AppNamedreactionByProducts.Select(c => c.Reactant.Id));
-            foreach (var reaction in _context.AppReactant)
+            foreach (var reactant in _context.AppReactant)
             {
-                if (selectedCoursesHS.Contains(reaction.Id.ToString()))
+                if (selectedReactantsHS.Contains(reactant.Id.ToString()))
                 {
-                    if (!instructorCourses.Contains(reaction.Id))
+                    if (!reactionByProducts.Contains(reactant.Id))
                     {
-                        reactionToUpdate.AppNamedreactionByProducts.Add(new AppNamedreactionByProducts { NamedreactionId = reactionToUpdate.Id, ReactantId = reaction.Id });
+                        reactionToUpdate.AppNamedreactionByProducts.Add(new AppNamedreactionByProducts { NamedreactionId = reactionToUpdate.Id, ReactantId = reactant.Id });
                     }
                 }
                 else
                 {
 
-                    if (instructorCourses.Contains(reaction.Id))
+                    if (reactionByProducts.Contains(reactant.Id))
                     {
-                        AppNamedreactionByProducts courseToRemove = reactionToUpdate.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reaction.Id);
+                        AppNamedreactionByProducts courseToRemove = reactionToUpdate.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
                         _context.Remove(courseToRemove);
                     }
                 }
             }
-            PopulateReactantList(appNamedreaction);
-            List<SelectListItem> acidBaseList = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "AC", Text = "Acid" },
-                new SelectListItem { Value = "BA", Text = "Base" },
-                new SelectListItem { Value = "AB", Text = "Acid Or Base" },
-                new SelectListItem { Value = "NA", Text = "Not Applicable" }
-            };
-            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text", appNamedreaction.AcidBase);
-            List<SelectListItem> heatList = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "HE", Text = "Heat" },
-                new SelectListItem { Value = "NA", Text = "Not Applicable" }
-            };
-            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", appNamedreaction.Heat);
-            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
-            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
-            return View(appNamedreaction);
-        }
-
-        private void PopulateReactantList(AppNamedreaction reaction)
-        {
-            var allReactants = _context.AppReactant;
-            var reactionReactants = new HashSet<long>(reaction.AppNamedreactionReactants.Select(c => c.ReactantId));
-            var optionGroup = new SelectListGroup() { Name = "Reactant" };
-            List<SelectListItem> items = new List<SelectListItem>();
-            List<bool> selected = new List<bool>();
-            foreach (var r in allReactants)
-            {
-                bool s = reactionReactants.Contains(r.Id);
-                selected.Add(s);
-                items.Add(new SelectListItem
-                {
-                    Value = r.Id.ToString(),
-                    Text = r.Name,
-                    Selected = s,
-                    Group = optionGroup
-                });
-            }
-            var retVal = new MultiSelectList(items, "Value", "Text", selected);
-            ViewData["Reactants"] = retVal;
         }
 
         // GET: Namedreactions/Delete/5
@@ -396,6 +381,7 @@ namespace SustainableChemistryWeb.Controllers
                 .Include(a => a.Solvent)
                 .Include(a => a.AppNamedreactionReactants)
                 .Include(a => a.AppNamedreactionByProducts)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (appNamedreaction == null)
             {
@@ -414,12 +400,40 @@ namespace SustainableChemistryWeb.Controllers
                 .Include(a => a.Catalyst)
                 .Include(a => a.FunctionalGroup)
                 .Include(a => a.Solvent)
-                .Include(a => a.AppNamedreactionReactants)
+                    .Include(i => i.AppNamedreactionReactants)
+                        .ThenInclude(i => i.Reactant)
+                    .Include(i => i.AppNamedreactionByProducts)
+                        .ThenInclude(i => i.Reactant)
                 .Include(a => a.AppNamedreactionByProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            var fileName = _hostingEnvironment.WebRootPath + appNamedreaction.Image;
-            if (System.IO.File.Exists(fileName)) System.IO.File.Exists(fileName);
+            var fileName = _hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + appNamedreaction.Image.Replace("Images/Reactions/", "");
+            if (System.IO.File.Exists(fileName))
+            {
+                System.IO.File.Delete(fileName);
+            }
+            var reactionByProducts = new HashSet<long>
+                (appNamedreaction.AppNamedreactionByProducts.Select(c => c.Reactant.Id));
+            foreach (var reactant in _context.AppReactant)
+            {
+                if (reactionByProducts.Contains(reactant.Id))
+                {
+                    AppNamedreactionByProducts courseToRemove = appNamedreaction.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                    _context.Remove(courseToRemove);
+                }
+            }
+
+            var reactionReactants = new HashSet<long>
+                (appNamedreaction.AppNamedreactionReactants.Select(c => c.Reactant.Id));
+            foreach (var reactant in _context.AppReactant)
+            {
+                if (reactionReactants.Contains(reactant.Id))
+                {
+                    AppNamedreactionReactants courseToRemove = appNamedreaction.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                    _context.Remove(courseToRemove);
+                }
+            }
+
 
             _context.AppNamedreaction.Remove(appNamedreaction);
             await _context.SaveChangesAsync();

@@ -19,7 +19,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="FunctionalGroupId" class="control-label"></label>
-                <select asp-for="FunctionalGroupId" class="form-control" asp-items="ViewBag.FunctionalGroupId"></select>
+                <select asp-for="FunctionalGroupId" class="form-control chosen-select" asp-items="ViewBag.FunctionalGroupId"></select>
+                <span asp-validation-for="FunctionalGroupId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppNamedreactionReactants" class="control-label">Reactants</label>
+                <select name="reactants" data-placeholder="Choose the Reactants..." class="form-control chosen-select" multiple asp-items="ViewBag.Reactants"></select>
+                <span asp-validation-for="AppNamedreactionReactants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppNamedreactionByProducts" class="control-label">ByProducts</label>
+                <select name="byProducts" data-placeholder="Choose the ByProducts..." class="form-control chosen-select" multiple asp-items="ViewBag.ByProducts"></select>
+                <span asp-validation-for="AppNamedreactionByProducts" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Product" class="control-label"></label>
@@ -27,22 +38,24 @@
                 <span asp-validation-for="Product" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Heat" class="control-label"></label>
-                <input asp-for="Heat" class="form-control" />
+                <label asp-for="Heat" class="control-label">Heat</label>
+                <select asp-for="Heat" class="form-control chosen-select" asp-items="ViewBag.HeatList"></select>
                 <span asp-validation-for="Heat" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AcidBase" class="control-label"></label>
-                <input asp-for="AcidBase" class="form-control" />
+                <label asp-for="AcidBase" class="control-label">Acid/Base Conditions</label>
+                <select asp-for="AcidBase" class="form-control chosen-select" asp-items="ViewBag.AcidBaseList"></select>
                 <span asp-validation-for="AcidBase" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CatalystId" class="control-label"></label>
-                <select asp-for="CatalystId" class="form-control" asp-items="ViewBag.CatalystId"></select>
+                <label asp-for="CatalystId" class="control-label">Catalyst</label>
+                <select asp-for="CatalystId" class="form-control chosen-select" asp-items="ViewBag.CatalystID"></select>
+                <span asp-validation-for="CatalystId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SolventId" class="control-label"></label>
-                <select asp-for="SolventId" class="form-control" asp-items="ViewBag.SolventId"></select>
+                <label asp-for="SolventId" class="control-label">Solvent</label>
+                <select asp-for="SolventId" class="form-control chosen-select" asp-items="ViewBag.SolventId"></select>
+                <span asp-validation-for="SolventId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Url" class="control-label"></label>

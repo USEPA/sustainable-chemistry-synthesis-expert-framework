@@ -85,21 +85,16 @@ namespace SustainableChemistryWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image")] AppFunctionalgroup appFunctionalgroup)
         {
-            if (appFunctionalgroup.Image != null && appFunctionalgroup.Image.Length > 0)
+            if (System.IO.File.Exists(appFunctionalgroup.Image))
             {
-                var file = System.IO.File.Open(appFunctionalgroup.Image, System.IO.FileMode.Open);
-                appFunctionalgroup.Image = "Images/FunctionalGroups/" + System.IO.Path.GetFileName(file.Name);
-                //There is an error here
-                //var uploads = System.IO.Path.Combine(_appEnvironment.WebRootPath, "uploads\\img");
-                if (file.Length > 0)
+                using (var stream = new System.IO.FileStream(appFunctionalgroup.Image, System.IO.FileMode.Open))
                 {
-                    var fileName = _hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + System.IO.Path.GetFileName(file.Name);
-                    using (var stream = new System.IO.FileStream(fileName, System.IO.FileMode.Create))
+                    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + System.IO.Path.GetFileName(appFunctionalgroup.Image), System.IO.FileMode.Create))
                     {
-                        await file.CopyToAsync(stream);
+                        await stream.CopyToAsync(file);
                     }
-                }
-                file.Close();
+                    appFunctionalgroup.Image = "Images/FunctionalGroups/" + System.IO.Path.GetFileName(appFunctionalgroup.Image);
+               }
             }
 
             if (ModelState.IsValid)
@@ -139,33 +134,34 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            if (appFunctionalgroup.Image != null && appFunctionalgroup.Image.Length > 0)
-            {
-                var file = System.IO.File.Open(appFunctionalgroup.Image, System.IO.FileMode.Open);
-                appFunctionalgroup.Image = "Images/FunctionalGroups/" + System.IO.Path.GetFileName(file.Name); 
-                //There is an error here
-                //var uploads = System.IO.Path.Combine(_appEnvironment.WebRootPath, "uploads\\img");
-                if (file.Length > 0)
-                {
-                    var fileName = _hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + System.IO.Path.GetFileName(file.Name);
-                    using (var stream = new System.IO.FileStream(fileName, System.IO.FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    } 
-                }
-                file.Close();
-            }
+            var functionalGroupToUpdate = await _context.AppFunctionalgroup
+                .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (ModelState.IsValid)
-            {
+            if (await TryUpdateModelAsync<AppFunctionalgroup>(
+                functionalGroupToUpdate,
+                "",
+                r => r.Name, r => r.Smarts, r => r.Smarts))
+            { 
                 try
                 {
-                    _context.Update(appFunctionalgroup);
+                    var fileName = _hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + functionalGroupToUpdate.Image.Replace("Images/FunctionalGroups/", "");
+                    if (System.IO.File.Exists(fileName))
+                    {
+                        System.IO.File.Delete(fileName);
+                    }
+                    using (var stream = new System.IO.FileStream(appFunctionalgroup.Image, System.IO.FileMode.Open))
+                    {
+                        using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + System.IO.Path.GetFileName(appFunctionalgroup.Image), System.IO.FileMode.OpenOrCreate))
+                        {
+                            await stream.CopyToAsync(file);
+                        }
+                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + System.IO.Path.GetFileName(appFunctionalgroup.Image);
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AppFunctionalgroupExists(appFunctionalgroup.Id))
+                    if (!AppFunctionalgroupExists(functionalGroupToUpdate.Id))
                     {
                         return NotFound();
                     }
@@ -176,7 +172,7 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(appFunctionalgroup);
+            return View(functionalGroupToUpdate);
         }
 
         // GET: FunctionalGroups/Delete/5
@@ -203,7 +199,13 @@ namespace SustainableChemistryWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var appFunctionalgroup = await _context.AppFunctionalgroup.FindAsync(id);
-            _context.AppFunctionalgroup.Remove(appFunctionalgroup);
+            var fileName = _hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + appFunctionalgroup.Image.Replace("Images/FunctionalGroups/", "");
+            if (System.IO.File.Exists(fileName))
+            {
+                System.IO.File.Delete(fileName);
+            }
+
+                _context.AppFunctionalgroup.Remove(appFunctionalgroup);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
