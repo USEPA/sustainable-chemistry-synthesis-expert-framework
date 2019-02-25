@@ -18,6 +18,16 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div>
+                <label asp-for="AppNamedreactionReactants" class="control-label">Reactants</label>
+                <select name = "reactants" data-placeholder="Choose the Reactants..." class="chosen-select" multiple asp-items="ViewBag.Reactants"></select>
+                <span asp-validation-for="AppNamedreactionReactants" class="text-danger"></span>
+            </div>
+            <div>
+                <label asp-for="AppNamedreactionByProducts" class="control-label">ByProducts</label>
+                <select name = "byProducts" data-placeholder="Choose the ByProducts..." class="chosen-select" multiple asp-items="ViewBag.ByProducts"></select>
+                <span asp-validation-for="AppNamedreactionByProducts" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="FunctionalGroupId" class="control-label">FunctionalGroup</label>
                 <select asp-for="FunctionalGroupId" class="form-control" asp-items="ViewBag.FunctionalGroupId"></select>
