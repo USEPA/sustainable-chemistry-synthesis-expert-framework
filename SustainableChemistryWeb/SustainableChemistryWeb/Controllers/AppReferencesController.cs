@@ -22,7 +22,21 @@ namespace SustainableChemistryWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var sustainableChemistryContext = _context.AppReference.Include(a => a.FunctionalGroup).Include(a => a.Reaction);
-            return View(await sustainableChemistryContext.ToListAsync());
+            var list = await sustainableChemistryContext.ToListAsync();
+            var referenceViewModels = new List<SustainableChemistryWeb.ViewModels.ReferenceViewModel>();
+            foreach(var referecnce in list)
+            {
+                referenceViewModels.Add(new SustainableChemistryWeb.ViewModels.ReferenceViewModel
+                {
+                    Id = referecnce.Id,
+                    FunctionalGroupId = referecnce.FunctionalGroupId,
+                    FunctionalGroup = referecnce.FunctionalGroup,
+                    ReactionId = referecnce.ReactionId,
+                    Reaction = referecnce.Reaction,
+                    Risdata = referecnce.Risdata
+                });
+            }
+            return View(referenceViewModels);
         }
 
         // GET: AppReferences/Details/5
@@ -42,14 +56,24 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            return View(appReference);
+            var referenceViewModel = new SustainableChemistryWeb.ViewModels.ReferenceViewModel
+            {
+                Id = appReference.Id,
+                FunctionalGroupId = appReference.FunctionalGroupId,
+                FunctionalGroup = appReference.FunctionalGroup,
+                ReactionId = appReference.ReactionId,
+                Reaction = appReference.Reaction,
+                Risdata = appReference.Risdata
+            };
+
+            return View(referenceViewModel);
         }
 
         // GET: AppReferences/Create
         public IActionResult Create()
         {
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Image");
-            ViewData["ReactionId"] = new SelectList(_context.AppNamedreaction, "Id", "AcidBase");
+            PopulateReferenceData();
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
             return View();
         }
 
@@ -60,14 +84,18 @@ namespace SustainableChemistryWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Risdata,FunctionalGroupId,ReactionId")] AppReference appReference)
         {
+            if (System.IO.File.Exists(appReference.Risdata))
+            {
+                    appReference.Risdata = System.IO.File.ReadAllText(appReference.Risdata);
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(appReference);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Image", appReference.FunctionalGroupId);
-            ViewData["ReactionId"] = new SelectList(_context.AppNamedreaction, "Id", "AcidBase", appReference.ReactionId);
+            PopulateReferenceData();
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
             return View(appReference);
         }
 
@@ -84,8 +112,18 @@ namespace SustainableChemistryWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Image", appReference.FunctionalGroupId);
-            ViewData["ReactionId"] = new SelectList(_context.AppNamedreaction, "Id", "AcidBase", appReference.ReactionId);
+            var referenceViewModel = new SustainableChemistryWeb.ViewModels.ReferenceViewModel
+            {
+                Id = appReference.Id,
+                FunctionalGroupId = appReference.FunctionalGroupId,
+                FunctionalGroup = appReference.FunctionalGroup,
+                ReactionId = appReference.ReactionId,
+                Reaction = appReference.Reaction,
+                Risdata = appReference.Risdata
+            };
+            PopulateReferenceData();
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
+            ViewData["ReferenceText"] = referenceViewModel.Text;
             return View(appReference);
         }
 
@@ -100,6 +138,23 @@ namespace SustainableChemistryWeb.Controllers
             {
                 return NotFound();
             }
+
+            if (!System.IO.File.Exists(appReference.Risdata))
+            {
+                return NotFound("RIS Data file does not exist");
+            }
+
+            appReference.Risdata = System.IO.File.ReadAllText(appReference.Risdata);
+
+            var referenceViewModel = new SustainableChemistryWeb.ViewModels.ReferenceViewModel
+            {
+                Id = appReference.Id,
+                FunctionalGroupId = appReference.FunctionalGroupId,
+                FunctionalGroup = appReference.FunctionalGroup,
+                ReactionId = appReference.ReactionId,
+                Reaction = appReference.Reaction,
+                Risdata = appReference.Risdata
+            };
 
             if (ModelState.IsValid)
             {
@@ -121,10 +176,44 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Image", appReference.FunctionalGroupId);
-            ViewData["ReactionId"] = new SelectList(_context.AppNamedreaction, "Id", "AcidBase", appReference.ReactionId);
+            PopulateReferenceData();
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
+            ViewData["ReferenceText"] = referenceViewModel.Text;
             return View(appReference);
         }
+
+        private void PopulateReferenceData()
+        {
+            var allFunctionalGroups = _context.AppFunctionalgroup;
+            List<SelectListGroup> fgGroups = new List<SelectListGroup>();
+            foreach (var fg in allFunctionalGroups)
+            {
+                fgGroups.Add(new SelectListGroup { Name = fg.Name, Disabled = false });
+            }
+            var allReactions = _context.AppNamedreaction.Include(a => a.FunctionalGroup);
+            var reactionList = new List<SelectListItem>();
+            foreach (var r in allReactions)
+            {
+                SelectListGroup group = null;
+                foreach (var g in fgGroups)
+                {
+                    if (g.Name == r.FunctionalGroup.Name)
+                    {
+                        group = g;
+                        break;
+                    }
+                }
+                reactionList.Add(new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = r.Name,
+                    Group = group,
+                    Selected = false
+                });
+            }
+            ViewData["ReactionId"] = new MultiSelectList(reactionList, "Value", "Text");
+        }
+
 
         // GET: AppReferences/Delete/5
         public async Task<IActionResult> Delete(long? id)
@@ -143,6 +232,16 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
+            var referenceViewModel = new SustainableChemistryWeb.ViewModels.ReferenceViewModel
+            {
+                Id = appReference.Id,
+                FunctionalGroupId = appReference.FunctionalGroupId,
+                FunctionalGroup = appReference.FunctionalGroup,
+                ReactionId = appReference.ReactionId,
+                Reaction = appReference.Reaction,
+                Risdata = appReference.Risdata
+            };
+            ViewData["ReferenceText"] = referenceViewModel.Text;
             return View(appReference);
         }
 

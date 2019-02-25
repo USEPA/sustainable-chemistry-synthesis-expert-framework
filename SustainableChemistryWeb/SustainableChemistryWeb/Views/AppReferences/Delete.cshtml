@@ -11,24 +11,24 @@
     <h4>AppReference</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Risdata)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Risdata)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FunctionalGroup)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FunctionalGroup.Image)
-        </dd class>
-        <dt class = "col-sm-2">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FunctionalGroup.Name)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Reaction)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Reaction.AcidBase)
-        </dd class>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reaction.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayName("Reference Text")
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.ReferenceText
+        </dd>
     </dl>
     
     <form asp-action="Delete">

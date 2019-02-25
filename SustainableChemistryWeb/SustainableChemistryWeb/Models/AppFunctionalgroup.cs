@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SustainableChemistryWeb.Models
 {
@@ -11,6 +12,7 @@ namespace SustainableChemistryWeb.Models
             AppReference = new HashSet<AppReference>();
         }
 
+        [Key]
         public long Id { get; set; }
         public string Name { get; set; }
         public string Smarts { get; set; }

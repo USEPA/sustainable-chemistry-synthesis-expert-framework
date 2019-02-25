@@ -59,7 +59,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Description).IsRequired();
 
@@ -77,7 +77,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CasNumber)
                     .IsRequired()
@@ -102,7 +102,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Image)
                     .IsRequired()
@@ -136,7 +136,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.AcidBase)
                     .IsRequired()
@@ -213,7 +213,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.NamedreactionId).HasColumnName("namedreaction_id");
 
@@ -246,7 +246,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.NamedreactionId).HasColumnName("namedreaction_id");
 
@@ -321,7 +321,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Description).IsRequired();
 
@@ -346,7 +346,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.FunctionalGroupId).HasColumnName("Functional_Group_id");
 
@@ -374,7 +374,7 @@ namespace SustainableChemistryWeb.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Description).IsRequired();
 
