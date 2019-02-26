@@ -41,6 +41,17 @@ namespace SustainableChemistryWeb.ViewModels
                     if (line.StartsWith("DO")) doi = line.Substring(6);
                     if (line.StartsWith("PY")) PY = line.Substring(6);
                 }
+                if (string.IsNullOrEmpty(URL))
+                {
+                    if (!string.IsNullOrEmpty(doi))
+                    {
+                        URL = "https://doi.org/" + doi;
+                        if (doi.StartsWith("http"))
+                        {
+                            URL = doi;
+                        }
+                    }
+                }
             }
         }
 
