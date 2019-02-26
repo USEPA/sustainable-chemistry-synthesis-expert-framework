@@ -184,34 +184,7 @@ namespace SustainableChemistryWeb.Controllers
 
         private void PopulateReferenceData()
         {
-            var allFunctionalGroups = _context.AppFunctionalgroup;
-            List<SelectListGroup> fgGroups = new List<SelectListGroup>();
-            foreach (var fg in allFunctionalGroups)
-            {
-                fgGroups.Add(new SelectListGroup { Name = fg.Name, Disabled = false });
-            }
-            var allReactions = _context.AppNamedreaction.Include(a => a.FunctionalGroup);
-            var reactionList = new List<SelectListItem>();
-            foreach (var r in allReactions)
-            {
-                SelectListGroup group = null;
-                foreach (var g in fgGroups)
-                {
-                    if (g.Name == r.FunctionalGroup.Name)
-                    {
-                        group = g;
-                        break;
-                    }
-                }
-                reactionList.Add(new SelectListItem
-                {
-                    Value = r.Id.ToString(),
-                    Text = r.Name,
-                    Group = group,
-                    Selected = false
-                });
-            }
-            ViewData["ReactionId"] = new MultiSelectList(reactionList, "Value", "Text");
+            ViewData["ReactionId"] = new SelectList(_context.AppNamedreaction.Include(a => a.FunctionalGroup), "Id", "Name", "1", "FunctionalGroup.Name");
         }
 
 

@@ -28,13 +28,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FunctionalGroup.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Reaction.Name)
+            </td>
+            <td>
+                <a href="@item.URL"  target="_newtab">@Html.DisplayFor(modelItem => item.Text)</a>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
