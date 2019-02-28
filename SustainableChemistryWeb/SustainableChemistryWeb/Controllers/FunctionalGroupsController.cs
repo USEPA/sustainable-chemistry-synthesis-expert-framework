@@ -27,7 +27,7 @@ namespace SustainableChemistryWeb.Controllers
         // GET: FunctionalGroups
         public async Task<IActionResult> Index(string nameSearchString, string smilesSearchString)
         {
-            var retVal = new List<AppFunctionalgroup>();
+            var retVal = new List<FunctionalGroup>();
             var groups = from s in _context.AppFunctionalgroup
                             select s;
 
@@ -83,7 +83,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image")] AppFunctionalgroup appFunctionalgroup)
+        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image")] FunctionalGroup appFunctionalgroup)
         {
             if (System.IO.File.Exists(appFunctionalgroup.Image))
             {
@@ -127,7 +127,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image")] AppFunctionalgroup appFunctionalgroup)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image")] FunctionalGroup appFunctionalgroup)
         {
             if (id != appFunctionalgroup.Id)
             {
@@ -137,7 +137,7 @@ namespace SustainableChemistryWeb.Controllers
             var functionalGroupToUpdate = await _context.AppFunctionalgroup
                 .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (await TryUpdateModelAsync<AppFunctionalgroup>(
+            if (await TryUpdateModelAsync<FunctionalGroup>(
                 functionalGroupToUpdate,
                 "",
                 r => r.Name, r => r.Smarts, r => r.Smarts))

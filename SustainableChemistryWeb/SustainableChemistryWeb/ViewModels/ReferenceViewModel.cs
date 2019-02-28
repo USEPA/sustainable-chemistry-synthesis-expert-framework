@@ -58,8 +58,8 @@ namespace SustainableChemistryWeb.ViewModels
         public long? FunctionalGroupId { get; set; }
         public long? ReactionId { get; set; }
 
-        public virtual SustainableChemistryWeb.Models.AppFunctionalgroup FunctionalGroup { get; set; }
-        public virtual SustainableChemistryWeb.Models.AppNamedreaction Reaction { get; set; }
+        public virtual SustainableChemistryWeb.Models.FunctionalGroup FunctionalGroup { get; set; }
+        public virtual SustainableChemistryWeb.Models.NamedReaction Reaction { get; set; }
         public string Type { get; private set; }
         public string Title { get; private set; }
         public string[] Authors

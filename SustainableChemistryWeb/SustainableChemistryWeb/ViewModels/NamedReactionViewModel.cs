@@ -18,11 +18,11 @@ namespace SustainableChemistryWeb.ViewModels
         public long SolventId { get; set; }
         public string Url { get; set; }
 
-        public virtual SustainableChemistryWeb.Models.AppCatalyst Catalyst { get; set; }
-        public virtual SustainableChemistryWeb.Models.AppFunctionalgroup FunctionalGroup { get; set; }
-        public virtual SustainableChemistryWeb.Models.AppSolvent Solvent { get; set; }
-        public virtual ICollection<SustainableChemistryWeb.Models.AppNamedreactionByProducts> AppNamedreactionByProducts { get; set; }
-        public virtual ICollection<SustainableChemistryWeb.Models.AppNamedreactionReactants> AppNamedreactionReactants { get; set; }
-        public virtual ICollection<SustainableChemistryWeb.Models.AppReference> AppReference { get; set; }
+        public virtual SustainableChemistryWeb.Models.Catalyst Catalyst { get; set; }
+        public virtual SustainableChemistryWeb.Models.FunctionalGroup FunctionalGroup { get; set; }
+        public virtual SustainableChemistryWeb.Models.Solvent Solvent { get; set; }
+        public virtual ICollection<SustainableChemistryWeb.Models.NamedReactionByProducts> AppNamedreactionByProducts { get; set; }
+        public virtual ICollection<SustainableChemistryWeb.Models.NamedReactionReactants> AppNamedreactionReactants { get; set; }
+        public virtual ICollection<SustainableChemistryWeb.Models.Reference> AppReference { get; set; }
     }
 }

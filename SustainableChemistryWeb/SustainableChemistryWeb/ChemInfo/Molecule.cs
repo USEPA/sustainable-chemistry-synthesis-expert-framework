@@ -523,7 +523,7 @@ namespace SustainableChemistryWeb.ChemInfo
             return this.Match(ref pn, ref matches, ref atoms, new FunctionalGroupState(m, this, false));
         }
 
-        public bool FindFunctionalGroup(SustainableChemistryWeb.Models.AppFunctionalgroup group)
+        public bool FindFunctionalGroup(SustainableChemistryWeb.Models.FunctionalGroup group)
         {
             Molecule m = new Molecule(group.Smarts);
             bool retVal = false;
