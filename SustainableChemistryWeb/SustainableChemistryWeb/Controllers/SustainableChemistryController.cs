@@ -33,7 +33,7 @@ namespace SustainableChemistryWeb.Controllers
         /// <returns></returns>
         // GET: api/SustainableChemistry
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppFunctionalgroup>>> GetFunctionalGroupList()
+        public async Task<ActionResult<IEnumerable<FunctionalGroup>>> GetFunctionalGroupList()
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
             var retVal = new List<AppFunctionalgroupDTO>();
@@ -52,7 +52,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: api/SustainableChemistry/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppFunctionalgroup>> GetFunctionalGroup(long id)
+        public async Task<ActionResult<FunctionalGroup>> GetFunctionalGroup(long id)
         {
             var group = await _context.AppFunctionalgroup.FindAsync(id);
 
@@ -71,7 +71,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: api/SustainableChemistry/bySmiles?smiles=O=P(OC)(OC)C
         [HttpGet("bySmiles")]
-        public async Task<ActionResult<AppFunctionalgroup>> GetFunctionalGroups(string smiles)
+        public async Task<ActionResult<FunctionalGroup>> GetFunctionalGroups(string smiles)
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
             ChemInfo.Molecule molecule = new ChemInfo.Molecule(smiles);
@@ -96,7 +96,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: api/SustainableChemistry/byMolecule?smiles=O=P(OC)(OC)C
         [HttpGet("byMolecule")]
-        public async Task<ActionResult<AppFunctionalgroup>> GetMolecule(string smiles)
+        public async Task<ActionResult<FunctionalGroup>> GetMolecule(string smiles)
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
             ChemInfo.Molecule molecule = new ChemInfo.Molecule(smiles);

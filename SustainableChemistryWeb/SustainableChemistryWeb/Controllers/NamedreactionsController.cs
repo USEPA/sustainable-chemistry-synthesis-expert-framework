@@ -69,6 +69,7 @@ namespace SustainableChemistryWeb.Controllers
 
             var reactionViewModel = new SustainableChemistryWeb.ViewModels.NamedReactionViewModel
             {
+                Id = appNamedreaction.Id,
                 Name = appNamedreaction.Name,
                 FunctionalGroup = appNamedreaction.FunctionalGroup,
                 Catalyst = appNamedreaction.Catalyst,
@@ -94,10 +95,10 @@ namespace SustainableChemistryWeb.Controllers
         // GET: Namedreactions/Create
         public IActionResult Create()
         {
-            var reaction = new AppNamedreaction
+            var reaction = new NamedReaction
             {
-                AppNamedreactionReactants = new List<AppNamedreactionReactants>(),
-                AppNamedreactionByProducts = new List<AppNamedreactionByProducts>()
+                AppNamedreactionReactants = new List<NamedReactionReactants>(),
+                AppNamedreactionByProducts = new List<NamedReactionByProducts>()
             };
             PopulateReactantData(reaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name");
@@ -129,7 +130,7 @@ namespace SustainableChemistryWeb.Controllers
         // Needs fixed!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] NamedReaction appNamedreaction, string[] reactants, string[] byProducts)
         {
             appNamedreaction.ReactantA = string.Empty;
             appNamedreaction.ReactantB = string.Empty;
@@ -149,7 +150,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 foreach (var reactant in reactants)
                 {
-                    var reactantToAdd = new AppNamedreactionReactants { NamedreactionId = appNamedreaction.Id, ReactantId = long.Parse(reactant) };
+                    var reactantToAdd = new NamedReactionReactants { NamedreactionId = appNamedreaction.Id, ReactantId = long.Parse(reactant) };
                     appNamedreaction.AppNamedreactionReactants.Add(reactantToAdd);
                 }
             }
@@ -158,7 +159,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 foreach (var reactant in byProducts)
                 {
-                    var byProductToAdd = new AppNamedreactionByProducts { NamedreactionId = appNamedreaction.Id, ReactantId = long.Parse(reactant) };
+                    var byProductToAdd = new NamedReactionByProducts { NamedreactionId = appNamedreaction.Id, ReactantId = long.Parse(reactant) };
                     appNamedreaction.AppNamedreactionByProducts.Add(byProductToAdd);
                 }
             }
@@ -217,7 +218,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] AppNamedreaction appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] NamedReaction appNamedreaction, string[] reactants, string[] byProducts)
         {
             if (id != appNamedreaction.Id)
             {
@@ -231,7 +232,7 @@ namespace SustainableChemistryWeb.Controllers
                         .ThenInclude(i => i.Reactant)
                     .SingleOrDefaultAsync(m => m.Id == id);
 
-            if (await TryUpdateModelAsync<AppNamedreaction>(
+            if (await TryUpdateModelAsync<NamedReaction>(
                 reactionToUpdate,
                 "", 
                 r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
@@ -271,7 +272,7 @@ namespace SustainableChemistryWeb.Controllers
             return View(appNamedreaction);
         }
 
-        private void PopulateReactantData(AppNamedreaction reaction)
+        private void PopulateReactantData(NamedReaction reaction)
         {
             var allReactants = _context.AppReactant;
             var reactionReactants = new HashSet<long>(reaction.AppNamedreactionReactants.Select(c => c.ReactantId));
@@ -303,11 +304,11 @@ namespace SustainableChemistryWeb.Controllers
             ViewData["ByProducts"] = new MultiSelectList(byProductList, "Value", "Text", selectedByProducts);
         }
 
-        private void UpdateNamedReactionReactants(string[] selectedReactants, AppNamedreaction reactionToUpdate)
+        private void UpdateNamedReactionReactants(string[] selectedReactants, NamedReaction reactionToUpdate)
         {
             if (selectedReactants == null)
             {
-                reactionToUpdate.AppNamedreactionReactants = new List<AppNamedreactionReactants>();
+                reactionToUpdate.AppNamedreactionReactants = new List<NamedReactionReactants>();
                 return;
             }
 
@@ -320,7 +321,7 @@ namespace SustainableChemistryWeb.Controllers
                 {
                     if (!reactionReactants.Contains(reaction.Id))
                     {
-                        reactionToUpdate.AppNamedreactionReactants.Add(new AppNamedreactionReactants { NamedreactionId = reactionToUpdate.Id, ReactantId = reaction.Id });
+                        reactionToUpdate.AppNamedreactionReactants.Add(new NamedReactionReactants { NamedreactionId = reactionToUpdate.Id, ReactantId = reaction.Id });
                     }
                 }
                 else
@@ -328,18 +329,18 @@ namespace SustainableChemistryWeb.Controllers
 
                     if (reactionReactants.Contains(reaction.Id))
                     {
-                        AppNamedreactionReactants reactionToRemove = reactionToUpdate.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reaction.Id);
+                        NamedReactionReactants reactionToRemove = reactionToUpdate.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reaction.Id);
                         _context.Remove(reactionToRemove);
                     }
                 }
             }
         }
 
-        private void UpdateNamedReactionByProducts(string[] selectedByProducts, AppNamedreaction reactionToUpdate)
+        private void UpdateNamedReactionByProducts(string[] selectedByProducts, NamedReaction reactionToUpdate)
         {
             if (selectedByProducts == null)
             {
-                reactionToUpdate.AppNamedreactionByProducts = new List<AppNamedreactionByProducts>();
+                reactionToUpdate.AppNamedreactionByProducts = new List<NamedReactionByProducts>();
                 return;
             }
 
@@ -352,7 +353,7 @@ namespace SustainableChemistryWeb.Controllers
                 {
                     if (!reactionByProducts.Contains(reactant.Id))
                     {
-                        reactionToUpdate.AppNamedreactionByProducts.Add(new AppNamedreactionByProducts { NamedreactionId = reactionToUpdate.Id, ReactantId = reactant.Id });
+                        reactionToUpdate.AppNamedreactionByProducts.Add(new NamedReactionByProducts { NamedreactionId = reactionToUpdate.Id, ReactantId = reactant.Id });
                     }
                 }
                 else
@@ -360,7 +361,7 @@ namespace SustainableChemistryWeb.Controllers
 
                     if (reactionByProducts.Contains(reactant.Id))
                     {
-                        AppNamedreactionByProducts courseToRemove = reactionToUpdate.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                        NamedReactionByProducts courseToRemove = reactionToUpdate.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
                         _context.Remove(courseToRemove);
                     }
                 }
@@ -418,7 +419,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 if (reactionByProducts.Contains(reactant.Id))
                 {
-                    AppNamedreactionByProducts courseToRemove = appNamedreaction.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                    NamedReactionByProducts courseToRemove = appNamedreaction.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
                     _context.Remove(courseToRemove);
                 }
             }
@@ -429,7 +430,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 if (reactionReactants.Contains(reactant.Id))
                 {
-                    AppNamedreactionReactants courseToRemove = appNamedreaction.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                    NamedReactionReactants courseToRemove = appNamedreaction.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reactant.Id);
                     _context.Remove(courseToRemove);
                 }
             }
