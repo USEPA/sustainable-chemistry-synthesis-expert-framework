@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SustainableChemistryWeb.Models
 {
-    public partial class Solvent
+    public partial class Solvent : UserIdStatus
     {
         public Solvent()
         {
