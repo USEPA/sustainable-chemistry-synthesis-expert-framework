@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SustainableChemistryWeb.Models
 {
-    public partial class Reference
+    public partial class Reference : UserIdStatus
     {
         public long Id { get; set; }
         public string Risdata { get; set; }

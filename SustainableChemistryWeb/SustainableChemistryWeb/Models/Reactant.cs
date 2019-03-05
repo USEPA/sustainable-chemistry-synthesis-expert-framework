@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SustainableChemistryWeb.Models
 {
-    public partial class Reactant
+    public partial class Reactant : UserIdStatus
     {
         public Reactant()
         {

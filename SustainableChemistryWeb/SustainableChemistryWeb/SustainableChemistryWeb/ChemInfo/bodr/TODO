@@ -1,0 +1,19 @@
+BODR 9
+-----------------------------------------------------------------------
+- create test-sheet to check our bo:mass values (including the error-values)
+  against the one in http://www.chem.qmul.ac.uk/iupac/AtWt/
+- implement spell check of our database (aspell, ispell? - aspell can
+  handle XML)
+
+  http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&all=all&ascii=html&isotype=some
+  http://www.nndc.bnl.gov/masses/
+  http://nucleardata.nuclear.lu.se/nucleardata/toi/listnuc.asp?sql=&HlifeMin=1e30&tMinStr=1e30+s&HlifeMax=1e40&tMaxStr=1e+40+s
+
+BODR 8
+-----------------------------------------------------------------------
+- integrate typing, residues, etc
+- add a XSLT to create HTML for the element and isotope lists
+- add help on how XSLT can be used to create TXT
+- have the Schematron check for undefined dictionary references
+  (Schematron/xmllint does not seem to like the document() function :( )
+- check bug reports on SF

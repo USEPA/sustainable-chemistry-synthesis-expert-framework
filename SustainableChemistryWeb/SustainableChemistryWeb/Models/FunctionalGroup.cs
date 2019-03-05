@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SustainableChemistryWeb.Models
 {
-    public partial class FunctionalGroup
+    public partial class FunctionalGroup: UserIdStatus
     {
         public FunctionalGroup()
         {

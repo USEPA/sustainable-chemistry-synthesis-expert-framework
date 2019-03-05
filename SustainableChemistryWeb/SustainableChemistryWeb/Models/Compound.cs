@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SustainableChemistryWeb.Models
 {
-    public partial class Compound
+    public partial class Compound : UserIdStatus
     {
         public long Id { get; set; }
         public string Description { get; set; }
