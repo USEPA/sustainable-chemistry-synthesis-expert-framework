@@ -9,8 +9,8 @@ using SustainableChemistryWeb.Models;
 namespace SustainableChemistryWeb.Migrations.SustainableChemistry
 {
     [DbContext(typeof(SustainableChemistryContext))]
-    [Migration("20190305153321_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20190305174312_userStatus")]
+    partial class userStatus
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,10 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
+
+                    b.Property<string>("OwnerID");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -56,6 +60,10 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
+                    b.Property<string>("OwnerID");
+
+                    b.Property<int>("Status");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
@@ -78,9 +86,13 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
+                    b.Property<string>("OwnerID");
+
                     b.Property<string>("Smarts")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -121,6 +133,8 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
+                    b.Property<string>("OwnerID");
+
                     b.Property<string>("Product")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
@@ -139,6 +153,8 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
 
                     b.Property<long>("SolventId")
                         .HasColumnName("Solvent_id");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -230,6 +246,10 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 
+                    b.Property<string>("OwnerID");
+
+                    b.Property<int>("Status");
+
                     b.Property<string>("Temp2")
                         .IsRequired()
                         .HasColumnType("varchar(2)");
@@ -251,12 +271,16 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                     b.Property<long?>("FunctionalGroupId")
                         .HasColumnName("Functional_Group_id");
 
+                    b.Property<string>("OwnerID");
+
                     b.Property<long?>("ReactionId")
                         .HasColumnName("Reaction_id");
 
                     b.Property<string>("Risdata")
                         .IsRequired()
                         .HasColumnName("RISData");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
@@ -281,6 +305,10 @@ namespace SustainableChemistryWeb.Migrations.SustainableChemistry
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
+
+                    b.Property<string>("OwnerID");
+
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
