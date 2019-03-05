@@ -119,6 +119,8 @@ namespace SustainableChemistryWeb.Areas.Identity.Pages.Account.Manage
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            ViewData["Countries"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Locations.Countries);
+            ViewData["States"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Locations.States);
 
             return Page();
         }
@@ -212,6 +214,8 @@ namespace SustainableChemistryWeb.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+            ViewData["Countries"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Locations.Countries);
+            ViewData["States"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(Locations.States);
 
             await _userManager.UpdateAsync(user);
 
