@@ -130,20 +130,29 @@ namespace SustainableChemistryWeb.Controllers
         // Needs fixed!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] NamedReaction appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] SustainableChemistryWeb.ViewModels.NamedReactionViewModel namedReactionView, string[] reactants, string[] byProducts)
         {
-            appNamedreaction.ReactantA = string.Empty;
-            appNamedreaction.ReactantB = string.Empty;
-            appNamedreaction.ReactantC = string.Empty;
-            if (System.IO.File.Exists(appNamedreaction.Image))
+            string name = System.IO.Path.GetFileName(namedReactionView.Image.FileName);
+            NamedReaction appNamedreaction = new NamedReaction()
             {
-                using (var stream = new System.IO.FileStream(appNamedreaction.Image, System.IO.FileMode.Open))
+                Name = namedReactionView.Name,
+                ReactantA = string.Empty,
+                ReactantB = string.Empty,
+                ReactantC = string.Empty,
+                Product = namedReactionView.Product,
+                Heat = namedReactionView.Heat,
+                AcidBase = namedReactionView.AcidBase,
+                Image = "Images/Reactions/" + name,
+                CatalystId = namedReactionView.CatalystId,
+                FunctionalGroupId = namedReactionView.FunctionalGroupId,
+                SolventId = namedReactionView.SolventId,
+                Url = namedReactionView.Url
+            };
+            if (namedReactionView.Image.Length > 0)
+            {
+                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + name, System.IO.FileMode.Create))
                 {
-                    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(appNamedreaction.Image), System.IO.FileMode.Create))
-                    {
-                        await stream.CopyToAsync(file);
-                    }
-                    appNamedreaction.Image = "Images/Reactions/" + System.IO.Path.GetFileName(appNamedreaction.Image);
+                    await namedReactionView.Image.CopyToAsync(stream);
                 }
             }
             if (reactants != null)
@@ -163,7 +172,6 @@ namespace SustainableChemistryWeb.Controllers
                     appNamedreaction.AppNamedreactionByProducts.Add(byProductToAdd);
                 }
             }
-
             if (ModelState.IsValid)
             {
                 _context.Add(appNamedreaction);
@@ -265,14 +273,6 @@ namespace SustainableChemistryWeb.Controllers
                     }
                     reactionToUpdate.Image = "Images/Reactions/" + name;
                 }
-                //    using (var stream = new System.IO.FileStream(appNamedreaction.Image.FileName, System.IO.FileMode.Open))
-                //{
-                //    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(appNamedreaction.Image), System.IO.FileMode.OpenOrCreate))
-                //    {
-                //        await stream.CopyToAsync(file);
-                //    }
-                //    reactionToUpdate.Image = "Images/Reactions/" + System.IO.Path.GetFileName(appNamedreaction.Image);
-                //}
                 UpdateNamedReactionReactants(reactants, reactionToUpdate);
                 UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
                 try
