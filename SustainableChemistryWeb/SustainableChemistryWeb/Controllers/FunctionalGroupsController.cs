@@ -83,27 +83,29 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image")] FunctionalGroup appFunctionalgroup)
+        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
-            if (System.IO.File.Exists(appFunctionalgroup.Image))
+            string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
+            FunctionalGroup appFunctionalGroup = new FunctionalGroup()
             {
-                using (var stream = new System.IO.FileStream(appFunctionalgroup.Image, System.IO.FileMode.Open))
+                Name = functionalGroupView.Name,
+                Smarts = functionalGroupView.Smarts,
+                Image = "Images/FunctionalGroups/" + name,
+            };
+            if (functionalGroupView.Image.Length > 0)
+            {
+                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + name, System.IO.FileMode.Create))
                 {
-                    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + System.IO.Path.GetFileName(appFunctionalgroup.Image), System.IO.FileMode.Create))
-                    {
-                        await stream.CopyToAsync(file);
-                    }
-                    appFunctionalgroup.Image = "Images/FunctionalGroups/" + System.IO.Path.GetFileName(appFunctionalgroup.Image);
-               }
+                    await functionalGroupView.Image.CopyToAsync(stream);
+                }
             }
-
             if (ModelState.IsValid)
             {
-                _context.Add(appFunctionalgroup);
+                _context.Add(appFunctionalGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(appFunctionalgroup);
+            return View(appFunctionalGroup);
         }
 
         // GET: FunctionalGroups/Edit/5
@@ -119,7 +121,14 @@ namespace SustainableChemistryWeb.Controllers
             {
                 return NotFound();
             }
-            return View(appFunctionalgroup);
+            SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView = new SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel()
+            {
+                Name = appFunctionalgroup.Name,
+                Smarts = appFunctionalgroup.Smarts,
+                ImageFileName = appFunctionalgroup.Image,
+            };
+
+            return View(functionalGroupView);
         }
 
         // POST: FunctionalGroups/Edit/5
@@ -127,9 +136,9 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image")] FunctionalGroup appFunctionalgroup)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
-            if (id != appFunctionalgroup.Id)
+            if (id != functionalGroupView.Id)
             {
                 return NotFound();
             }
@@ -149,13 +158,15 @@ namespace SustainableChemistryWeb.Controllers
                     {
                         System.IO.File.Delete(fileName);
                     }
-                    using (var stream = new System.IO.FileStream(appFunctionalgroup.Image, System.IO.FileMode.Open))
+
+                    if (functionalGroupView.Image.Length > 0)
                     {
-                        using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + System.IO.Path.GetFileName(appFunctionalgroup.Image), System.IO.FileMode.OpenOrCreate))
+                        string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
+                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + name, System.IO.FileMode.Create))
                         {
-                            await stream.CopyToAsync(file);
+                            await functionalGroupView.Image.CopyToAsync(stream);
                         }
-                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + System.IO.Path.GetFileName(appFunctionalgroup.Image);
+                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + name;
                     }
                     await _context.SaveChangesAsync();
                 }
