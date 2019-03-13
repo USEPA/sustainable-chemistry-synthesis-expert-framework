@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace SustainableChemistryWeb.ViewModels
 {
@@ -12,7 +12,8 @@ namespace SustainableChemistryWeb.ViewModels
         public string Product { get; set; }
         public string Heat { get; set; }
         public string AcidBase { get; set; }
-        public string Image { get; set; }
+        public Microsoft.AspNetCore.Http.IFormFile Image { get; set; }
+        public string ImageFileName { get; set; }
         public long CatalystId { get; set; }
         public long FunctionalGroupId { get; set; }
         public long SolventId { get; set; }
