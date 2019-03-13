@@ -75,7 +75,7 @@ namespace SustainableChemistryWeb.Controllers
                 Catalyst = appNamedreaction.Catalyst,
                 Solvent = appNamedreaction.Solvent,
                 Product = appNamedreaction.Product,
-                Image = appNamedreaction.Image,
+                ImageFileName = appNamedreaction.Image,
                 AppNamedreactionByProducts = appNamedreaction.AppNamedreactionByProducts,
                 AppNamedreactionReactants = appNamedreaction.AppNamedreactionReactants,
                 AppReference = appNamedreaction.AppReference,
@@ -192,6 +192,19 @@ namespace SustainableChemistryWeb.Controllers
             {
                 return NotFound();
             }
+
+            ViewModels.NamedReactionViewModel viewModel = new ViewModels.NamedReactionViewModel()
+            {
+                Name = appNamedreaction.Name,
+                Product = appNamedreaction.Product,
+                Heat = appNamedreaction.Heat,
+                AcidBase = appNamedreaction.AcidBase,
+                ImageFileName = appNamedreaction.Image,
+                CatalystId = appNamedreaction.CatalystId,
+                FunctionalGroupId = appNamedreaction.FunctionalGroupId,
+                SolventId = appNamedreaction.SolventId,
+                Url = appNamedreaction.Url
+            };
             PopulateReactantData(appNamedreaction);
             List<SelectListItem> acidBaseList = new List<SelectListItem>
             {
@@ -210,7 +223,7 @@ namespace SustainableChemistryWeb.Controllers
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
-            return View(appNamedreaction);
+            return View(viewModel);
         }
 
         // POST: Namedreactions/Edit/5
@@ -218,7 +231,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] NamedReaction appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
         {
             if (id != appNamedreaction.Id)
             {
@@ -242,14 +255,24 @@ namespace SustainableChemistryWeb.Controllers
                 {
                     System.IO.File.Delete(fileName);
                 }
-                using (var stream = new System.IO.FileStream(appNamedreaction.Image, System.IO.FileMode.Open))
+
+                if (appNamedreaction.Image.Length > 0)
                 {
-                    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(appNamedreaction.Image), System.IO.FileMode.OpenOrCreate))
+                    string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
+                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + name, System.IO.FileMode.Create))
                     {
-                        await stream.CopyToAsync(file);
+                        await appNamedreaction.Image.CopyToAsync(stream);
                     }
-                    reactionToUpdate.Image = "Images/Reactions/" + System.IO.Path.GetFileName(appNamedreaction.Image);
+                    reactionToUpdate.Image = "Images/Reactions/" + name;
                 }
+                //    using (var stream = new System.IO.FileStream(appNamedreaction.Image.FileName, System.IO.FileMode.Open))
+                //{
+                //    using (var file = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + System.IO.Path.GetFileName(appNamedreaction.Image), System.IO.FileMode.OpenOrCreate))
+                //    {
+                //        await stream.CopyToAsync(file);
+                //    }
+                //    reactionToUpdate.Image = "Images/Reactions/" + System.IO.Path.GetFileName(appNamedreaction.Image);
+                //}
                 UpdateNamedReactionReactants(reactants, reactionToUpdate);
                 UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
                 try
@@ -265,7 +288,7 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            PopulateReactantData(appNamedreaction);
+           // PopulateReactantData(appNamedreaction);
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
