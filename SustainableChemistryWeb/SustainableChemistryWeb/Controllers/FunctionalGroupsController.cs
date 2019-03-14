@@ -97,6 +97,7 @@ namespace SustainableChemistryWeb.Controllers
                 using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + name, System.IO.FileMode.Create))
                 {
                     await functionalGroupView.Image.CopyToAsync(stream);
+                    stream.Close();
                 }
             }
             if (ModelState.IsValid)
@@ -165,6 +166,7 @@ namespace SustainableChemistryWeb.Controllers
                         using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + name, System.IO.FileMode.Create))
                         {
                             await functionalGroupView.Image.CopyToAsync(stream);
+                            stream.Close();
                         }
                         functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + name;
                     }

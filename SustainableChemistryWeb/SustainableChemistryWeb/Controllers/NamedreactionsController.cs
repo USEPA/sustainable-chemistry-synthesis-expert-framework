@@ -153,6 +153,7 @@ namespace SustainableChemistryWeb.Controllers
                 using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + name, System.IO.FileMode.Create))
                 {
                     await namedReactionView.Image.CopyToAsync(stream);
+                    stream.Close();
                 }
             }
             if (reactants != null)
@@ -270,6 +271,7 @@ namespace SustainableChemistryWeb.Controllers
                     using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + name, System.IO.FileMode.Create))
                     {
                         await appNamedreaction.Image.CopyToAsync(stream);
+                        stream.Close();
                     }
                     reactionToUpdate.Image = "Images/Reactions/" + name;
                 }
