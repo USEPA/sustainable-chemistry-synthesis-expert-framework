@@ -140,7 +140,7 @@ namespace SustainableChemistryWeb.ChemInfo
         static Element()
         {
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(ChemInfo.list));
-            System.Xml.XmlReader reader = System.Xml.XmlReader.Create(new System.IO.StringReader(Properties.Resources.elements));
+            System.Xml.XmlReader reader = System.Xml.XmlReader.Create(new System.IO.StringReader(Properties.Resources.elementString));
             elements = (list)serializer.Deserialize(reader);
         }
 
