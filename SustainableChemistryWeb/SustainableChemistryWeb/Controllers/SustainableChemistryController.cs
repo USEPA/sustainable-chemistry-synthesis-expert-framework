@@ -16,7 +16,7 @@ namespace SustainableChemistryWeb.Controllers
         public string Smarts { get; set; }
     }
 
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SustainableChemistryController : ControllerBase
     {
@@ -31,8 +31,8 @@ namespace SustainableChemistryWeb.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        // GET: api/SustainableChemistry
-        [HttpGet]
+        // GET: /SustainableChemistry/GetFunctionalGroupList
+        [HttpGet("GetFunctionalGroupList")]
         public async Task<ActionResult<IEnumerable<FunctionalGroup>>> GetFunctionalGroupList()
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
@@ -50,8 +50,8 @@ namespace SustainableChemistryWeb.Controllers
             return Ok(retVal);
         }
 
-        // GET: api/SustainableChemistry/5
-        [HttpGet("{id}")]
+        // GET: /SustainableChemistry/GetFunctionalGroup/5
+        [HttpGet("GetFunctionalGroup/{id}")]
         public async Task<ActionResult<FunctionalGroup>> GetFunctionalGroup(long id)
         {
             var group = await _context.AppFunctionalgroup.FindAsync(id);
@@ -69,8 +69,8 @@ namespace SustainableChemistryWeb.Controllers
             });
         }
 
-        // GET: api/SustainableChemistry/bySmiles?smiles=O=P(OC)(OC)C
-        [HttpGet("bySmiles")]
+        // GET: /SustainableChemistry/GetFunctionalGroups?smiles=O=P(OC)(OC)C
+        [HttpGet("GetFunctionalGroups")]
         public async Task<ActionResult<FunctionalGroup>> GetFunctionalGroups(string smiles)
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
@@ -94,8 +94,8 @@ namespace SustainableChemistryWeb.Controllers
             return Ok(retVal);
         }
 
-        // GET: api/SustainableChemistry/byMolecule?smiles=O=P(OC)(OC)C
-        [HttpGet("byMolecule")]
+        // GET: /SustainableChemistry/GetMolecule?smiles=O=P(OC)(OC)C
+        [HttpGet("GetMolecule")]
         public async Task<ActionResult<FunctionalGroup>> GetMolecule(string smiles)
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
