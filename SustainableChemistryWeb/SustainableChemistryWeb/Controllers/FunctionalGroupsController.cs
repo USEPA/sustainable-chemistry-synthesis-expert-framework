@@ -94,7 +94,7 @@ namespace SustainableChemistryWeb.Controllers
             };
             if (functionalGroupView.Image.Length > 0)
             {
-                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + name, System.IO.FileMode.Create))
+                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + name, System.IO.FileMode.Create))
                 {
                     await functionalGroupView.Image.CopyToAsync(stream);
                     stream.Close();
@@ -154,7 +154,7 @@ namespace SustainableChemistryWeb.Controllers
             { 
                 try
                 {
-                    var fileName = _hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + functionalGroupToUpdate.Image.Replace("Images/FunctionalGroups/", "");
+                    var fileName = _hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + functionalGroupToUpdate.Image.Replace("Images/FunctionalGroups/", "");
                     if (System.IO.File.Exists(fileName))
                     {
                         System.IO.File.Delete(fileName);
@@ -163,9 +163,9 @@ namespace SustainableChemistryWeb.Controllers
                     if (functionalGroupView.Image.Length > 0)
                     {
                         string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
-                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + name, System.IO.FileMode.Create))
+                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + name, System.IO.FileMode.Create))
                         {
-                            await functionalGroupView.Image.CopyToAsync(stream);
+                            functionalGroupView.Image.CopyTo(stream);
                             stream.Close();
                         }
                         functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + name;
@@ -212,7 +212,7 @@ namespace SustainableChemistryWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             var appFunctionalgroup = await _context.AppFunctionalgroup.FindAsync(id);
-            var fileName = _hostingEnvironment.WebRootPath + "\\Images\\FunctionalGroups\\" + appFunctionalgroup.Image.Replace("Images/FunctionalGroups/", "");
+            var fileName = _hostingEnvironment.WebRootPath + "/" + appFunctionalgroup.Image;
             if (System.IO.File.Exists(fileName))
             {
                 System.IO.File.Delete(fileName);

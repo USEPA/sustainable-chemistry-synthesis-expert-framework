@@ -150,7 +150,7 @@ namespace SustainableChemistryWeb.Controllers
             };
             if (namedReactionView.Image.Length > 0)
             {
-                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + name, System.IO.FileMode.Create))
+                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
                 {
                     await namedReactionView.Image.CopyToAsync(stream);
                     stream.Close();
@@ -259,7 +259,7 @@ namespace SustainableChemistryWeb.Controllers
                 "", 
                 r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
             {
-                var fileName = _hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + reactionToUpdate.Image.Replace("Images/Reactions/", "");
+                var fileName = _hostingEnvironment.WebRootPath + "/Images/Reactions/" + reactionToUpdate.Image.Replace("Images/Reactions/", "");
                 if (System.IO.File.Exists(fileName))
                 {
                     System.IO.File.Delete(fileName);
@@ -268,7 +268,7 @@ namespace SustainableChemistryWeb.Controllers
                 if (appNamedreaction.Image.Length > 0)
                 {
                     string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
-                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + name, System.IO.FileMode.Create))
+                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
                     {
                         await appNamedreaction.Image.CopyToAsync(stream);
                         stream.Close();
@@ -433,7 +433,7 @@ namespace SustainableChemistryWeb.Controllers
                 .Include(a => a.AppNamedreactionByProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            var fileName = _hostingEnvironment.WebRootPath + "\\Images\\Reactions\\" + appNamedreaction.Image.Replace("Images/Reactions/", "");
+            var fileName = _hostingEnvironment.WebRootPath + "/" + appNamedreaction.Image;
             if (System.IO.File.Exists(fileName))
             {
                 System.IO.File.Delete(fileName);
