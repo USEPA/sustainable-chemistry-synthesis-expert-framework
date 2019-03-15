@@ -28,42 +28,38 @@
         </p>
     </div>
 </form>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Smarts)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Smarts)</a>
-                </td>
-                <td>
-                    <img src="~/@item.Image" />
-                    <!-- @Html.DisplayFor(modelItem => item.Image) -->
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-3">@Html.DisplayNameFor(model => model.Name)</div>
+        <div class="col-3">@Html.DisplayNameFor(model => model.Smarts)</div>
+        <div class="col-3">@Html.DisplayNameFor(model => model.Image)</div>
+        <div class="col-3"></div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-3">
+                <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </div>
+            <div class="col-3">
+                <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Smarts)</a>
+            </div>
+            <div class="col-3">
+                <img src="~/@item.Image" class="img-fluid" />
+            </div>
+            <div class="col-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>
