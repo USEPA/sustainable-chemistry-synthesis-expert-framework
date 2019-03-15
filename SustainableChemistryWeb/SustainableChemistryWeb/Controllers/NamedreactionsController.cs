@@ -259,7 +259,7 @@ namespace SustainableChemistryWeb.Controllers
                 "", 
                 r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
             {
-                var fileName = _hostingEnvironment.WebRootPath + "/Images/Reactions/" + reactionToUpdate.Image.Replace("Images/Reactions/", "");
+                var fileName = _hostingEnvironment.WebRootPath + "/" + reactionToUpdate.Image;
                 if (System.IO.File.Exists(fileName))
                 {
                     System.IO.File.Delete(fileName);
@@ -459,8 +459,6 @@ namespace SustainableChemistryWeb.Controllers
                     _context.Remove(courseToRemove);
                 }
             }
-
-
             _context.AppNamedreaction.Remove(appNamedreaction);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

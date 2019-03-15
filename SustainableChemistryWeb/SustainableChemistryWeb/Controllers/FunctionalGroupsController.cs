@@ -154,7 +154,7 @@ namespace SustainableChemistryWeb.Controllers
             { 
                 try
                 {
-                    var fileName = _hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + functionalGroupToUpdate.Image.Replace("Images/FunctionalGroups/", "");
+                    var fileName = _hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image;
                     if (System.IO.File.Exists(fileName))
                     {
                         System.IO.File.Delete(fileName);
