@@ -1,4 +1,4 @@
-﻿{% extends "app/layout.html" %}
+﻿{% extends "layout.html" %}
 
 {% block content %}
 <form enctype="multipart/form-data" method="post">
@@ -18,7 +18,7 @@
     <div class="form-group row">
         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.Image.label_tag }}</label>
         <div class="col-md-5">
-        <img src="../../{{ object.Image.url }}" class="img-fluid"/>
+        <img src="{{ object.Image.url }}" class="img-fluid"/>
         </div>
     </div>
     <div class="form-group row">

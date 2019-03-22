@@ -14,14 +14,15 @@ import os
 import posixpath
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
+# This should be in local_settings.py
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '730582e9-a785-42ee-91b3-ca414e270615'
+SECRET_KEY = '__SECRET__'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'SustainableChemistryData.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,7 +122,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = [
+    #os.path.join(PROJECT_ROOT, 'static'),
+]
+
 # Setting up serving media as described here:
 # https://timmyomahony.com/blog/static-vs-media-and-root-vs-path-in-django/
 #
@@ -129,10 +136,10 @@ STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 # This will automatically detect the absolute path to the settings.py file and then append media/
 # to it given you a dynamically generated path to your media root.
 ENV_PATH = os.path.abspath(os.path.dirname(__file__))
-MEDIA_ROOT = os.path.join(ENV_PATH, '../static/media/')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'static/media/')
 
 # MEDIA_URL this is the relative browser URL to be used when accessing our media files in the browser.
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 
-# Login URL 
-LOGIN_URL="/login/"
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
