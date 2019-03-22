@@ -1,4 +1,18 @@
-django
-Pillow
-pylint
-sqlparse
+# Check Python versions = "version Python 3.7 (64-bit)."
+# This requirements document was generated in the following way:
+# 1. Create a new python virtual environment.
+# 2. Install packages in this environment from the previous requirements file in Github
+# 3. Delete the existing requirements file.
+# 4. Generate this requirements file.
+# This method ensures that all installed packages are in the requirements file, which
+# includes packages that are sub-requirements of other packages.
+
+#---------------------------------------------------------------------------------------#
+# All of these packages appear to be necessary for both Windows and Linux environments. #
+#---------------------------------------------------------------------------------------#
+
+Django==2.1.6                     # Python Modules.
+Pillow==5.4.1                     # **PIL is the Python Imaging Library.
+pip==19.0.2                       # The PyPA recommended tool for installing Python packages.
+pylint==2.2.2                     # Python code static checker.
+sqlparse==0.2.4                   # Non-validating SQL parser module providing support for parsing, splitting and formatting SQL statements.

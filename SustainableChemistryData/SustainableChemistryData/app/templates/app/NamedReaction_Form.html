@@ -1,4 +1,4 @@
-﻿{% extends "app/layout.html" %}
+﻿{% extends "layout.html" %}
 
 {% block content %}
 <form enctype="multipart/form-data" method="post">
@@ -104,7 +104,7 @@
                 </tr>
                 <tr>
                     <td><strong>Image:</strong></td>
-                    <td><img src="../../{{ object.Image.url }}" class="img-fluid" alt="Responsive image"></td>
+                    <td><img src="{{ object.Image.url }}" class="img-fluid" alt="Responsive image"></td>
                 </tr>
                 <tr>
                     <td></td>

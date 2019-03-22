@@ -29,7 +29,7 @@ USER_CONFIRMATION_EMAILS = [
 ]
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'z&&=(=sm60$x+8asdkcgfehrgc5k^5^_6q@=-uychcf$j1a-&d53u!('
+SECRET_KEY = '730582e9-a785-42ee-91b3-ca414e270615'
 
 # SECURITY WARNING: do not run with debug turned on in production!
 DEBUG = True
@@ -48,4 +48,3 @@ ROOT_URLCONF = 'scsef.urls'
 # From GEMM local_settings, trying to get Admin to work properly.
 STATIC_ROOT = 'scsef/static/'
 STATIC_URL = '/static/'
-

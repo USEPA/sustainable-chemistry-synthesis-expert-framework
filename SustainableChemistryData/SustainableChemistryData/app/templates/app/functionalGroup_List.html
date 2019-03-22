@@ -1,4 +1,4 @@
-﻿{% extends "app/layout1.html" %}
+﻿{% extends "layout.html" %}
 
 {% block content %}
 <div class="table-responsive">
@@ -17,7 +17,7 @@
       <tr>
         <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}" /> {{ group.Name }} </td>
         <td><a href="{% url 'FunctionalGroup_Detail' group.pk %}" /> {{ group.Smarts }}</td>
-        <td><img class="img-fluid" src="../{{ group.Image.url }}" alt="{{ object.Name }}"></td>
+        <td><img class="img-fluid" src="{{ group.Image.url }}" alt="{{ object.Name }}"></td>
         <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Update' group.pk %}">Edit</a></td>
         <!--
             <td><a class="btn btn-primary" href="{% url 'FunctionalGroup_Delete' group.pk %}">Delete</a></td>

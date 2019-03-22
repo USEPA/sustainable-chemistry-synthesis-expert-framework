@@ -2,7 +2,7 @@
 Definition of views.
 """
 
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
@@ -15,30 +15,41 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Class-based Functional Group Views
 
 class FunctionalGroupList(ListView):
+    """Add class docstring"""
+
     model = FunctionalGroup
 
 
 class FunctionalGroupDetail(DetailView):
+    """Add class docstring"""
+
     model = FunctionalGroup
 
     def get_success_url(self):
+        """Add method docstring"""
         return reverse('FunctionalGroup_List')
 
 
 class FunctionalGroupCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
     widgets = {
-            'Image': AdminFileWidget(),
+        'Image': AdminFileWidget(),
     }
 
 
 class FunctionalGroupUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = FunctionalGroup
     fields = ['Name', 'Smarts', 'Image']
 
 
 class FunctionalGroupDelete(LoginRequiredMixin, DeleteView):
+    """Add class docstring"""
+
     model = FunctionalGroup
     success_url = reverse_lazy('FunctionalGroup_List')
 
@@ -46,54 +57,74 @@ class FunctionalGroupDelete(LoginRequiredMixin, DeleteView):
 # Class-based Named Reaction Views
 
 class ReactionList(ListView):
+    """Add class docstring"""
+
     model = NamedReaction
 
 
 class ReactionDetail(DetailView):
+    """Add class docstring"""
+
     model = NamedReaction
 
 
 class ReactionCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
-    
+
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
 
 class ReactionUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
 
 
 class ReactionDelete(LoginRequiredMixin, DeleteView):
+    """Add class docstring"""
+
     model = NamedReaction
     success_url = reverse_lazy('NamedReaction_List')
 
 # Class-based Reference Views
 
 class ReferenceList(ListView):
+    """Add class docstring"""
+
     model = Reference
 
 
 class ReferenceCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = Reference
     fields = ['Reaction', 'Functional_Group', 'RISData']
-    
+
     def get_success_url(self):
         return reverse('Reference_List')
 
 
 class ReferenceDetail(DetailView):
+    """Add class docstring"""
+
     model = Reference
 
 
 class ReferenceUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Reference
     fields = ['Reaction', 'Functional_Group', 'RISData']
 
 
 class ReferenceDelete(LoginRequiredMixin, DeleteView):
+    """Add class docstring"""
+
     model = Reference
     success_url = reverse_lazy('Reference_List')
 
@@ -101,17 +132,23 @@ class ReferenceDelete(LoginRequiredMixin, DeleteView):
 # Class-based Solvent Views
 
 class SolventList(ListView):
+    """Add class docstring"""
+
     model = Solvent
 
 
 class SolventCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
-    
+
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
 class SolventUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Solvent
     fields = ['Name', ]
 
@@ -119,17 +156,23 @@ class SolventUpdate(LoginRequiredMixin, UpdateView):
 # Class-based Catalyst Views
 
 class CatalystList(ListView):
+    """Add class docstring"""
+
     model = Catalyst
 
 
 class CatalystCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = NamedReaction
     form_class = NamedReactionForm
-    
+
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
 class CatalystUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Catalyst
     fields = ['Name', ]
 
@@ -137,10 +180,14 @@ class CatalystUpdate(LoginRequiredMixin, UpdateView):
 # Class-based Reactant Views
 
 class ReactantList(ListView):
+    """Add class docstring"""
+
     model = Reactant
 
 
 class ReactantCreate(LoginRequiredMixin, CreateView):
+    """Add class docstring"""
+
     model = Reactant
     fields = ['Name', 'Description', 'Temp2']
 
@@ -169,6 +216,8 @@ class ReactantCreate(LoginRequiredMixin, CreateView):
 
 
 class ReactantUpdate(LoginRequiredMixin, UpdateView):
+    """Add class docstring"""
+
     model = Reactant
     fields = ['Name', 'Description', 'Temp2']
 
@@ -196,7 +245,7 @@ def home(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/index.html',
+        'index.html',
         {
             'title': 'Home Page',
             'year': datetime.now().year,
@@ -209,7 +258,7 @@ def contact(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/contact.html',
+        'contact.html',
         {
             'title': 'Contact',
             'message': 'Your contact page.',
@@ -223,10 +272,30 @@ def about(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/about.html',
+        'about.html',
         {
             'title': 'About',
             'message': 'Your application description page.',
             'year': datetime.now().year,
         }
     )
+
+
+# New user sign up from https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
+def signup(request):
+    """Add function docstring"""
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})

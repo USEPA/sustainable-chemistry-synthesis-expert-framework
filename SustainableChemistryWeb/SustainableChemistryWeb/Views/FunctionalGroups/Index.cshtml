@@ -1,0 +1,71 @@
+﻿@model IEnumerable<SustainableChemistryWeb.Models.FunctionalGroup>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Functional Groups</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="NameSearchString" value="@ViewData[" currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Molecule SMILES to find Functional Groups: <input type="text" name="SmilesSearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Smarts)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Image)</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Smarts)</a>
+                    </td>
+                    <td>
+                        <img src="~/@item.Image" class="img-fluid" />
+                    </td>
+                    <td>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
