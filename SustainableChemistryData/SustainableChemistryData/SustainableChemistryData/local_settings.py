@@ -1,10 +1,11 @@
 # local_settings.py (scsef)
 # !/usr/bin/env python3
 # coding=utf-8
-# young.daniel@epa.gov
+# barrett.williamm@epa.gov
+
 
 """
-Local Django settings for GEMM project.
+Local Django settings for scsef project.
 
 Available functions:
 NOTE: All development uses 'localhost' not private or EPA servers
