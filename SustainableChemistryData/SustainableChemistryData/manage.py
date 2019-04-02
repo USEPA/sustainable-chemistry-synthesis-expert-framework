@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-"""
-Command-line utility for administrative tasks.
-"""
+# manage.py (scsef)
+# !/usr/bin/env python3
+# coding=utf-8
+
+"""Command-line utility for administrative tasks."""
 
 import os
 import sys

@@ -1,6 +1,10 @@
-"""
-Definition of forms.
-"""
+# forms.py (app)
+# !/usr/bin/env python3
+# coding=utf-8
+# barrett.williamm@epa.gov
+
+
+"""Definition of forms."""
 
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -13,19 +17,24 @@ from django.core.exceptions import NON_FIELD_ERRORS
 # Import the Admin FilteredMultipleSelect input widget
 from django.contrib.admin.widgets import FilteredSelectMultiple, AdminFileWidget
 
-#https://docs.djangoproject.com/en/2.1/ref/forms/api/#customizing-the-error-list-format
+# https://docs.djangoproject.com/en/2.1/ref/forms/api/#customizing-the-error-list-format
+
+
 class DivErrorList(ErrorList):
     """Add class docstring"""
 
     def __str__(self):
         """Add method docstring"""
         return self.as_divs()
+
     def as_divs(self):
         """Add method docstring"""
         if not self: return ''
         return '<div class="errorlist">%s</div>' % ''.join(['<div class="alert alert-danger" role="alert">%s</div>' % e for e in self])
 
 # New user sign up from https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
+
+
 class SignUpForm(UserCreationForm):
     """Add class docstring"""
 
@@ -55,7 +64,7 @@ class NamedReactionForm(forms.ModelForm):
             'Image': AdminFileWidget(),
         }
 
-    #Required for the FiliteredMultipleSelected Widegt
+    # Required for the FiliteredMultipleSelected Widegt
     class Media:
         """Add class docstring"""
 
