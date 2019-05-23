@@ -19,10 +19,16 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: AppReferences
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string functionalGroupSearchString)
         {
             var sustainableChemistryContext = _context.AppReference.Include(a => a.FunctionalGroup).Include(a => a.Reaction);
             var list = await sustainableChemistryContext.ToListAsync();
+            if (!String.IsNullOrEmpty(functionalGroupSearchString))
+            {
+                list = list.Where(s => s.FunctionalGroup.Name.Contains(functionalGroupSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+
             var referenceViewModels = new List<SustainableChemistryWeb.ViewModels.ReferenceViewModel>();
             foreach(var referecnce in list)
             {
