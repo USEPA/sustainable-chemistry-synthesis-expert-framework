@@ -1,7 +1,10 @@
+# models.py (app)
+# !/usr/bin/env python3
+# coding=utf-8
+# barrett.williamm@epa.gov
 
-"""
-Definition of models.
-"""
+
+"""Definition of models."""
 
 from django.db import models
 from django import forms
@@ -13,6 +16,7 @@ from app.fields import CICharField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 class Profile(models.Model):
     """Add class docstring"""
@@ -26,6 +30,7 @@ class Profile(models.Model):
 
     def __str__(self):  # __unicode__ for Python 2
         return self.user.username
+
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -52,6 +57,7 @@ class FunctionalGroup(models.Model):
     def get_absolute_url(self):
         """Add method docstring"""
         return reverse('FunctionalGroup_Detail', kwargs={'pk': self.pk})
+
 
 def user_directory_path(instance, filename):
     """Add function docstring"""
@@ -131,6 +137,7 @@ class NamedReaction(models.Model):
     def get_absolute_url(self):
         """Add method docstring"""
         return reverse('NamedReaction_Detail', kwargs={'pk': self.pk})
+
 
 class Reference(models.Model):
     """Add class docstring"""

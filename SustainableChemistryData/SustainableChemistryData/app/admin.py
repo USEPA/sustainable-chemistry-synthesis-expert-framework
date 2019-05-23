@@ -1,11 +1,12 @@
+# admin.py (app)
 # !/usr/bin/env python3
 # coding=utf-8
 # barrett.williamm@epa.gov
 
 """
-This file defines classes that are used to generate the 'Accounts' Django Admin
-portion of the website. There should be an Admin class for each Model that can
-be modified by an admin user.
+Defines classes used to generate the 'Accounts' Django Admin portion of the website.
+
+There should be an Admin class for each Model that can be modified by an admin user.
 
 Available functions:
 - None for this module -- TBD (would like added to manage in Django Admin)
@@ -18,6 +19,7 @@ from django.contrib.auth.models import User
 from app.models import *
 from .models import Profile
 
+
 class ProfileInline(admin.StackedInline):
     """Add class docstring"""
 
@@ -25,6 +27,7 @@ class ProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
+
 
 class CustomUserAdmin(UserAdmin):
     """Add class docstring"""
@@ -39,6 +42,7 @@ class CustomUserAdmin(UserAdmin):
     get_organization.short_description = 'Organization'
 
     def get_inline_instances(self, request, obj=None):
+        """Add method docstring"""
         if not obj:
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)

@@ -1,6 +1,10 @@
-"""
-Definition of urls for SustainableChemistryData.
-"""
+# urls.py (scsef)
+# !/usr/bin/env python3
+# coding=utf-8
+# barrett.williamm@epa.gov
+
+
+"""Definition of urls for SustainableChemistryData."""
 
 from datetime import datetime
 from django.conf.urls import url
@@ -128,7 +132,7 @@ urlpatterns = [
 
     # Required for FilteredSelectMultiple
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-] 
+]
 
 urlpatterns += staticfiles_urlpatterns()
 
