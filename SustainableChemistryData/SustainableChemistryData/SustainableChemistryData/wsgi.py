@@ -1,3 +1,8 @@
+# wsgi.py (scsef)
+# !/usr/bin/env python3
+# coding=utf-8
+# barrett.williamm@epa.gov
+
 """
 WSGI config for SustainableChemistryData project.
 

@@ -1,6 +1,10 @@
-"""
-Definition of views.
-"""
+# views.py (app)
+# !/usr/bin/env python3
+# coding=utf-8
+# barrett.williamm@epa.gov
+
+
+"""Definition of views."""
 
 from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
@@ -13,6 +17,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Class-based Functional Group Views
+
 
 class FunctionalGroupList(ListView):
     """Add class docstring"""
@@ -93,6 +98,7 @@ class ReactionDelete(LoginRequiredMixin, DeleteView):
 
 # Class-based Reference Views
 
+
 class ReferenceList(ListView):
     """Add class docstring"""
 
@@ -146,6 +152,7 @@ class SolventCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('NamedReaction_List')
 
+
 class SolventUpdate(LoginRequiredMixin, UpdateView):
     """Add class docstring"""
 
@@ -169,6 +176,7 @@ class CatalystCreate(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('NamedReaction_List')
+
 
 class CatalystUpdate(LoginRequiredMixin, UpdateView):
     """Add class docstring"""
@@ -202,7 +210,7 @@ class ReactantCreate(LoginRequiredMixin, CreateView):
         return kwargs
 
     def form_invalid(self, form):
-        import pdb;pdb.set_trace()  # debug example
+        import pdb; pdb.set_trace()  # debug example
         # inspect the errors by typing the variable form.errors
         # in your command line debugger. See the pdb package for
         # more useful keystrokes
@@ -284,6 +292,7 @@ def about(request):
 # New user sign up from https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+
 
 def signup(request):
     """Add function docstring"""
