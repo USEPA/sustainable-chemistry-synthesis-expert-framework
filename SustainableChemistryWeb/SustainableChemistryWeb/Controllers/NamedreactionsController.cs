@@ -27,21 +27,20 @@ namespace SustainableChemistryWeb.Controllers
         // GET: Namedreactions
         public async Task<IActionResult> Index(string nameSearchString, string funcGroupSearchString)
         {
-            var reactions = from s in _context.AppNamedreaction
-                           select s;
+            var sustainableChemistryContext = _context.AppNamedreaction.Include(a => a.FunctionalGroup).Include(a => a.Catalyst).Include(a => a.FunctionalGroup).Include(a => a.Solvent);
+            var reactions = await sustainableChemistryContext.ToListAsync(); 
 
             if (!String.IsNullOrEmpty(nameSearchString))
             {
-                reactions = reactions.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase));
+                reactions = reactions.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             if (!String.IsNullOrEmpty(funcGroupSearchString))
             {
-                reactions = reactions.Where(s => s.Name.Contains(funcGroupSearchString, StringComparison.OrdinalIgnoreCase));
+                reactions = reactions.Where(s => s.FunctionalGroup.Name.Contains(funcGroupSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            var sustainableChemistryContext = reactions.Include(a => a.Catalyst).Include(a => a.FunctionalGroup).Include(a => a.Solvent);
-            return View(await sustainableChemistryContext.AsNoTracking().ToListAsync());
+            return View(reactions);
         }
 
         // GET: Namedreactions/Details/5

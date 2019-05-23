@@ -25,33 +25,55 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: FunctionalGroups
-        public async Task<IActionResult> Index(string nameSearchString, string smilesSearchString)
+
+        public async Task<IActionResult> Index(int? Id, int? namedReactionId, string nameSearchString, string smilesSearchString)
         {
-            var retVal = new List<FunctionalGroup>();
-            var groups = from s in _context.AppFunctionalgroup
-                            select s;
+            var viewModel = new SustainableChemistryWeb.ViewModels.FunctionalGroupIndexData();
+            viewModel.FunctionalGroups = await _context.AppFunctionalgroup
+                  .Include(i => i.AppNamedreaction)
+                  .Include(i => i.AppReference)
+                  .AsNoTracking()
+                  .OrderBy(i => i.Name)
+                  .ToListAsync();
 
             if (!String.IsNullOrEmpty(nameSearchString))
             {
-                groups = groups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase));
+                viewModel.FunctionalGroups = viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase));
             }
 
             if (!String.IsNullOrEmpty(smilesSearchString)) await Task.Run(() =>
             {
-                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString);
-                foreach (var fg in groups)
+                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString.Trim());
+                List<FunctionalGroup> fgName = new List<FunctionalGroup>();
+                foreach (var fg in viewModel.FunctionalGroups)
                 {
                     string smarts = fg.Smarts;
                     if (!string.IsNullOrEmpty(fg.Smarts))
                         if (molecule.FindFunctionalGroup(fg.Smarts))
                         {
-                            retVal.Add(fg);
+                            fgName.Add(fg);
                         }
+                    viewModel.FunctionalGroups = fgName;
                 }
             });
-            else retVal.AddRange(groups.ToList());
+            if (Id != null)
+            {
+                ViewData["FunctionalGroupID"] = Id.Value;
+                FunctionalGroup funcGroup = viewModel.FunctionalGroups.Where(
+                    i => i.Id == Id.Value).Single();
+                viewModel.NamedReactions = funcGroup.AppNamedreaction.Select(s => s.Name);
+            }
 
-            return View(retVal.ToAsyncEnumerable());
+            //if (namedReactionId != null)
+            //{
+            //    ViewData["NamedReactionID"] = namedReactionId.Value;
+            //    viewModel.NamedReactions = viewModel.NamedReactions.Where(
+            //        x => x.Id == namedReactionId).Single().Name;
+            //}
+
+            return View(viewModel);
+
+            //return View(retVal.ToAsyncEnumerable());
         }
 
         // GET: FunctionalGroups/Details/5
@@ -151,7 +173,7 @@ namespace SustainableChemistryWeb.Controllers
                 functionalGroupToUpdate,
                 "",
                 r => r.Name, r => r.Smarts, r => r.Smarts))
-            { 
+            {
                 try
                 {
                     var fileName = _hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image;
@@ -160,7 +182,7 @@ namespace SustainableChemistryWeb.Controllers
                         System.IO.File.Delete(fileName);
                     }
 
-                    if (functionalGroupView.Image.Length > 0)
+                    if (functionalGroupView.Image != null)
                     {
                         string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
                         using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + name, System.IO.FileMode.Create))
@@ -218,7 +240,7 @@ namespace SustainableChemistryWeb.Controllers
                 System.IO.File.Delete(fileName);
             }
 
-                _context.AppFunctionalgroup.Remove(appFunctionalgroup);
+            _context.AppFunctionalgroup.Remove(appFunctionalgroup);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
