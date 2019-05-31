@@ -10,9 +10,12 @@
 {
     @Html.AntiForgeryToken()
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+    @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
+    {*@
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    @*}*@
 
     <form asp-action="Index" method="get">
         <div class="form-actions no-color">
@@ -42,18 +45,24 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FunctionalGroup.Name)
+                        <a asp-controller="FunctionalGroups" asp-action="Index" asp-route-funcGroupId="@item.FunctionalGroupId">@Html.DisplayFor(modelItem => item.FunctionalGroup.Name)</a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Reaction.Name)
+                        <a asp-controller="Namedreactions" asp-action="Details" asp-route-id="@item.ReactionId">@Html.DisplayFor(modelItem => item.Reaction.Name)</a>
                     </td>
                     <td>
                         <a href="@item.URL" target="_newtab">@Html.DisplayFor(modelItem => item.Text)</a>
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
+                        {*@
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <text> | </text>
+                        @*}*@
+                        <a asp-action="Details" asp-route-id="@item.Id"> Details </a>
+                        @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
+                        {*@
+                            <text> | </text><a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
+                        @*}*@
                     </td>
                 </tr>
             }

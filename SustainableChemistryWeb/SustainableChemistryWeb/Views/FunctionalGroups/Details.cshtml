@@ -37,7 +37,11 @@
     </div>
 
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+        @if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Update)).Succeeded)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><text> | </text>
+        }
+        <a asp-action="Index">Back to Functional Group List</a> | 
+        <a href='javascript:history.go(-1)'>Return to Previous Page </a>
     </div>
 }

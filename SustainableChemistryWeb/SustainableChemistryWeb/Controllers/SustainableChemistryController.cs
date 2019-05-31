@@ -33,6 +33,7 @@ namespace SustainableChemistryWeb.Controllers
         /// <returns></returns>
         // GET: /SustainableChemistry/GetFunctionalGroupList
         [HttpGet("GetFunctionalGroupList")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<ActionResult<IEnumerable<FunctionalGroup>>> GetFunctionalGroupList()
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
@@ -52,6 +53,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: /SustainableChemistry/GetFunctionalGroup/5
         [HttpGet("GetFunctionalGroup/{id}")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<ActionResult<FunctionalGroup>> GetFunctionalGroup(long id)
         {
             var group = await _context.AppFunctionalgroup.FindAsync(id);
@@ -71,6 +73,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: /SustainableChemistry/GetFunctionalGroups?smiles=O=P(OC)(OC)C
         [HttpGet("GetFunctionalGroups")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<ActionResult<FunctionalGroup>> GetFunctionalGroups(string smiles)
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();
@@ -96,6 +99,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: /SustainableChemistry/GetMolecule?smiles=O=P(OC)(OC)C
         [HttpGet("GetMolecule")]
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<ActionResult<FunctionalGroup>> GetMolecule(string smiles)
         {
             var fG = await _context.AppFunctionalgroup.ToListAsync();

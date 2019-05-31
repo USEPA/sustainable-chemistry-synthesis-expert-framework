@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SustainableChemistryWeb.Models;
+using SustainableChemistryWeb.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 
 // See answer here for getting webroot...
@@ -24,59 +25,79 @@ namespace SustainableChemistryWeb.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        // O=P(OC)(OC)C
         // GET: FunctionalGroups
-
-        public async Task<IActionResult> Index(int? Id, int? namedReactionId, string nameSearchString, string smilesSearchString)
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+        public async Task<IActionResult> Index(int? Id, int? funcGroupId, int? namedReactionId, string nameSearchString, string smilesSearchString)
         {
             var viewModel = new SustainableChemistryWeb.ViewModels.FunctionalGroupIndexData();
             viewModel.FunctionalGroups = await _context.AppFunctionalgroup
                   .Include(i => i.AppNamedreaction)
-                  .Include(i => i.AppReference)
+                    .ThenInclude(i => i.AppReference)
                   .AsNoTracking()
                   .OrderBy(i => i.Name)
                   .ToListAsync();
 
+            List<FunctionalGroup> fgFound = new List<FunctionalGroup>();
             if (!String.IsNullOrEmpty(nameSearchString))
             {
-                viewModel.FunctionalGroups = viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase));
+                ViewData["SearchString"] = nameSearchString.Trim();
+                fgFound.AddRange(viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)));
             }
 
-            if (!String.IsNullOrEmpty(smilesSearchString)) await Task.Run(() =>
+            else if (!String.IsNullOrEmpty(smilesSearchString)) await Task.Run(() =>
             {
-                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString.Trim());
-                List<FunctionalGroup> fgName = new List<FunctionalGroup>();
+                ViewData["SmilesString"] = smilesSearchString;
+                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString.Trim());                
                 foreach (var fg in viewModel.FunctionalGroups)
                 {
                     string smarts = fg.Smarts;
                     if (!string.IsNullOrEmpty(fg.Smarts))
                         if (molecule.FindFunctionalGroup(fg.Smarts))
                         {
-                            fgName.Add(fg);
+                            fgFound.Add(fg);
                         }
-                    viewModel.FunctionalGroups = fgName;
                 }
             });
-            if (Id != null)
+
+            else if (funcGroupId != null)
             {
-                ViewData["FunctionalGroupID"] = Id.Value;
-                FunctionalGroup funcGroup = viewModel.FunctionalGroups.Where(
-                    i => i.Id == Id.Value).Single();
-                viewModel.NamedReactions = funcGroup.AppNamedreaction.Select(s => s.Name);
+                ViewData["FunctionalGroupID"] = funcGroupId.Value;
+                FunctionalGroup group = viewModel.FunctionalGroups.Where(
+                    i => i.Id == funcGroupId.Value).Single();
+                fgFound.Add(group);
+                viewModel.NamedReactions = group.AppNamedreaction;
+                ViewData["FunctionalGroupName"] = group.Name;
             }
 
-            //if (namedReactionId != null)
-            //{
-            //    ViewData["NamedReactionID"] = namedReactionId.Value;
-            //    viewModel.NamedReactions = viewModel.NamedReactions.Where(
-            //        x => x.Id == namedReactionId).Single().Name;
-            //}
-
+            if (namedReactionId != null)
+            {
+                ViewData["NamedReactionID"] = namedReactionId.Value;
+                NamedReaction rxn = viewModel.NamedReactions.Where(
+                    i => i.Id == namedReactionId.Value).Single();
+                var referenceViewModels = new List<SustainableChemistryWeb.ViewModels.ReferenceViewModel>();
+                ViewData["NamedReactionName"] = rxn.Name;
+                foreach (var referecnce in rxn.AppReference)
+                {
+                    referenceViewModels.Add(new SustainableChemistryWeb.ViewModels.ReferenceViewModel
+                    {
+                        Id = referecnce.Id,
+                        FunctionalGroupId = referecnce.FunctionalGroupId,
+                        FunctionalGroup = viewModel.FunctionalGroups.Where(
+                            i => i.Id == referecnce.FunctionalGroupId).Single(),
+                        ReactionId = referecnce.ReactionId,
+                        Reaction = referecnce.Reaction,
+                        Risdata = referecnce.Risdata
+                    });
+                }
+                viewModel.References = referenceViewModels;
+            }
+            if (fgFound.Count > 0) viewModel.FunctionalGroups = fgFound;
             return View(viewModel);
-
-            //return View(retVal.ToAsyncEnumerable());
         }
 
         // GET: FunctionalGroups/Details/5
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)

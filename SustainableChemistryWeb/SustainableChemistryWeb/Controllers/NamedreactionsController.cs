@@ -25,6 +25,8 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: Namedreactions
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+
         public async Task<IActionResult> Index(string nameSearchString, string funcGroupSearchString)
         {
             var sustainableChemistryContext = _context.AppNamedreaction.Include(a => a.FunctionalGroup).Include(a => a.Catalyst).Include(a => a.FunctionalGroup).Include(a => a.Solvent);
@@ -44,6 +46,8 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: Namedreactions/Details/5
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -78,6 +82,7 @@ namespace SustainableChemistryWeb.Controllers
                 AppNamedreactionByProducts = appNamedreaction.AppNamedreactionByProducts,
                 AppNamedreactionReactants = appNamedreaction.AppNamedreactionReactants,
                 AppReference = appNamedreaction.AppReference,
+                Url = appNamedreaction.Url,
             };
 
             if (appNamedreaction.Heat == "HE") reactionViewModel.Heat = "Heat";

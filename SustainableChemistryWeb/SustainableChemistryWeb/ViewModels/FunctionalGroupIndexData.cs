@@ -9,6 +9,6 @@ namespace SustainableChemistryWeb.ViewModels
     {
         public IEnumerable<SustainableChemistryWeb.Models.FunctionalGroup> FunctionalGroups { get; set; }
         public IEnumerable<SustainableChemistryWeb.Models.NamedReaction> NamedReactions { get; set; }
-        public IEnumerable<SustainableChemistryWeb.Models.Reference> References { get; set; }
+        public IEnumerable<SustainableChemistryWeb.ViewModels.ReferenceViewModel> References { get; set; }
     }
 }

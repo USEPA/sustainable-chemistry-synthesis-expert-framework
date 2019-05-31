@@ -14,10 +14,69 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Text)
+                Reference Text
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Text)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Abstract)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Abstract)
+            </dd>
+            <dt class="col-sm-2">
+                Year Published
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PY)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Authors)
+            </dt>
+            <dd class="col-sm-10">
+                <ul style="list-style-type:none;">
+                    @foreach (var a in @Model.Authors)
+                    {
+                        <li>@a</li>
+                    }
+                </ul>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Journal)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Journal)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Volume)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Volume)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Issue)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Issue)
+            </dd>
+            <dt class="col-sm-2">
+                Pages
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StartPage) - @Html.DisplayFor(model => model.EndPage)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.URL)
+            </dt>
+            <dd class="col-sm-10">
+                <a href="model.URL">@Html.DisplayFor(model => model.URL)</a>
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.FunctionalGroup)
@@ -34,7 +93,11 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+        @if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Update)).Succeeded)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><text> | </text>
+        }
+        <a asp-action="Index"> Back to Reference List </a> | 
+        <a href='javascript:history.go(-1)'>Return to Previous Page</a>
     </div>
 }
