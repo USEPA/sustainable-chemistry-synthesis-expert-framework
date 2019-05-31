@@ -6,6 +6,13 @@
 {
     @Html.AntiForgeryToken()
 
+    <form method="get">
+        <div class="form-actions no-color">
+            Molecule SMILES to find Functional Groups: <input type="text" name="SmilesSearchString" value="@ViewData["currentFilter"]" />
+            <input asp-controller="FunctionalGroups" asp-action="Index" type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+
 
     <div class="row">
         <p>

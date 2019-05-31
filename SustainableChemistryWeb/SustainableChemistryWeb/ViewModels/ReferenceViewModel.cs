@@ -32,7 +32,7 @@ namespace SustainableChemistryWeb.ViewModels
                     if (line.StartsWith("AB")) Abstract = line.Substring(6);
                     if (line.StartsWith("AD")) AuthorAddress = line.Substring(6);
                     if (line.StartsWith("JO")) Journal = line.Substring(6);
-                    if (line.StartsWith("VO")) Volume = line.Substring(6);
+                    if (line.StartsWith("VL")) Volume = line.Substring(6);
                     if (line.StartsWith("IS")) Issue = line.Substring(6);
                     if (line.StartsWith("SP")) StartPage = line.Substring(6);
                     if (line.StartsWith("EP")) EndPage = line.Substring(6);
@@ -79,7 +79,21 @@ namespace SustainableChemistryWeb.ViewModels
         public string Date { get; private set; }
         public string URL { get; private set; }
         public string doi { get; private set; }
-        public string PY { get; private set; }
+        string _PY;
+        public string PY {
+            get
+            {
+                return _PY;
+            }
+            private set
+            {
+                _PY = value;
+                while (_PY.Contains("/"))
+                {
+                    _PY = _PY.Replace("/", string.Empty);
+                }
+            }
+        }
         public string Text
         {
             get

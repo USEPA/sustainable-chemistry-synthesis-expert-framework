@@ -42,7 +42,7 @@
                             <tr>
                                 <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
                                 <th scope="col">@Html.DisplayNameFor(model => model.FunctionalGroup)</th>
-                                <th scope="col"></th>
+                                <th scope="col">Links</th>
                                 <th scope="col">@Html.DisplayNameFor(model => model.Image)</th>
                                 <th scope="col"></th>
                             </tr>
@@ -55,9 +55,10 @@
                                         <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
                                     </td>
                                     <td>
-                                        <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.FunctionalGroup.Name)</a>
+                                        <a asp-controller="FunctionalGroups" asp-action="Details" asp-route-id="@item.FunctionalGroupId">@Html.DisplayFor(modelItem => item.FunctionalGroup.Name)</a>
                                     </td>
                                     <td>
+                                        <a href="@Html.DisplayFor(modelItem => item.Url)">General Information</a> -------
                                         <a asp-controller="References" asp-action="Index" asp-route-id="@item.Name">References</a>
                                     </td>
                                     <td>
@@ -66,13 +67,16 @@
                                     <td>
                                         <ul class="nav flex-column">
                                             <li class="nav-item">
-                                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                                @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
+                                                {*@
+                                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <text> | </text>
+                                                @*}*@
                                             </li>
                                             <li class="nav-item">
-                                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
+                                                {*@
+                                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                                @*}*@
                                             </li>
                                         </ul>
                                     </td>

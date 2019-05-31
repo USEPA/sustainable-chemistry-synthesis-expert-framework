@@ -19,6 +19,7 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: AppReferences
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Index(string functionalGroupSearchString)
         {
             var sustainableChemistryContext = _context.AppReference.Include(a => a.FunctionalGroup).Include(a => a.Reaction);
@@ -46,6 +47,7 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: AppReferences/Details/5
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)

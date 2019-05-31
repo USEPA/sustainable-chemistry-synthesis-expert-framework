@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SustainableChemistryWeb.Models.FunctionalGroup>
+﻿@model SustainableChemistryWeb.ViewModels.FunctionalGroupIndexData
 
 @{
     ViewData["Title"] = "Index";
@@ -11,43 +11,81 @@
 {
     @Html.AntiForgeryToken()
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
-                Find by name: <input type="text" name="NameSearchString" value="@ViewData[" currentFilter"]" />
-                <input type="submit" value="Search" class="btn btn-default" /> |
-                <a asp-action="Index">Back to Full List</a>
-            </p>
-        </div>
-    </form>
-    <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
+    @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
+    {*@
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    @*}*@
+
+    if (@ViewBag.FunctionalGroupName != null)
+    {
+        <p>
+            Search results for Functional Group: "@ViewBag.FunctionalGroupName" | <a asp-action="Index">Back to Full Functional Group List</a> |
+            <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        </p>
+    }
+    else if (@ViewBag.SmilesString != null)
+    {
+        <p>
+            Search results for SMILES String: "@ViewBag.SmilesString" | <a asp-action="Index">Back to Functional Group Full List</a> |
+            <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        </p>
+    }
+    else if (@ViewBag.SearchString != null)
+    {
+        <p>
+            Search results for: "@ViewBag.SearchString" | <a asp-action="Index">Back to Functional Group Full List</a> |
+            <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        </p>
+    }
+    else
+    {
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                Find by name: <input type="text" name="NameSearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
                 Molecule SMILES to find Functional Groups: <input type="text" name="SmilesSearchString" value="@ViewData["currentFilter"]" />
-                <input type="submit" value="Search" class="btn btn-default" /> |
-                <a asp-action="Index">Back to Full List</a>
-            </p>
-        </div>
-    </form>
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    }
+
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Smarts)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.Image)</th>
+                    <th scope="col">Name</th>
+                    <th scope="col"></th>
+                    <th scope="col">Smarts</th>
+                    <th scope="col">Image</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.FunctionalGroups)
                 {
                     <tr>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                        </td>
+                        <td>
+                            @if (@ViewBag.FunctionalGroupID != null)
+                            {
+                                <a asp-action="Index" asp-route-funcGroupId="@item.Id">Show Reactions</a>
+                            }
+                            else if (@ViewBag.SmilesString != null)
+                            {
+                                <a asp-action="Index" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                            }
                         </td>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Smarts)</a>
@@ -57,25 +95,111 @@
                         </td>
                         <td>
                             <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a asp-action="Index" asp-route-id="@item.Id">Select</a> |
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </li>
+                                @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Update)).Succeeded)
+                                {*@
+                                    <li class="nav-item">
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    </li>
+                                @*}
+                                @if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Delete)).Succeeded)
+                                {*@
+                                    <li class="nav-item">
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </li>
+                                @*}*@
                             </ul>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
-
+        @if (Model.NamedReactions != null)
+        {
+            <p>
+                Reactions for Functional Group: "@ViewBag.FunctionalGroupName"
+            </p>
+            <div class="container-fluid">
+                <div class=" = row">
+                    <div class="col-md-12">
+                        <div class="panel-pane">
+                            <table class="table table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Functional Group</th>
+                                        <th scope="col">Links</th>
+                                        <th scope="col">Image</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.NamedReactions)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a asp-controller="NamedReactions" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                                            </td>
+                                            <td>
+                                                <a asp-action="Details" asp-route-id="@item.FunctionalGroupId">@Html.DisplayFor(modelItem => item.FunctionalGroup.Name)</a>
+                                            </td>
+                                            <td>
+                                                <ul class="nav flex-column">
+                                                    <li class="nav-item">
+                                                        <a href="@Html.DisplayFor(modelItem => item.Url)">General Information</a>
+                                                    </li>
+                                                    <li>
+                                                        -------
+                                                    </li>
+                                                    <li>
+                                                        <a asp-action="Index" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SmilesString" asp-route-funcGroupId="@item.FunctionalGroupId" asp-route-namedReactionId="@item.Id">Show References</a>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <img src="~/@item.Image" class="img-fluid" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.References != null)
+        {
+            <p>
+                References for the "@ViewBag.NamedReactionName" reaction used to make Functional Group: "@ViewBag.FunctionalGroupName"
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Functional Group
+                        </th>
+                        <th>
+                            Reaction
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.References)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FunctionalGroup.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Reaction.Name)
+                            </td>
+                            <td>
+                                <a href="@item.URL" target="_newtab">@Html.DisplayFor(modelItem => item.Text)</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 }
