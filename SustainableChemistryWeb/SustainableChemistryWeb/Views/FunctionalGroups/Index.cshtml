@@ -11,12 +11,12 @@
 {
     @Html.AntiForgeryToken()
 
-    @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Create)).Succeeded)
-    {*@
+    @if(User.Identity.IsAuthenticated)
+    {
         <p>
             <a asp-action="Create">Create New</a>
         </p>
-    @*}*@
+    }
 
     if (@ViewBag.FunctionalGroupName != null)
     {
@@ -95,18 +95,18 @@
                         </td>
                         <td>
                             <ul class="nav flex-column">
-                                @*@if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Update)).Succeeded)
-                                {*@
+                                @if(User.Identity.IsAuthenticated)
+                                {
                                     <li class="nav-item">
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                     </li>
-                                @*}
-                                @if ((await AuthorizationService.AuthorizeAsync(User, Model, SustainableChemistryWeb.Authorization.Operations.Delete)).Succeeded)
-                                {*@
+                                }
+                                @if(User.Identity.IsAuthenticated)
+                                {
                                     <li class="nav-item">
                                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                     </li>
-                                @*}*@
+                                }
                             </ul>
                         </td>
                     </tr>

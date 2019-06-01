@@ -20,13 +20,18 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: AppReferences
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
-        public async Task<IActionResult> Index(string functionalGroupSearchString)
+        public async Task<IActionResult> Index(string functionalGroupSearchString, int? namedReactionId)
         {
             var sustainableChemistryContext = _context.AppReference.Include(a => a.FunctionalGroup).Include(a => a.Reaction);
             var list = await sustainableChemistryContext.ToListAsync();
             if (!String.IsNullOrEmpty(functionalGroupSearchString))
             {
                 list = list.Where(s => s.FunctionalGroup.Name.Contains(functionalGroupSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (namedReactionId != null)
+            {
+                list = list.Where(s => s.ReactionId == namedReactionId).ToList();
             }
 
 
