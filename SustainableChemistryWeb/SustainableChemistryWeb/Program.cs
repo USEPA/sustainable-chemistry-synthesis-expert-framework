@@ -19,13 +19,6 @@ namespace SustainableChemistryWeb
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-            .ConfigureKestrel((context, options) =>
-            {
-                options.ConfigureEndpointDefaults(configureOptions =>
-                {
-                    configureOptions.NoDelay = true;
-                });
-            });
+                .UseStartup<Startup>();
     }
 }
