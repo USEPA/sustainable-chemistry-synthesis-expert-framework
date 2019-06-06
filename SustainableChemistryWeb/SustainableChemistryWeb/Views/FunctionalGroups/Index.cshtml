@@ -4,19 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Functional Groups</h1>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    @if(User.Identity.IsAuthenticated)
-    {
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
-    }
+    <h1>
+        List of Functional Groups
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text> | </text><a asp-action="Create" class="btn btn-primary">Create New</a>
+        }
+    </h1>
 
     if (@ViewBag.FunctionalGroupName != null)
     {
@@ -80,11 +78,11 @@
                             }
                             else if (@ViewBag.SmilesString != null)
                             {
-                                <a asp-action="Index" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
                             }
                             else
                             {
-                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@ViewBag.SearchString">Show Reactions</a>
                             }
                         </td>
                         <td>
@@ -95,13 +93,13 @@
                         </td>
                         <td>
                             <ul class="nav flex-column">
-                                @if(User.Identity.IsAuthenticated)
+                                @if (User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                     </li>
                                 }
-                                @if(User.Identity.IsAuthenticated)
+                                @if (User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
                                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>

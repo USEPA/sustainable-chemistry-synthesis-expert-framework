@@ -4,18 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    @if(User.Identity.IsAuthenticated)
-    {
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
-    }
+
+    <h1>
+        List of References
+        @if (User.Identity.IsAuthenticated)
+        {
+            <text> | </text><a asp-action="Create" class="btn btn-primary">Create New</a>
+        }
+    </h1>
 
     <form asp-action="Index" method="get">
         <div class="form-actions no-color">
@@ -54,12 +54,12 @@
                         <a href="@item.URL" target="_newtab">@Html.DisplayFor(modelItem => item.Text)</a>
                     </td>
                     <td>
-                        @if(User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <text> | </text>
                         }
                         <a asp-action="Details" asp-route-id="@item.Id"> Details </a>
-                        @if(User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <text> | </text><a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>
                         }

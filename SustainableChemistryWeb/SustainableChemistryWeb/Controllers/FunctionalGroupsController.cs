@@ -66,6 +66,13 @@ namespace SustainableChemistryWeb.Controllers
                 FunctionalGroup group = viewModel.FunctionalGroups.Where(
                     i => i.Id == funcGroupId.Value).Single();
                 fgFound.Add(group);
+            }
+
+            if (funcGroupId != null)
+            {
+                ViewData["FunctionalGroupID"] = funcGroupId.Value;
+                FunctionalGroup group = viewModel.FunctionalGroups.Where(
+                    i => i.Id == funcGroupId.Value).Single();
                 viewModel.NamedReactions = group.AppNamedreaction;
                 ViewData["FunctionalGroupName"] = group.Name;
             }
@@ -180,7 +187,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,ImageFileName")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
             if (id != functionalGroupView.Id)
             {
@@ -203,15 +210,18 @@ namespace SustainableChemistryWeb.Controllers
                         System.IO.File.Delete(fileName);
                     }
 
-                    if (functionalGroupView.Image != null)
+                    if (functionalGroupView.ImageFileName.Length > 0)
                     {
-                        string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
-                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + name, System.IO.FileMode.Create))
+                        string name = System.IO.Path.GetFileName(functionalGroupView.ImageFileName);
+                        using (var imageStream = new System.IO.StreamReader(functionalGroupView.ImageFileName))
                         {
-                            functionalGroupView.Image.CopyTo(stream);
-                            stream.Close();
+                            using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
+                            {
+                                imageStream.BaseStream.CopyTo(stream);
+                                stream.Close();
+                            }
                         }
-                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + name;
+                        functionalGroupToUpdate.Image = "Images/Reactions/" + name;
                     }
                     await _context.SaveChangesAsync();
                 }

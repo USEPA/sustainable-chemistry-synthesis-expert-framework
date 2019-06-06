@@ -244,7 +244,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,ImageFileName,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
         {
             if (id != appNamedreaction.Id)
             {
@@ -269,13 +269,16 @@ namespace SustainableChemistryWeb.Controllers
                     System.IO.File.Delete(fileName);
                 }
 
-                if (appNamedreaction.Image.Length > 0)
+                if (appNamedreaction.ImageFileName.Length > 0)
                 {
-                    string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
-                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
+                    string name = System.IO.Path.GetFileName(appNamedreaction.ImageFileName);
+                    using (var imageStream = new System.IO.StreamReader(appNamedreaction.ImageFileName))
                     {
-                        await appNamedreaction.Image.CopyToAsync(stream);
-                        stream.Close();
+                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
+                        {
+                            await imageStream.BaseStream.CopyToAsync(stream);
+                            stream.Close();
+                        }
                     }
                     reactionToUpdate.Image = "Images/Reactions/" + name;
                 }
