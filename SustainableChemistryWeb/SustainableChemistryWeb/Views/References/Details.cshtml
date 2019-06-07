@@ -4,11 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Named Reaction</h1>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Details", "References", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
     <div>
         <h4>AppReference</h4>
         <hr />
@@ -93,11 +92,11 @@
         </dl>
     </div>
     <div>
-        @if(User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated)
         {
             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><text> | </text>
         }
-        <a asp-action="Index"> Back to Reference List </a> | 
+        <a asp-action="Index"> Back to Reference List </a> |
         <a href='javascript:history.go(-1)'>Return to Previous Page</a>
     </div>
 }

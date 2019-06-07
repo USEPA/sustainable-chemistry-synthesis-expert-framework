@@ -36,7 +36,7 @@ namespace SustainableChemistryWeb.Controllers
 
 
             var referenceViewModels = new List<SustainableChemistryWeb.ViewModels.ReferenceViewModel>();
-            foreach(var referecnce in list)
+            foreach (var referecnce in list)
             {
                 referenceViewModels.Add(new SustainableChemistryWeb.ViewModels.ReferenceViewModel
                 {
@@ -85,8 +85,7 @@ namespace SustainableChemistryWeb.Controllers
         // GET: AppReferences/Create
         public IActionResult Create()
         {
-            PopulateReferenceData();
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
+            PopulateReferenceData(null);
             return View();
         }
 
@@ -95,20 +94,27 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Risdata,FunctionalGroupId,ReactionId")] Reference appReference)
+        public async Task<IActionResult> Create([Bind("Id,RISFile,FunctionalGroupId,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
         {
-            if (System.IO.File.Exists(appReference.Risdata))
-            {
-                    appReference.Risdata = System.IO.File.ReadAllText(appReference.Risdata);
-            }
             if (ModelState.IsValid)
             {
-                _context.Add(appReference);
+                if (appReference.RISFile != null)
+                {
+                    appReference.Risdata = new System.IO.StreamReader(appReference.RISFile.OpenReadStream()).ReadToEnd();
+                }
+                SustainableChemistryWeb.Models.Reference reference = new Reference
+                {
+                    FunctionalGroupId = appReference.FunctionalGroupId,
+                    FunctionalGroup = appReference.FunctionalGroup,
+                    ReactionId = appReference.ReactionId,
+                    Reaction = appReference.Reaction,
+                    Risdata = appReference.Risdata
+                };
+                _context.Add(reference);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            PopulateReferenceData();
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
+            PopulateReferenceData(null);
             return View(appReference);
         }
 
@@ -134,10 +140,9 @@ namespace SustainableChemistryWeb.Controllers
                 Reaction = appReference.Reaction,
                 Risdata = appReference.Risdata
             };
-            PopulateReferenceData();
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
+            PopulateReferenceData(appReference);
             ViewData["ReferenceText"] = referenceViewModel.Text;
-            return View(appReference);
+            return View(referenceViewModel);
         }
 
         // POST: AppReferences/Edit/5
@@ -145,59 +150,37 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Risdata,FunctionalGroupId,ReactionId")] Reference appReference)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Risdata,FunctionalGroupId,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
         {
             if (id != appReference.Id)
             {
                 return NotFound();
             }
 
-            if (!System.IO.File.Exists(appReference.Risdata))
-            {
-                return NotFound("RIS Data file does not exist");
-            }
-
-            appReference.Risdata = System.IO.File.ReadAllText(appReference.Risdata);
-
-            var referenceViewModel = new SustainableChemistryWeb.ViewModels.ReferenceViewModel
-            {
-                Id = appReference.Id,
-                FunctionalGroupId = appReference.FunctionalGroupId,
-                FunctionalGroup = appReference.FunctionalGroup,
-                ReactionId = appReference.ReactionId,
-                Reaction = appReference.Reaction,
-                Risdata = appReference.Risdata
-            };
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(appReference);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppReferenceExists(appReference.Id))
+                var referenceToUpdate = await _context.AppReference
+                    .SingleOrDefaultAsync(m => m.Id == id);
+
+                if (await TryUpdateModelAsync<Reference>(
+                    referenceToUpdate,
+                    "",
+                    r => r.FunctionalGroupId, r => r.ReactionId))
+                    if (appReference.RISFile != null)
                     {
-                        return NotFound();
+                        referenceToUpdate.Risdata = new System.IO.StreamReader(appReference.RISFile.OpenReadStream()).ReadToEnd();
                     }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(referenceToUpdate);
+                await _context.SaveChangesAsync();
             }
-            PopulateReferenceData();
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
-            ViewData["ReferenceText"] = referenceViewModel.Text;
-            return View(appReference);
+            return RedirectToAction(nameof(id));
         }
 
-        private void PopulateReferenceData()
+        private void PopulateReferenceData(Reference appReference)
         {
-            ViewData["ReactionId"] = new SelectList(_context.AppNamedreaction.Include(a => a.FunctionalGroup), "Id", "Name", "1", "FunctionalGroup.Name");
+            ViewData["Reaction"] = new SelectList(_context.AppNamedreaction.Include(a => a.FunctionalGroup), "Id", "Name", "1", "FunctionalGroup.Name");
+            if (appReference != null) ViewData["FunctionalGroup"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
+            else ViewData["FunctionalGroup"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
         }
 
 

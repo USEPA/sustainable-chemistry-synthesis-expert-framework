@@ -4,44 +4,36 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Functional group</h1>
+<h1>Functional Group</h1>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Details", "FunctionalGroups", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-
-
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Smarts)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Smarts)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@Model.Image" />
+        </dd>
+    </dl>
     <div>
-        <h4>Details</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Smarts)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Smarts)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Image)
-            </dt>
-            <dd class="col-sm-10">
-                <img src="~/@Model.Image" />
-            </dd>
-        </dl>
-    </div>
-
-    <div>
-        @if(User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated)
         {
             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><text> | </text>
         }
-        <a asp-action="Index">Back to Functional Group List</a> | 
+        <a asp-action="Index">Back to Functional Group List</a> |
         <a href='javascript:history.go(-1)'>Return to Previous Page </a>
     </div>
 }

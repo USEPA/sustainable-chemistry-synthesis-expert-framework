@@ -1,37 +1,29 @@
-﻿@model SustainableChemistryWeb.Models.Reference
+﻿@model SustainableChemistryWeb.ViewModels.ReferenceViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
-
 <h1>Create</h1>
-
-<h4>AppReference</h4>
-<hr />
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "References", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="FunctionalGroupId" class="control-label"></label>
-                    <select asp-for="FunctionalGroupId" class="form-control chosen-select" asp-items="ViewBag.FunctionalGroupId"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReactionId" class="control-label"></label>
-                    <select asp-for="ReactionId" class="form-control chosen-select" asp-items="ViewBag.ReactionId"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Risdata" class="control-label">RIS Date File</label>
-                    <input asp-for="Risdata" class="form-control" type="file" />
-                    <span asp-validation-for="Risdata" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+            <div class="form-group">
+                <label asp-for="FunctionalGroupId" class="control-label"></label>
+                <select asp-for="FunctionalGroupId" class="form-control chosen-select" asp-items="ViewBag.FunctionalGroup"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReactionId" class="control-label"></label>
+                <select asp-for="ReactionId" class="form-control chosen-select" asp-items="ViewBag.Reaction"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="RISFile" class="control-label">RIS Date File</label>
+                <input asp-for="RISFile" class="form-control" type="file" />
+                <span asp-validation-for="RISFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 

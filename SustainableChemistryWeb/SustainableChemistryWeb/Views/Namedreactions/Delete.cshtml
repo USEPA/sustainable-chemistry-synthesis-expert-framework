@@ -4,16 +4,12 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-@using (Html.BeginForm())
+<h3>Are you sure you want to delete this Named Reaction?</h3>
+@using (Html.BeginForm("Delete", "NamedReactions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div>
-        <h4>AppNamedreaction</h4>
-        <hr />
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)
