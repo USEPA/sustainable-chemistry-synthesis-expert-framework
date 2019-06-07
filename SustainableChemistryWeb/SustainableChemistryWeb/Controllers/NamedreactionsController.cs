@@ -246,6 +246,8 @@ namespace SustainableChemistryWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
         {
+            {
+            if (ModelState.IsValid)
             if (id != appNamedreaction.Id)
             {
                 return NotFound();
@@ -272,10 +274,13 @@ namespace SustainableChemistryWeb.Controllers
                 if (appNamedreaction.Image != null)
                 {
                     string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
-                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
-                    {
-                        await appNamedreaction.Image.CopyToAsync(stream);
-                        stream.Close();
+                    using (var imageStream = new System.IO.StreamReader(appNamedreaction.Image.OpenReadStream()))
+                    {                        
+                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
+                        {
+                            await imageStream.BaseStream.CopyToAsync(stream);
+                            stream.Close();
+                        }
                     }
                     reactionToUpdate.Image = "Images/Reactions/" + name;
                 }
@@ -298,6 +303,7 @@ namespace SustainableChemistryWeb.Controllers
             ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
             ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
             ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
+            }
             return View(appNamedreaction);
         }
 
