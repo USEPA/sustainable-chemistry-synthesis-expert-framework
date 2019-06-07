@@ -13,7 +13,6 @@ namespace SustainableChemistryWeb.ViewModels
         public string Heat { get; set; }
         public string AcidBase { get; set; }
         public Microsoft.AspNetCore.Http.IFormFile Image { get; set; }
-        public string ImageFileName { get; set; }
         public long CatalystId { get; set; }
         public long FunctionalGroupId { get; set; }
         public long SolventId { get; set; }
