@@ -4,14 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Functional Groups</h1>
-
-
-@using (Html.BeginForm())
+<h1>Functional Group List</h1>
+@using (Html.BeginForm("Index", "FunctionalGroups", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-
-    @if(User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)
     {
         <p>
             <a asp-action="Create">Create New</a>
@@ -95,13 +91,13 @@
                         </td>
                         <td>
                             <ul class="nav flex-column">
-                                @if(User.Identity.IsAuthenticated)
+                                @if (User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
                                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                     </li>
                                 }
-                                @if(User.Identity.IsAuthenticated)
+                                @if (User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
                                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>

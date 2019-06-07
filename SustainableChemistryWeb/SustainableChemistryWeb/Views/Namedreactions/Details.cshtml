@@ -9,10 +9,8 @@
     Uri baseUri = new Uri(referer);}
 
 <h1>Details</h1>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Details", "NamedReactions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-
     <div>
         <h4>Named Reaction</h4>
         <hr />
@@ -93,7 +91,7 @@
         </dl>
     </div>
     <div>
-        @if(User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated)
         {
             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><text> | </text>
         }

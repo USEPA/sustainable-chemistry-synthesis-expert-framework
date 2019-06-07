@@ -152,7 +152,7 @@ namespace SustainableChemistryWeb.Controllers
                 SolventId = namedReactionView.SolventId,
                 Url = namedReactionView.Url
             };
-            if (namedReactionView.Image.Length > 0)
+            if (namedReactionView.Image != null)
             {
                 using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
                 {
@@ -269,7 +269,7 @@ namespace SustainableChemistryWeb.Controllers
                     System.IO.File.Delete(fileName);
                 }
 
-                if (appNamedreaction.Image.Length > 0)
+                if (appNamedreaction.Image != null)
                 {
                     string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
                     using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))

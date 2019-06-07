@@ -11,6 +11,7 @@ namespace SustainableChemistryWeb.ViewModels
 
         public long Id { get; set; }
         string _Risdata;
+        public Microsoft.AspNetCore.Http.IFormFile RISFile { get; set; }
         public string Risdata 
         {
             get
