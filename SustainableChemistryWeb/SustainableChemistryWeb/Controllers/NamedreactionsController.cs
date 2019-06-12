@@ -285,6 +285,7 @@ namespace SustainableChemistryWeb.Controllers
                     UpdateNamedReactionReactants(reactants, reactionToUpdate);
                     UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
                     if (string.IsNullOrEmpty(reactionToUpdate.Url)) reactionToUpdate.Url = string.Empty;
+                    if (string.IsNullOrEmpty(reactionToUpdate.Product)) reactionToUpdate.Product = string.Empty;
                     //try
                     //{
                     _context.SaveChanges();
