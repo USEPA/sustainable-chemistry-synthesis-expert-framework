@@ -17,6 +17,7 @@ namespace SustainableChemistryWeb.ViewModels
         public long FunctionalGroupId { get; set; }
         public long SolventId { get; set; }
         public string Url { get; set; }
+        public string ImageFileName { get; set; }
 
         public virtual SustainableChemistryWeb.Models.Catalyst Catalyst { get; set; }
         public virtual SustainableChemistryWeb.Models.FunctionalGroup FunctionalGroup { get; set; }
