@@ -30,7 +30,7 @@ namespace SustainableChemistryWeb.Controllers
         public async Task<IActionResult> Index(string nameSearchString, string funcGroupSearchString)
         {
             var sustainableChemistryContext = _context.AppNamedreaction.Include(a => a.FunctionalGroup).Include(a => a.Catalyst).Include(a => a.FunctionalGroup).Include(a => a.Solvent);
-            var reactions = await sustainableChemistryContext.ToListAsync(); 
+            var reactions = await sustainableChemistryContext.ToListAsync();
 
             if (!String.IsNullOrEmpty(nameSearchString))
             {
@@ -245,62 +245,63 @@ namespace SustainableChemistryWeb.Controllers
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
         {
             {
-            if (ModelState.IsValid)
-            if (id != appNamedreaction.Id)
-            {
-                return NotFound();
-            }
-
-            var reactionToUpdate = await _context.AppNamedreaction
-                    .Include(i => i.AppNamedreactionReactants)
-                        .ThenInclude(i => i.Reactant)
-                    .Include(i => i.AppNamedreactionByProducts)
-                        .ThenInclude(i => i.Reactant)
-                    .SingleOrDefaultAsync(m => m.Id == id);
-
-            if (await TryUpdateModelAsync<NamedReaction>(
-                reactionToUpdate,
-                "", 
-                r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
-            {
-                var fileName = _hostingEnvironment.WebRootPath + "/" + reactionToUpdate.Image;
-                if (System.IO.File.Exists(fileName))
-                {
-                    System.IO.File.Delete(fileName);
-                }
-
-                if (appNamedreaction.Image != null)
-                {
-                    string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
-                    using (var imageStream = new System.IO.StreamReader(appNamedreaction.Image.OpenReadStream()))
-                    {                        
-                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
-                        {
-                            await imageStream.BaseStream.CopyToAsync(stream);
-                            stream.Close();
-                        }
+                if (ModelState.IsValid)
+                    if (id != appNamedreaction.Id)
+                    {
+                        return NotFound();
                     }
-                    reactionToUpdate.Image = "Images/Reactions/" + name;
-                }
-                UpdateNamedReactionReactants(reactants, reactionToUpdate);
-                UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
-                try
+
+                var reactionToUpdate = await _context.AppNamedreaction
+                        .Include(i => i.AppNamedreactionReactants)
+                            .ThenInclude(i => i.Reactant)
+                        .Include(i => i.AppNamedreactionByProducts)
+                            .ThenInclude(i => i.Reactant)
+                        .SingleOrDefaultAsync(m => m.Id == id);
+
+                if (await TryUpdateModelAsync<NamedReaction>(
+                    reactionToUpdate,
+                    "",
+                    r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
                 {
-                    await _context.SaveChangesAsync();
+                    var fileName = _hostingEnvironment.WebRootPath + "/" + reactionToUpdate.Image;
+                    if (System.IO.File.Exists(fileName))
+                    {
+                        System.IO.File.Delete(fileName);
+                    }
+
+                    if (appNamedreaction.Image != null)
+                    {
+                        string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
+                        using (var imageStream = new System.IO.StreamReader(appNamedreaction.Image.OpenReadStream()))
+                        {
+                            using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
+                            {
+                                imageStream.BaseStream.CopyTo(stream);
+                                stream.Close();
+                            }
+                        }
+                        reactionToUpdate.Image = "Images/Reactions/" + name;
+                    }
+                    UpdateNamedReactionReactants(reactants, reactionToUpdate);
+                    UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
+                    if (string.IsNullOrEmpty(reactionToUpdate.Url)) reactionToUpdate.Url = string.Empty;
+                    //try
+                    //{
+                    _context.SaveChanges();
+                    //}
+                    //catch (DbUpdateException /* ex */)
+                    //{
+                    //    //Log the error (uncomment ex variable name and write a log.)
+                    //    ModelState.AddModelError("", "Unable to save changes. " +
+                    //        "Try again, and if the problem persists, " +
+                    //        "see your system administrator.");
+                    //}
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateException /* ex */)
-                {
-                    //Log the error (uncomment ex variable name and write a log.)
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
-                }
-                return RedirectToAction(nameof(Index));
-            }
-           // PopulateReactantData(appNamedreaction);
-            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
-            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
+                // PopulateReactantData(appNamedreaction);
+                ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
+                ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
+                ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
             }
             return View(appNamedreaction);
         }
@@ -333,7 +334,7 @@ namespace SustainableChemistryWeb.Controllers
                     Selected = isByProduct
                 });
             }
-            ViewData["Reactants"] = new MultiSelectList(reactantList, "Value","Text", selectedReactants);
+            ViewData["Reactants"] = new MultiSelectList(reactantList, "Value", "Text", selectedReactants);
             ViewData["ByProducts"] = new MultiSelectList(byProductList, "Value", "Text", selectedByProducts);
         }
 
