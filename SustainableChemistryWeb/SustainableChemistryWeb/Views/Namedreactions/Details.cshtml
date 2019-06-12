@@ -85,7 +85,7 @@
                 @Html.DisplayNameFor(model => model.Image)
             </dt>
             <dd class="col-sm-10">
-                <img src="~/@Model.Image" />
+                <img src="~/@Html.DisplayTextFor(model => model.ImageFileName)" />
                 <!-- @Html.DisplayFor(model => model.Image) -->
             </dd>
         </dl>

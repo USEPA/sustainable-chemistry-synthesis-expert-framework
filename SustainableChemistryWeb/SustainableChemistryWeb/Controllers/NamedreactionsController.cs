@@ -82,6 +82,7 @@ namespace SustainableChemistryWeb.Controllers
                 AppNamedreactionReactants = appNamedreaction.AppNamedreactionReactants,
                 AppReference = appNamedreaction.AppReference,
                 Url = appNamedreaction.Url,
+                ImageFileName = appNamedreaction.Image,
             };
 
             if (appNamedreaction.Heat == "HE") reactionViewModel.Heat = "Heat";
