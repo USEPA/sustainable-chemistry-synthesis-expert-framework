@@ -147,28 +147,37 @@ namespace SustainableChemistryWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] SustainableChemistryWeb.ViewModels.NamedReactionViewModel namedReactionView, string[] reactants, string[] byProducts)
         {
-            string name = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(namedReactionView.Image.FileName);
             NamedReaction appNamedreaction = new NamedReaction()
             {
                 Name = namedReactionView.Name,
                 ReactantA = string.Empty,
                 ReactantB = string.Empty,
                 ReactantC = string.Empty,
-                Product = namedReactionView.Product,
+                Product = string.IsNullOrEmpty(namedReactionView.Product) ? string.Empty : namedReactionView.Product,
                 Heat = namedReactionView.Heat,
                 AcidBase = namedReactionView.AcidBase,
-                Image = "Images/Reactions/" + name,
+                //Image = "Images/Reactions/" + Guid.NewGuid().ToString() + namedReactionView.Image == null ? ".jpg" : ,
                 CatalystId = namedReactionView.CatalystId,
                 FunctionalGroupId = namedReactionView.FunctionalGroupId,
                 SolventId = namedReactionView.SolventId,
-                Url = namedReactionView.Url
+                Url = string.IsNullOrEmpty(namedReactionView.Url) ? string.Empty : namedReactionView.Url,
             };
-            if (string.IsNullOrEmpty(appNamedreaction.Url)) appNamedreaction.Url = string.Empty;
             if (namedReactionView.Image != null)
             {
-                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
+                appNamedreaction.Image = "Images/Reactions/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(namedReactionView.Image.FileName);
+                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + appNamedreaction.Image, System.IO.FileMode.Create))
                 {
                     await namedReactionView.Image.CopyToAsync(stream);
+                    stream.Close();
+                }
+            }
+            else
+            {
+                appNamedreaction.Image = "Images/Reactions/" + Guid.NewGuid().ToString() + ".jpg";
+                System.IO.StreamReader image = new System.IO.StreamReader(_hostingEnvironment.WebRootPath + "/Images/Reactions/th.jpg");
+                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + appNamedreaction.Image, System.IO.FileMode.Create))
+                {
+                    await image.BaseStream.CopyToAsync(stream);
                     stream.Close();
                 }
             }
