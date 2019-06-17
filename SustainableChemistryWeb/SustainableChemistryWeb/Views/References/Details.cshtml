@@ -9,8 +9,6 @@
 @using (Html.BeginForm("Details", "References", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div>
-        <h4>AppReference</h4>
-        <hr />
         <dl class="row">
             <dt class="col-sm-2">
                 Reference Text
@@ -75,7 +73,7 @@
                 @Html.DisplayNameFor(model => model.URL)
             </dt>
             <dd class="col-sm-10">
-                <a href="model.URL">@Html.DisplayFor(model => model.URL)</a>
+                <a href="@Html.DisplayFor(model => model.URL)" target="_blank">@Html.DisplayFor(model => model.URL)</a>
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.FunctionalGroup)
