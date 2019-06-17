@@ -27,10 +27,21 @@ namespace SustainableChemistryWeb.Controllers
         // GET: Namedreactions
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
 
-        public async Task<IActionResult> Index(string nameSearchString, string funcGroupSearchString)
+        public async Task<IActionResult> Index(string nameSearchString, string funcGroupSearchString, string sortOrder)
         {
-            var sustainableChemistryContext = _context.AppNamedreaction.Include(a => a.FunctionalGroup).Include(a => a.Catalyst).Include(a => a.FunctionalGroup).Include(a => a.Solvent);
-            var reactions = await sustainableChemistryContext.ToListAsync();
+            var query = _context.AppNamedreaction
+                .Include(s => s.FunctionalGroup);
+
+            var reactions = await query.ToListAsync();
+            //reactions.sort();
+
+            switch (sortOrder)
+            {
+                default:
+                    reactions = reactions.OrderBy(s => s.FunctionalGroup.Name).ThenBy(s => s.Name).ToList();
+                    break;
+            }
+
 
             if (!String.IsNullOrEmpty(nameSearchString))
             {
@@ -136,7 +147,7 @@ namespace SustainableChemistryWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] SustainableChemistryWeb.ViewModels.NamedReactionViewModel namedReactionView, string[] reactants, string[] byProducts)
         {
-            string name = System.IO.Path.GetFileName(namedReactionView.Image.FileName);
+            string name = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(namedReactionView.Image.FileName);
             NamedReaction appNamedreaction = new NamedReaction()
             {
                 Name = namedReactionView.Name,
@@ -152,6 +163,7 @@ namespace SustainableChemistryWeb.Controllers
                 SolventId = namedReactionView.SolventId,
                 Url = namedReactionView.Url
             };
+            if (string.IsNullOrEmpty(appNamedreaction.Url)) appNamedreaction.Url = string.Empty;
             if (namedReactionView.Image != null)
             {
                 using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
@@ -215,7 +227,8 @@ namespace SustainableChemistryWeb.Controllers
                 CatalystId = appNamedreaction.CatalystId,
                 FunctionalGroupId = appNamedreaction.FunctionalGroupId,
                 SolventId = appNamedreaction.SolventId,
-                Url = appNamedreaction.Url
+                Url = appNamedreaction.Url,
+                ImageFileName = appNamedreaction.Image
             };
             PopulateReactantData(appNamedreaction);
             List<SelectListItem> acidBaseList = new List<SelectListItem>
@@ -265,14 +278,14 @@ namespace SustainableChemistryWeb.Controllers
                     r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
                 {
                     var fileName = _hostingEnvironment.WebRootPath + "/" + reactionToUpdate.Image;
-                    if (System.IO.File.Exists(fileName))
-                    {
-                        System.IO.File.Delete(fileName);
-                    }
-
                     if (appNamedreaction.Image != null)
                     {
-                        string name = System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
+                        if (System.IO.File.Exists(fileName))
+                        {
+                            System.IO.File.Delete(fileName);
+                        }
+
+                        string name = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
                         using (var imageStream = new System.IO.StreamReader(appNamedreaction.Image.OpenReadStream()))
                         {
                             using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
