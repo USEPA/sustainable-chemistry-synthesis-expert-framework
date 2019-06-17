@@ -110,6 +110,7 @@ namespace SustainableChemistryWeb.ViewModels
             {
                 retVal = retVal + author + ", ";
             }
+            if (this.Authors.Length < 1) retVal = ", ";
             retVal = retVal.Remove(retVal.Length - 2, 2) + " (" + PY + "). \"" + Title + ".\" " + Journal + " " + Volume + ": " + StartPage + "-" + EndPage + ".";
             return retVal;
         }
