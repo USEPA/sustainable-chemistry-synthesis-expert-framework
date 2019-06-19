@@ -187,7 +187,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,ImageFileName")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image,ImageFileName")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
             if (id != functionalGroupView.Id)
             {
@@ -209,19 +209,24 @@ namespace SustainableChemistryWeb.Controllers
                     {
                         System.IO.File.Delete(fileName);
                     }
-
-                    if (functionalGroupView.ImageFileName.Length > 0)
+                    if (functionalGroupView.Image != null)
                     {
-                        string name = System.IO.Path.GetFileName(functionalGroupView.ImageFileName);
-                        using (var imageStream = new System.IO.StreamReader(functionalGroupView.ImageFileName))
+                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
+                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image, System.IO.FileMode.Create))
                         {
-                            using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
-                            {
-                                imageStream.BaseStream.CopyTo(stream);
-                                stream.Close();
-                            }
+                            await functionalGroupView.Image.CopyToAsync(stream);
+                            stream.Close();
                         }
-                        functionalGroupToUpdate.Image = "Images/Reactions/" + name;
+                    }
+                    else
+                    {
+                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + ".jpg";
+                        System.IO.StreamReader image = new System.IO.StreamReader(_hostingEnvironment.WebRootPath + "/Images/Reactions/th.jpg");
+                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image, System.IO.FileMode.Create))
+                        {
+                            await image.BaseStream.CopyToAsync(stream);
+                            stream.Close();
+                        }
                     }
                     await _context.SaveChangesAsync();
                 }
