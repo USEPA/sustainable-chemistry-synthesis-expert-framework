@@ -10,7 +10,7 @@ namespace SustainableChemistryWeb.ViewModels
         public long Id { get; set; }
         public string Name { get; set; }
         public string Smarts { get; set; }
-        public string ImageFileName { get; set; }
         public Microsoft.AspNetCore.Http.IFormFile Image { get; set; }
+        public string ImageFileName { get; set; }
     }
 }

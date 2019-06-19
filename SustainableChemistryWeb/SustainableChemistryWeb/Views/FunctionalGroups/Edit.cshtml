@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
                 <img id="image01" src="~/@Model.ImageFileName" />
-                <input asp-for="Image" class="form-control" type="file" onchange="preview(this)" accept="image/*"/>
+                <input asp-for="Image" class="form-control" type="file" onchange="preview(this)" accept="image/*" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
