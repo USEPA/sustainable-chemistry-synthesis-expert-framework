@@ -1,12 +1,12 @@
-﻿@model SustainableChemistryWeb.Models.Catalyst
+﻿@model SustainableChemistryWeb.Models.Reactant
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Catalyst</h1>
+<h1>Reactant</h1>
 
-@using (Html.BeginForm("Details", "Catalysts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Details", "Reactants", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <dl class="row">
         <dt class="col-sm-2">

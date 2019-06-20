@@ -332,7 +332,7 @@ namespace SustainableChemistryWeb.Controllers
 
         private void PopulateReactantData(NamedReaction reaction)
         {
-            var allReactants = _context.AppReactant;
+            var allReactants = _context.AppReactant.OrderBy(i => i.Name.ToLower()).ToList();
             var reactionReactants = new HashSet<long>(reaction.AppNamedreactionReactants.Select(c => c.ReactantId));
             var reactantList = new List<SelectListItem>();
             List<string> selectedReactants = new List<string>();
