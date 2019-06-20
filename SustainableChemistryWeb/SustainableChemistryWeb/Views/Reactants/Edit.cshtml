@@ -1,0 +1,59 @@
+﻿@model SustainableChemistryWeb.Models.Reactant
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+@using (Html.BeginForm("Edit", "Reactants", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <img id="image01" src="~/@Model.ImageFileName" />
+                <input asp-for="Image" class="form-control" type="file" onchange="preview(this)" accept="image/*" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+    function preview(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onloadend = function (e) {
+                $('#image01').attr('src', e.target.result);
+            }
+            //readAsDataURL will start reading the contents of the specified Blob, which may be a File.
+            // When the read operation is finished, the readyState property will become DONE, and the
+            // onloadend callback, if any, will be called. At that time, the result attribute contains
+            // the raw binary data from the file.
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>
