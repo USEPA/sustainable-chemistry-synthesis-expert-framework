@@ -52,11 +52,13 @@
             <div class="form-group">
                 <label asp-for="CatalystId" class="control-label">Catalyst</label>
                 <select asp-for="CatalystId" class="form-control chosen-select" asp-items="ViewBag.CatalystID"></select>
+                @Html.ActionLink("Add New Catalyst", "Create", "Catalysts")
                 <span asp-validation-for="CatalystId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SolventId" class="control-label">Solvent</label>
                 <select asp-for="SolventId" class="form-control chosen-select" asp-items="ViewBag.SolventId"></select>
+                @Html.ActionLink("Add New Solvent", "Create", "Solvents")
                 <span asp-validation-for="SolventId" class="text-danger"></span>
             </div>
             <div class="form-group">

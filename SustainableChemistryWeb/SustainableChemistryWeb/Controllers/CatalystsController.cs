@@ -10,24 +10,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SustainableChemistryWeb.Controllers
 {
-    public class SolventsController : Controller
+    public class CatalystsController : Controller
     {
         private readonly SustainableChemistryContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SolventsController(SustainableChemistryContext context, IHostingEnvironment hostingEnvironment)
+        public CatalystsController(SustainableChemistryContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
         }
 
-        // GET: Solvents
+        // GET: Catalysts
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AppSolvent.OrderBy(i => i.Name.ToLower()).ToListAsync());
+            return View(await _context.AppCatalyst.OrderBy(i => i.Name.ToLower()).ToListAsync());
         }
 
-        // GET: Solvents/Details/5
+        // GET: Catalysts/Details/5
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -35,37 +37,37 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            var appSolvent = await _context.AppSolvent
+            var appCatalyst = await _context.AppCatalyst
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (appSolvent == null)
+            if (appCatalyst == null)
             {
                 return NotFound();
             }
 
-            return View(appSolvent);
+            return View(appCatalyst);
         }
 
-        // GET: Solvents/Create
-        public ActionResult Create()
+        // GET: Catalysts/Create
+        public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Solvents/Create
+        // POST: Catalysts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] SustainableChemistryWeb.Models.Solvent solvent)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] SustainableChemistryWeb.Models.Catalyst catalyst)
         {
             try
             {
-                Solvent appSolvent = new Solvent()
+                Catalyst appCat = new Catalyst()
                 {
-                    Name = solvent.Name,
-                    Description = solvent.Description
+                    Name = catalyst.Name,
+                    Description = catalyst.Description
                 };
                 if (ModelState.IsValid)
                 {
-                    _context.Add(appSolvent);
+                    _context.Add(appCat);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -77,7 +79,7 @@ namespace SustainableChemistryWeb.Controllers
             }
         }
 
-        // GET: Solvents/Edit/5
+        // GET: Catalysts/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -85,30 +87,31 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            var appSolvent = await _context.AppSolvent
+            var appCatalyst = await _context.AppCatalyst
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (appSolvent == null)
+            if (appCatalyst == null)
             {
                 return NotFound();
             }
 
-            return View(appSolvent);
+            return View(appCatalyst);
         }
 
-        // POST: Solvents/Edit/5
+        // POST: Catalysts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("Id,Name,Description")] SustainableChemistryWeb.Models.Solvent solvent)
-        { 
-            var solventToUpdate = await _context.AppSolvent
+        public async Task<IActionResult> Edit(long? id, [Bind("Id,Name,Description")] SustainableChemistryWeb.Models.Catalyst catalyst)
+        {
+
+            var catalystToUpdate = await _context.AppCatalyst
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (await TryUpdateModelAsync<Solvent>(
-                           solventToUpdate,
+            if (await TryUpdateModelAsync<Catalyst>(
+                           catalystToUpdate,
                            "",
                            r => r.Name, r => r.Description))
                 try
                 {
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();                    
                 }
                 catch
                 {
@@ -117,7 +120,7 @@ namespace SustainableChemistryWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Solvents/Delete/5
+        // GET: Catalysts/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -125,17 +128,17 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            var appSolvent = await _context.AppSolvent
+            var appCatalyst = await _context.AppCatalyst
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (appSolvent == null)
+            if (appCatalyst == null)
             {
                 return NotFound();
             }
 
-            return View(appSolvent);
+            return View(appCatalyst);
         }
 
-        // POST: Solvents/Delete/5
+        // POST: Catalysts/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(long? id, IFormCollection collection)
@@ -145,10 +148,10 @@ namespace SustainableChemistryWeb.Controllers
                 return NotFound();
             }
 
-            var appSolvent = await _context.AppSolvent
+            var appCatalyst = await _context.AppCatalyst
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            _context.AppSolvent.Remove(appSolvent);
+            _context.AppCatalyst.Remove(appCatalyst);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
