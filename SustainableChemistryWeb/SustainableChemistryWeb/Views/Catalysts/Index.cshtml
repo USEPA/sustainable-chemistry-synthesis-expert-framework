@@ -1,0 +1,94 @@
+﻿@model IEnumerable<SustainableChemistryWeb.Models.Catalyst>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Catalyst List</h1>
+@using (Html.BeginForm("Index", "Catalysts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    }
+
+    @*if (@ViewBag.FunctionalGroupName != null)
+    {
+        <p>
+            Search results for Functional Group: "@ViewBag.FunctionalGroupName" | <a asp-action="Index">Back to Full Functional Group List</a> |
+            <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        </p>
+    }
+    else if (@ViewBag.SmilesString != null)
+    {
+        <p>
+            Search results for SMILES String: "@ViewBag.SmilesString" | <a asp-action="Index">Back to Functional Group Full List</a> |
+            <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        </p>
+    }
+    else if (@ViewBag.SearchString != null)
+    {
+        <p>
+            Search results for: "@ViewBag.SearchString" | <a asp-action="Index">Back to Functional Group Full List</a> |
+            <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        </p>
+    }
+    else
+    {
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                Find by name: <input type="text" name="NameSearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                Molecule SMILES to find Functional Groups: <input type="text" name="SmilesSearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    }*@
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <ul class="nav flex-column">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    </li>
+                                }
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -68,6 +68,9 @@ namespace SustainableChemistryWeb
                     options.AllowAreas = true;
                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                    //options.RootDirectory = "/Pages";
+                    //options.Conventions.AddPageRoute("/Catalysts", "Catalysts/{handler?}");
+                    //options.Conventions.AddPageApplicationModelConvention("/Solvents", "Solvents/{handler?}");
                 });
 
             services.Configure<IdentityOptions>(options =>
