@@ -116,9 +116,6 @@ namespace SustainableChemistryWeb.Controllers
                 AppNamedreactionByProducts = new List<NamedReactionByProducts>()
             };
             PopulateReactantData(reaction);
-            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name");
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
-            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name");
             List<SelectListItem> acidBaseList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "AC", Text = "Acid" },
@@ -126,16 +123,16 @@ namespace SustainableChemistryWeb.Controllers
                 new SelectListItem { Value = "AB", Text = "Acid Or Base" },
                 new SelectListItem { Value = "NA", Text = "Not Applicable" }
             };
-            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text");
+            ViewData["AcidBaseList"] = new SelectList(acidBaseList, "Value", "Text", "NA");
             List<SelectListItem> heatList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "HE", Text = "Heat" },
                 new SelectListItem { Value = "NA", Text = "Not Applicable" }
             };
-            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text");
-            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name");
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
-            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name");
+            ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", "NA");
+            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", 1);
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name");
+            ViewData["SolventId"] = new SelectList(_context.AppSolvent.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", 1);
             return View();
         }
 
@@ -254,9 +251,9 @@ namespace SustainableChemistryWeb.Controllers
                 new SelectListItem { Value = "NA", Text = "Not Applicable" }
             };
             ViewData["HeatList"] = new SelectList(heatList, "Value", "Text", appNamedreaction.Heat);
-            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
-            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
-            ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
+            ViewData["CatalystId"] = new SelectList(_context.AppCatalyst.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", appNamedreaction.CatalystId);
+            ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", appNamedreaction.FunctionalGroupId);
+            ViewData["SolventId"] = new SelectList(_context.AppSolvent.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", appNamedreaction.SolventId);
             return View(viewModel);
         }
 
@@ -323,9 +320,9 @@ namespace SustainableChemistryWeb.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 // PopulateReactantData(appNamedreaction);
-                ViewData["CatalystId"] = new SelectList(_context.AppCatalyst, "Id", "Name", appNamedreaction.CatalystId);
-                ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appNamedreaction.FunctionalGroupId);
-                ViewData["SolventId"] = new SelectList(_context.AppSolvent, "Id", "Name", appNamedreaction.SolventId);
+                ViewData["CatalystId"] = new SelectList(_context.AppCatalyst.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", appNamedreaction.CatalystId);
+                ViewData["FunctionalGroupId"] = new SelectList(_context.AppFunctionalgroup.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", appNamedreaction.FunctionalGroupId);
+                ViewData["SolventId"] = new SelectList(_context.AppSolvent.OrderBy(i => i.Name.ToLower()).ToList(), "Id", "Name", appNamedreaction.SolventId);
             }
             return View(appNamedreaction);
         }
