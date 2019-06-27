@@ -22,12 +22,14 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: Solvents
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.AppSolvent.OrderBy(i => i.Name.ToLower()).ToListAsync());
         }
 
         // GET: Solvents/Details/5
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)

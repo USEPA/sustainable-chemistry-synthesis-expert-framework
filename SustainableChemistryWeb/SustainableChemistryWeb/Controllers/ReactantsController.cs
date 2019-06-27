@@ -22,12 +22,14 @@ namespace SustainableChemistryWeb.Controllers
         }
 
         // GET: Reactants
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.AppReactant.OrderBy(i => i.Name.ToLower()).ToListAsync());
         }
 
         // GET: Reactants/Details/5
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
