@@ -76,7 +76,7 @@
                             }
                             else if (@ViewBag.SmilesString != null)
                             {
-                                <a asp-action="Index" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
                             }
                             else
                             {
