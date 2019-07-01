@@ -66,6 +66,7 @@ namespace SustainableChemistryWeb.Controllers
                     Description = reactant.Description,
                     Temp2 = string.Empty,
                 };
+                if (string.IsNullOrEmpty(appReactant.Description)) appReactant.Description = string.Empty;
                 if (ModelState.IsValid)
                 {
                     _context.Add(appReactant);
@@ -105,6 +106,7 @@ namespace SustainableChemistryWeb.Controllers
         {
             var reactantToUpdate = await _context.AppReactant
                .SingleOrDefaultAsync(m => m.Id == id);
+            if (string.IsNullOrEmpty(reactant.Description)) reactant.Description = string.Empty;
             if (await TryUpdateModelAsync<Reactant>(
                            reactantToUpdate,
                            "",
