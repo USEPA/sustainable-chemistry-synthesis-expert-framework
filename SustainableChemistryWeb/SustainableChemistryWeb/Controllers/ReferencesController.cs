@@ -98,18 +98,22 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RISFile,FunctionalGroupId,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
+        public async Task<IActionResult> Create([Bind("Id,RISFile,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
         {
             if (ModelState.IsValid)
             {
+                var tempReact = await _context.AppNamedreaction
+                    .Include(i => i.FunctionalGroup)
+                    .SingleOrDefaultAsync(i => i.Id == appReference.ReactionId);
+
                 if (appReference.RISFile != null)
                 {
                     appReference.Risdata = new System.IO.StreamReader(appReference.RISFile.OpenReadStream()).ReadToEnd();
                 }
                 SustainableChemistryWeb.Models.Reference reference = new Reference
                 {
-                    FunctionalGroupId = appReference.FunctionalGroupId,
-                    FunctionalGroup = appReference.FunctionalGroup,
+                    FunctionalGroupId = tempReact.FunctionalGroupId,
+                    FunctionalGroup = tempReact.FunctionalGroup,
                     ReactionId = appReference.ReactionId,
                     Reaction = appReference.Reaction,
                     Risdata = appReference.Risdata
@@ -154,7 +158,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Risdata,FunctionalGroupId,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Risdata, ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
         {
             if (id != appReference.Id)
             {
@@ -164,20 +168,30 @@ namespace SustainableChemistryWeb.Controllers
             if (ModelState.IsValid)
             {
                 var referenceToUpdate = await _context.AppReference
-                    .SingleOrDefaultAsync(m => m.Id == id);
+                    .Include(i => i.FunctionalGroup)
+                    .Include(i => i.Reaction)
+                    .SingleOrDefaultAsync(i => i.Id == id);
+
+                var tempReact = await _context.AppNamedreaction
+                    .Include(i => i.FunctionalGroup)
+                    .SingleOrDefaultAsync(i => i.Id == appReference.ReactionId);
 
                 if (await TryUpdateModelAsync<Reference>(
                     referenceToUpdate,
                     "",
-                    r => r.FunctionalGroupId, r => r.ReactionId))
+                    r => r.ReactionId, r => r.Risdata))
+                {
                     if (appReference.RISFile != null)
                     {
                         referenceToUpdate.Risdata = new System.IO.StreamReader(appReference.RISFile.OpenReadStream()).ReadToEnd();
                     }
+                    referenceToUpdate.FunctionalGroupId = tempReact.FunctionalGroupId;
+                    referenceToUpdate.FunctionalGroup = tempReact.FunctionalGroup;
+                }
                 _context.Update(referenceToUpdate);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(id));
+            return RedirectToAction(nameof(Index));
         }
 
         private void PopulateReferenceData(Reference appReference)
