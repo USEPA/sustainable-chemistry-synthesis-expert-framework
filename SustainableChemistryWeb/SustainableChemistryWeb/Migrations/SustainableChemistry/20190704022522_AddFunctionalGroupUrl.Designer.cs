@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SustainableChemistryWeb.Models;
 
 namespace SustainableChemistryWeb.Migrations.SustainableChemistry
 {
     [DbContext(typeof(SustainableChemistryContext))]
-    partial class SustainableChemistryContextModelSnapshot : ModelSnapshot
+    [Migration("20190704022522_AddFunctionalGroupUrl")]
+    partial class AddFunctionalGroupUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -45,20 +45,27 @@ namespace SustainableChemistryWeb.Controllers
                 fgFound.AddRange(viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)));
             }
 
-            else if (!String.IsNullOrEmpty(smilesSearchString)) await Task.Run(() =>
+            else if (!String.IsNullOrEmpty(smilesSearchString))
             {
                 ViewData["SmilesString"] = smilesSearchString;
-                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString.Trim());                
+                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString.Trim());
                 foreach (var fg in viewModel.FunctionalGroups)
                 {
                     string smarts = fg.Smarts;
                     if (!string.IsNullOrEmpty(fg.Smarts))
-                        if (molecule.FindFunctionalGroup(fg.Smarts))
+                        if (molecule.FindFunctionalGroup(fg))
                         {
                             fgFound.Add(fg);
                         }
+
                 }
-            });
+                if (molecule.Aromatic) fgFound.Add(_context.AppFunctionalgroup
+                    .FirstOrDefault(m => m.Id == 35));
+                if (molecule.Heterocyclic) fgFound.Add(_context.AppFunctionalgroup
+                    .FirstOrDefault(m => m.Id == 118));
+                if (molecule.HeterocyclicAromatic) fgFound.Add(_context.AppFunctionalgroup
+                    .FirstOrDefault(m => m.Id == 224));
+            }
 
             else if (funcGroupId != null)
             {
@@ -99,7 +106,7 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 viewModel.References = referenceViewModels;
             }
-            if (fgFound.Count > 0) viewModel.FunctionalGroups = fgFound;
+            if (fgFound.Count > 0) viewModel.FunctionalGroups = fgFound.OrderBy(i => i.Name);
             return View(viewModel);
         }
 
@@ -133,7 +140,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
             string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
             FunctionalGroup appFunctionalGroup = new FunctionalGroup()
@@ -141,6 +148,7 @@ namespace SustainableChemistryWeb.Controllers
                 Name = functionalGroupView.Name,
                 Smarts = functionalGroupView.Smarts,
                 Image = "Images/FunctionalGroups/" + name,
+                URL = functionalGroupView.URL
             };
             if (functionalGroupView.Image.Length > 0)
             {
@@ -177,6 +185,7 @@ namespace SustainableChemistryWeb.Controllers
                 Name = appFunctionalgroup.Name,
                 Smarts = appFunctionalgroup.Smarts,
                 ImageFileName = appFunctionalgroup.Image,
+                URL = appFunctionalgroup.URL
             };
 
             return View(functionalGroupView);
@@ -187,7 +196,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image,ImageFileName")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image,ImageFileName,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
             if (id != functionalGroupView.Id)
             {
@@ -200,17 +209,17 @@ namespace SustainableChemistryWeb.Controllers
             if (await TryUpdateModelAsync<FunctionalGroup>(
                 functionalGroupToUpdate,
                 "",
-                r => r.Name, r => r.Smarts, r => r.Smarts))
+                r => r.Name, r => r.Smarts, r => r.Smarts, r => r.URL))
             {
                 try
                 {
                     var fileName = _hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image;
-                    if (System.IO.File.Exists(fileName))
-                    {
-                        System.IO.File.Delete(fileName);
-                    }
                     if (functionalGroupView.Image != null)
                     {
+                        if (System.IO.File.Exists(fileName))
+                        {
+                            System.IO.File.Delete(fileName);
+                        }
                         functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
                         using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image, System.IO.FileMode.Create))
                         {
@@ -218,16 +227,16 @@ namespace SustainableChemistryWeb.Controllers
                             stream.Close();
                         }
                     }
-                    else
-                    {
-                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + ".jpg";
-                        System.IO.StreamReader image = new System.IO.StreamReader(_hostingEnvironment.WebRootPath + "/Images/Reactions/th.jpg");
-                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image, System.IO.FileMode.Create))
-                        {
-                            await image.BaseStream.CopyToAsync(stream);
-                            stream.Close();
-                        }
-                    }
+                    //else
+                    //{
+                    //    functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + ".jpg";
+                    //    System.IO.StreamReader image = new System.IO.StreamReader(_hostingEnvironment.WebRootPath + "/Images/Reactions/th.jpg");
+                    //    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image, System.IO.FileMode.Create))
+                    //    {
+                    //        await image.BaseStream.CopyToAsync(stream);
+                    //        stream.Close();
+                    //    }
+                    //}
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -174,6 +174,7 @@ namespace SustainableChemistryWeb.ChemInfo
             FusedRings();
             TestHeterocyclic();
             TestAromaticity();
+            TestHeterocyclicAromaticity();
             ringsFound = true;
             return ConvertToArrayArray(cycles);
         }
@@ -423,9 +424,9 @@ namespace SustainableChemistryWeb.ChemInfo
             isRingHeterocyclic = new bool[cycles.Count];
             for (int i = 0; i < cycles.Count; i++)
             {
+                isRingHeterocyclic[i] = false;
                 foreach (Atom a in cycles[i])
                 {
-                    isRingHeterocyclic[i] = false;
                     if (a.Element != ELEMENTS.C)
                     {
                         isRingHeterocyclic[i] = true;
@@ -441,14 +442,6 @@ namespace SustainableChemistryWeb.ChemInfo
             if (this.aromaticitySet) return;
             this.aromaticitySet = true;
             if (this.cycles.Count == 0) Aromatic = false;
-            foreach (Atom a in this.Atoms)
-            {
-                if (a.AtomType == ChemInfo.AtomType.AROMATIC)
-                {
-                    Aromatic = true;
-                    return;
-                }
-            }
             isRingAromatic = new bool[cycles.Count];
             isRingHeterocyclicAromatic = new bool[cycles.Count];
             for (int i = 0; i < cycles.Count; i++)
@@ -456,30 +449,40 @@ namespace SustainableChemistryWeb.ChemInfo
                 int numPi = 0;
                 isRingAromatic[i] = false;
                 isRingHeterocyclicAromatic[i] = false;
-                foreach (Atom a in cycles[i])
-                {
-                    numPi = numPi + a.NumPiElectrons;
-                }
-                if ((numPi - 2) % 4 == 0)
+                if (cycles[i][0].AtomType == ChemInfo.AtomType.AROMATIC)
                 {
                     isRingAromatic[i] = true;
-                    isRingHeterocyclicAromatic[i] = true;
                     Aromatic = true;
+                }
+                else
+                {
                     foreach (Atom a in cycles[i])
                     {
-                        a.AtomType = AtomType.AROMATIC;
-                        if (a.Element != ELEMENTS.C)
-                        {
-                            isRingHeterocyclicAromatic[i] = true;
-                            HeterocyclicAromatic = true;
-                        }
-                        foreach (Atom connected in a.ConnectedAtoms)
-                        {
-                            int aIndex = this.m_Atoms.IndexOf(a);
-                            int connectedIndex = this.m_Atoms.IndexOf(connected);
-                            if (connected.AtomType == AtomType.AROMATIC) a.GetBond(connected).BondType = BondType.Aromatic;
-                        }
+                        numPi = numPi + a.NumPiElectrons;
                     }
+                    if ((numPi - 2) % 4 == 0)
+                    {
+                        isRingAromatic[i] = true;
+                        isRingHeterocyclicAromatic[i] = true;
+                        Aromatic = true;
+                    }
+                }
+            }
+        }
+
+        void TestHeterocyclicAromaticity()
+        {
+            if (!this.Aromatic || !this.Heterocyclic)
+            {
+                HeterocyclicAromatic = false;
+                return;
+            }
+            for (int i = 0; i < cycles.Count; i++)
+            {
+                if (isRingAromatic[i] && isRingHeterocyclic[i])
+                {
+                    this.HeterocyclicAromatic = true;
+                    isRingHeterocyclicAromatic[i] = true;
                 }
             }
         }

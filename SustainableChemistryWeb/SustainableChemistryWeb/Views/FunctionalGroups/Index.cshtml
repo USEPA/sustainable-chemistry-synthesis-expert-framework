@@ -27,6 +27,7 @@
             Search results for SMILES String: "@ViewBag.SmilesString" | <a asp-action="Index">Back to Functional Group Full List</a> |
             <a href='javascript:history.go(-1)'>Return to Previous Page</a>
         </p>
+        <img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/@ViewBag.SmilesString/PNG" class="img-fluid" width="250" />
     }
     else if (@ViewBag.SearchString != null)
     {
@@ -57,7 +58,7 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col"></th>
-                    <th scope="col">Smarts</th>
+                    <th scope="col">SMARTS</th>
                     <th scope="col">Image</th>
                     <th scope="col"></th>
                 </tr>
@@ -70,18 +71,28 @@
                             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
                         </td>
                         <td>
-                            @if (@ViewBag.FunctionalGroupID != null)
-                            {
-                                <a asp-action="Index" asp-route-funcGroupId="@item.Id">Show Reactions</a>
-                            }
-                            else if (@ViewBag.SmilesString != null)
-                            {
-                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
-                            }
-                            else
-                            {
-                                <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
-                            }
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    @if (@ViewBag.FunctionalGroupID != null)
+                                    {
+                                        <a asp-action="Index" asp-route-funcGroupId="@item.Id">Show Reactions</a>
+                                    }
+                                    else if (@ViewBag.SmilesString != null)
+                                    {
+                                        <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                                    }
+                                </li>
+                                <li class="nav-item">
+                                    -------
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Html.DisplayFor(modelItem => item.URL)" target="_newtab">General Information</a>
+                                </li>
+                            </ul>
                         </td>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Smarts)</a>
