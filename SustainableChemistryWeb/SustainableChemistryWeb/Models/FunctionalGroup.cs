@@ -15,8 +15,10 @@ namespace SustainableChemistryWeb.Models
         [Key]
         public long Id { get; set; }
         public string Name { get; set; }
+        [System.ComponentModel.DisplayName("SMARTS")]
         public string Smarts { get; set; }
         public string Image { get; set; }
+        public string URL { get; set; }
 
         public virtual ICollection<NamedReaction> AppNamedreaction { get; set; }
         public virtual ICollection<Reference> AppReference { get; set; }

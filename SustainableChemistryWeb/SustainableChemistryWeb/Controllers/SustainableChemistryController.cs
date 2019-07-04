@@ -83,7 +83,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 string smarts = group.Smarts;
                 if (!string.IsNullOrEmpty(group.Smarts))
-                    if (molecule.FindFunctionalGroup(group.Smarts))
+                    if (molecule.FindFunctionalGroup(group))
                     {
                         retVal.Add(new AppFunctionalgroupDTO()
                         {
