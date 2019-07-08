@@ -13,6 +13,7 @@ namespace SustainableChemistryWeb.Models
         }
 
         public long Id { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
         public string Name { get; set; }
         public string ReactantA { get; set; }
         public string ReactantB { get; set; }
@@ -27,6 +28,7 @@ namespace SustainableChemistryWeb.Models
         public string Url { get; set; }
 
         public virtual Catalyst Catalyst { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
         public virtual FunctionalGroup FunctionalGroup { get; set; }
         public virtual Solvent Solvent { get; set; }
         public virtual ICollection<NamedReactionByProducts> AppNamedreactionByProducts { get; set; }

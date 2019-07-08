@@ -14,9 +14,12 @@ namespace SustainableChemistryWeb.Models
 
         [Key]
         public long Id { get; set; }
+        [Required]
         public string Name { get; set; }
         [System.ComponentModel.DisplayName("SMARTS")]
+        [Required]
         public string Smarts { get; set; }
+        [Required]
         public string Image { get; set; }
         public string URL { get; set; }
 
