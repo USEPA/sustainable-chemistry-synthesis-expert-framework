@@ -70,10 +70,10 @@
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <img id="image01" src="~/@Html.DisplayTextFor(model => model.ImageFileName)" />
-                <input asp-for="Image" class="form-control" type="file" onchange="preview(this)" accept="image/*"/>
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <label asp-for="ImageFile" class="control-label"></label>
+                <img id="image01" src="~/@Html.DisplayTextFor(model => model.Image)" />
+                <input asp-for="ImageFile" class="form-control" type="file" onchange="preview(this)" accept="image/*"/>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

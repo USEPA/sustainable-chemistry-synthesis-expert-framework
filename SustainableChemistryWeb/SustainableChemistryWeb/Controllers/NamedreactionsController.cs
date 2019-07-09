@@ -93,7 +93,7 @@ namespace SustainableChemistryWeb.Controllers
                 AppNamedreactionReactants = appNamedreaction.AppNamedreactionReactants,
                 AppReference = appNamedreaction.AppReference,
                 Url = appNamedreaction.Url,
-                ImageFileName = appNamedreaction.Image,
+                Image = appNamedreaction.Image,
             };
 
             if (appNamedreaction.Heat == "HE") reactionViewModel.Heat = "Heat";
@@ -142,7 +142,7 @@ namespace SustainableChemistryWeb.Controllers
         // Needs fixed!
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] SustainableChemistryWeb.ViewModels.NamedReactionViewModel namedReactionView, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Create([Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,ImageFile,CatalystId,FunctionalGroupId,SolventId,Url")] SustainableChemistryWeb.ViewModels.NamedReactionViewModel namedReactionView, string[] reactants, string[] byProducts)
         {
             NamedReaction appNamedreaction = new NamedReaction()
             {
@@ -161,10 +161,10 @@ namespace SustainableChemistryWeb.Controllers
             };
             if (namedReactionView.Image != null)
             {
-                appNamedreaction.Image = "Images/Reactions/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(namedReactionView.Image.FileName);
+                appNamedreaction.Image = "Images/Reactions/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(namedReactionView.ImageFile.FileName);
                 using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + appNamedreaction.Image, System.IO.FileMode.Create))
                 {
-                    await namedReactionView.Image.CopyToAsync(stream);
+                    await namedReactionView.ImageFile.CopyToAsync(stream);
                     stream.Close();
                 }
             }
@@ -234,7 +234,7 @@ namespace SustainableChemistryWeb.Controllers
                 FunctionalGroupId = appNamedreaction.FunctionalGroupId,
                 SolventId = appNamedreaction.SolventId,
                 Url = appNamedreaction.Url,
-                ImageFileName = appNamedreaction.Image
+                Image = appNamedreaction.Image
             };
             PopulateReactantData(appNamedreaction);
             List<SelectListItem> acidBaseList = new List<SelectListItem>
@@ -262,7 +262,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,Image,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,ImageFile,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
         {
             {
                 if (ModelState.IsValid)
@@ -291,8 +291,8 @@ namespace SustainableChemistryWeb.Controllers
                             System.IO.File.Delete(fileName);
                         }
 
-                        string name = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(appNamedreaction.Image.FileName);
-                        using (var imageStream = new System.IO.StreamReader(appNamedreaction.Image.OpenReadStream()))
+                        string name = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(appNamedreaction.ImageFile.FileName);
+                        using (var imageStream = new System.IO.StreamReader(appNamedreaction.ImageFile.OpenReadStream()))
                         {
                             using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
                             {
@@ -474,8 +474,8 @@ namespace SustainableChemistryWeb.Controllers
             {
                 if (reactionByProducts.Contains(reactant.Id))
                 {
-                    NamedReactionByProducts courseToRemove = appNamedreaction.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
-                    _context.Remove(courseToRemove);
+                    NamedReactionByProducts reactantToRemove = appNamedreaction.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                    _context.Remove(reactantToRemove);
                 }
             }
 
@@ -485,10 +485,15 @@ namespace SustainableChemistryWeb.Controllers
             {
                 if (reactionReactants.Contains(reactant.Id))
                 {
-                    NamedReactionReactants courseToRemove = appNamedreaction.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reactant.Id);
-                    _context.Remove(courseToRemove);
+                    NamedReactionReactants reactantToRemove = appNamedreaction.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                    _context.Remove(reactantToRemove);
                 }
             }
+            appNamedreaction.FunctionalGroup = null;
+            appNamedreaction.Catalyst = null;
+            appNamedreaction.Solvent = null;
+            var references = _context.AppReference.Where(i => i.ReactionId == appNamedreaction.Id).ToList();
+            foreach (Reference r in references) _context.AppReference.Remove(r);
             _context.AppNamedreaction.Remove(appNamedreaction);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -140,31 +140,31 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,Image,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Create([Bind("Id,Name,Smarts,ImageFile,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
-            string name = System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
-            FunctionalGroup appFunctionalGroup = new FunctionalGroup()
-            {
-                Name = functionalGroupView.Name,
-                Smarts = functionalGroupView.Smarts,
-                Image = "Images/FunctionalGroups/" + name,
-                URL = functionalGroupView.URL
-            };
-            if (functionalGroupView.Image.Length > 0)
-            {
-                using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + name, System.IO.FileMode.Create))
-                {
-                    await functionalGroupView.Image.CopyToAsync(stream);
-                    stream.Close();
-                }
-            }
             if (ModelState.IsValid)
             {
+                string name = System.IO.Path.GetFileName(functionalGroupView.ImageFile.FileName);
+                FunctionalGroup appFunctionalGroup = new FunctionalGroup()
+                {
+                    Name = functionalGroupView.Name,
+                    Smarts = functionalGroupView.Smarts,
+                    Image = "Images/FunctionalGroups/" + name,
+                    URL = functionalGroupView.URL
+                };
+                if (functionalGroupView.ImageFile.Length > 0)
+                {
+                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/FunctionalGroups/" + name, System.IO.FileMode.Create))
+                    {
+                        await functionalGroupView.ImageFile.CopyToAsync(stream);
+                        stream.Close();
+                    }
+                }
                 _context.Add(appFunctionalGroup);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(appFunctionalGroup);
+            return View(functionalGroupView);
         }
 
         // GET: FunctionalGroups/Edit/5
@@ -184,7 +184,7 @@ namespace SustainableChemistryWeb.Controllers
             {
                 Name = appFunctionalgroup.Name,
                 Smarts = appFunctionalgroup.Smarts,
-                ImageFileName = appFunctionalgroup.Image,
+                Image = appFunctionalgroup.Image,
                 URL = appFunctionalgroup.URL
             };
 
@@ -196,7 +196,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image,ImageFileName,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,ImageFile,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
             if (id != functionalGroupView.Id)
             {
@@ -214,16 +214,16 @@ namespace SustainableChemistryWeb.Controllers
                 try
                 {
                     var fileName = _hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image;
-                    if (functionalGroupView.Image != null)
+                    if (functionalGroupView.ImageFile != null)
                     {
                         if (System.IO.File.Exists(fileName))
                         {
                             System.IO.File.Delete(fileName);
                         }
-                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(functionalGroupView.Image.FileName);
+                        functionalGroupToUpdate.Image = "Images/FunctionalGroups/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(functionalGroupView.ImageFile.FileName);
                         using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + functionalGroupToUpdate.Image, System.IO.FileMode.Create))
                         {
-                            await functionalGroupView.Image.CopyToAsync(stream);
+                            await functionalGroupView.ImageFile.CopyToAsync(stream);
                             stream.Close();
                         }
                     }
@@ -252,7 +252,7 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(functionalGroupToUpdate);
+            return View(functionalGroupView);
         }
 
         // GET: FunctionalGroups/Delete/5
@@ -284,6 +284,51 @@ namespace SustainableChemistryWeb.Controllers
             {
                 System.IO.File.Delete(fileName);
             }
+            var reactions = _context.AppNamedreaction
+                .Include(a => a.Catalyst)
+                .Include(a => a.FunctionalGroup)
+                .Include(a => a.Solvent)
+                    .Include(i => i.AppNamedreactionReactants)
+                        .ThenInclude(i => i.Reactant)
+                    .Include(i => i.AppNamedreactionByProducts)
+                        .ThenInclude(i => i.Reactant)
+                .Include(a => a.AppNamedreactionByProducts)
+                .Where(i => i.FunctionalGroupId == id).ToList();
+            foreach (NamedReaction rxn in reactions)
+            {
+                fileName = _hostingEnvironment.WebRootPath + "/" + rxn.Image;
+                if (System.IO.File.Exists(fileName))
+                {
+                    System.IO.File.Delete(fileName);
+                }
+                var reactionByProducts = new HashSet<long>
+                    (rxn.AppNamedreactionByProducts.Select(c => c.Reactant.Id));
+                foreach (var reactant in _context.AppReactant)
+                {
+                    if (reactionByProducts.Contains(reactant.Id))
+                    {
+                        NamedReactionByProducts reactantToRemove = rxn.AppNamedreactionByProducts.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                        _context.Remove(reactantToRemove);
+                    }
+                }
+
+                var reactionReactants = new HashSet<long>
+                    (rxn.AppNamedreactionReactants.Select(c => c.Reactant.Id));
+                foreach (var reactant in _context.AppReactant)
+                {
+                    if (reactionReactants.Contains(reactant.Id))
+                    {
+                        NamedReactionReactants reactantToRemove = rxn.AppNamedreactionReactants.SingleOrDefault(i => i.ReactantId == reactant.Id);
+                        _context.Remove(reactantToRemove);
+                    }
+                }
+                rxn.FunctionalGroup = null;
+                rxn.Catalyst = null;
+                rxn.Solvent = null;
+                _context.AppNamedreaction.Remove(rxn);
+            }
+            var references = _context.AppReference.Where(i => i.FunctionalGroupId == id).ToList();
+            foreach (Reference r in references) _context.AppReference.Remove(r);
 
             _context.AppFunctionalgroup.Remove(appFunctionalgroup);
             await _context.SaveChangesAsync();
