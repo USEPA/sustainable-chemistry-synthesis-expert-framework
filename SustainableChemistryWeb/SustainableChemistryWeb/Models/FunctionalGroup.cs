@@ -19,7 +19,6 @@ namespace SustainableChemistryWeb.Models
         [System.ComponentModel.DisplayName("SMARTS")]
         [Required]
         public string Smarts { get; set; }
-        [Required]
         public string Image { get; set; }
         public string URL { get; set; }
 

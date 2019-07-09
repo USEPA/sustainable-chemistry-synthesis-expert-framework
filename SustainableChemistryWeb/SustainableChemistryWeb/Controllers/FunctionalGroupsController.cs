@@ -196,8 +196,14 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,ImageFile,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Smarts,Image,ImageFile,URL")] SustainableChemistryWeb.ViewModels.FunctionalGroupViewModel functionalGroupView)
         {
+            if (ModelState.IsValid)
+                if (id != functionalGroupView.Id)
+                {
+                    return NotFound();
+                }
+
             if (id != functionalGroupView.Id)
             {
                 return NotFound();
@@ -209,7 +215,7 @@ namespace SustainableChemistryWeb.Controllers
             if (await TryUpdateModelAsync<FunctionalGroup>(
                 functionalGroupToUpdate,
                 "",
-                r => r.Name, r => r.Smarts, r => r.Smarts, r => r.URL))
+                r => r.Name, r => r.Smarts, r => r.URL))
             {
                 try
                 {
