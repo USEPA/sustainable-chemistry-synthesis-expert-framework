@@ -60,8 +60,14 @@ namespace SustainableChemistryWeb.ChemInfo
             pathsFound = false;
             smilesLexer lexer = new smilesLexer(new Antlr4.Runtime.AntlrInputStream(smiles));
             smilesParser parser = new smilesParser(new Antlr4.Runtime.CommonTokenStream(lexer));
-            int err = parser.NumberOfSyntaxErrors;
-            this.m_Atoms.AddRange((Atom[])new SmilesVisitor().Visit(parser.smiles()));
+            try
+            {
+                this.m_Atoms.AddRange((Atom[])new SmilesVisitor().Visit(parser.smiles()));
+            }
+            catch (SystemException)
+            {
+                this.m_Atoms.Clear();
+            }
             groupAtoms = new List<FunctionalGroupAtoms>();
             this.FindRings();
             //groupAtoms = new List<Atom[]>();
@@ -460,12 +466,12 @@ namespace SustainableChemistryWeb.ChemInfo
                     {
                         numPi = numPi + a.NumPiElectrons;
                     }
-                    if ((numPi - 2) % 4 == 0)
-                    {
-                        isRingAromatic[i] = true;
-                        isRingHeterocyclicAromatic[i] = true;
-                        Aromatic = true;
-                    }
+                }
+                if ((numPi - 2) % 4 == 0)
+                {
+                    isRingAromatic[i] = true;
+                    isRingHeterocyclicAromatic[i] = true;
+                    Aromatic = true;
                 }
             }
         }
@@ -528,6 +534,7 @@ namespace SustainableChemistryWeb.ChemInfo
 
         public bool FindFunctionalGroup(SustainableChemistryWeb.Models.FunctionalGroup group)
         {
+            if (this.Atoms.Length == 0) return false;
             Molecule m = new Molecule(group.Smarts);
             bool retVal = false;
             int pn = 0;

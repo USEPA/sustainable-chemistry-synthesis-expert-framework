@@ -39,6 +39,8 @@ namespace SustainableChemistryWeb.Controllers
                   .ToListAsync();
 
             List<FunctionalGroup> fgFound = new List<FunctionalGroup>();
+            ChemInfo.Molecule molecule = null;
+
             if (!String.IsNullOrEmpty(nameSearchString))
             {
                 ViewData["SearchString"] = nameSearchString.Trim();
@@ -47,24 +49,53 @@ namespace SustainableChemistryWeb.Controllers
 
             else if (!String.IsNullOrEmpty(smilesSearchString))
             {
-                ViewData["SmilesString"] = smilesSearchString;
-                ChemInfo.Molecule molecule = new ChemInfo.Molecule(smilesSearchString.Trim());
-                foreach (var fg in viewModel.FunctionalGroups)
+                string CASNo = string.Empty;
+                TestCASNo(ref CASNo, ref smilesSearchString);
+                molecule = new ChemInfo.Molecule(smilesSearchString.Trim());
+                if (molecule.Atoms.Length != 0)
                 {
-                    string smarts = fg.Smarts;
-                    if (!string.IsNullOrEmpty(fg.Smarts))
-                        if (molecule.FindFunctionalGroup(fg))
+                    string url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/" + smilesSearchString + "/synonyms/TXT";
+                    System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+                    System.Net.WebResponse response = request.GetResponse();
+                    System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+                    string[] output = reader.ReadToEnd().Split('\n');
+                    string pattern = "^CAS-(?<1>\\d{2,7}-\\d{2}-\\d)";
+                    foreach (string line in output)
+                    {
+                        System.Text.RegularExpressions.Match m1 = System.Text.RegularExpressions.Regex.Match(line, pattern,
+                            System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Compiled,
+                            TimeSpan.FromSeconds(1));
+                        if (m1.Groups.Count > 1)
                         {
-                            fgFound.Add(fg);
+                            if (this.validateCasNumber(m1.Groups[1].Value))
+                            {
+                                CASNo = m1.Groups[1].Value;
+                            }
                         }
-
+                    }
+                    ViewData["CASNO"] = CASNo;
+                    ViewData["SmilesString"] = smilesSearchString;
+                    url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/" + smilesSearchString + "/property/IUPACName/TXT";
+                    request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+                    response = request.GetResponse();
+                    reader = new System.IO.StreamReader(response.GetResponseStream());                
+                    ViewData["IUPACName"] = reader.ReadToEnd();
+                    foreach (var fg in viewModel.FunctionalGroups)
+                    {
+                        string smarts = fg.Smarts;
+                        if (!string.IsNullOrEmpty(fg.Smarts))
+                            if (molecule.FindFunctionalGroup(fg))
+                            {
+                                fgFound.Add(fg);
+                            }
+                    }
+                    if (molecule.Aromatic) fgFound.Add(_context.AppFunctionalgroup
+                        .FirstOrDefault(m => m.Id == 35));
+                    if (molecule.Heterocyclic) fgFound.Add(_context.AppFunctionalgroup
+                        .FirstOrDefault(m => m.Id == 118));
+                    if (molecule.HeterocyclicAromatic) fgFound.Add(_context.AppFunctionalgroup
+                        .FirstOrDefault(m => m.Id == 224));
                 }
-                if (molecule.Aromatic) fgFound.Add(_context.AppFunctionalgroup
-                    .FirstOrDefault(m => m.Id == 35));
-                if (molecule.Heterocyclic) fgFound.Add(_context.AppFunctionalgroup
-                    .FirstOrDefault(m => m.Id == 118));
-                if (molecule.HeterocyclicAromatic) fgFound.Add(_context.AppFunctionalgroup
-                    .FirstOrDefault(m => m.Id == 224));
             }
 
             else if (funcGroupId != null)
@@ -106,7 +137,7 @@ namespace SustainableChemistryWeb.Controllers
                 }
                 viewModel.References = referenceViewModels;
             }
-            if (fgFound.Count > 0) viewModel.FunctionalGroups = fgFound.OrderBy(i => i.Name);
+            if (!string.IsNullOrEmpty(nameSearchString) || !string.IsNullOrEmpty(smilesSearchString) || funcGroupId != null) viewModel.FunctionalGroups = fgFound.OrderBy(i => i.Name);
             return View(viewModel);
         }
 
@@ -345,5 +376,157 @@ namespace SustainableChemistryWeb.Controllers
         {
             return _context.AppFunctionalgroup.Any(e => e.Id == id);
         }
+
+        private bool TestCASNo(ref string CASNo, ref string smilesSearchString)
+        {
+            string pattern = "(?<1>\\d+-\\d{2}-\\d)";
+            System.Text.RegularExpressions.Match m1 = System.Text.RegularExpressions.Regex.Match(smilesSearchString, pattern,
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.Compiled,
+                TimeSpan.FromSeconds(1));
+            if (m1.Groups.Count > 1)
+            {
+                if (this.validateCasNumber(m1.Groups[0].Value))
+                {
+                    CASNo = smilesSearchString;
+                    string url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/xref/RN/" + CASNo + "/property/CanonicalSMILES/JSON";
+                    System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+                    System.Net.WebResponse response = request.GetResponse();
+                    System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
+                    //string output = reader.ReadToEnd();
+                    System.Runtime.Serialization.Json.DataContractJsonSerializer jSerializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(Areas.Online.Rootobject));
+                    Areas.Online.Rootobject chemicalName = (Areas.Online.Rootobject)jSerializer.ReadObject(response.GetResponseStream());
+                    smilesSearchString = chemicalName.PropertyTable.Properties[0].CanonicalSMILES;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        bool validateCasNumber(string casNo)
+        {
+            // split the CAS Number into parts separated by a dash...
+            string[] parts = casNo.Split('-');
+            // check that there were three pieces of the cas number...if not, the cas number is improperly formatted and return false
+            if (parts.Length != 3) return false;
+
+            // Check to see if a numbers were submitted...
+            int part1 = 0;
+            if (!int.TryParse(parts[0], out part1))
+            {
+                // if not, return false
+                return false;
+            }
+            // Check to see if a numbers were submitted...
+            int part2 = 0;
+            if (!int.TryParse(parts[1], out part2))
+            {
+                // if not, return false
+                return false;
+            }
+            // Check to see if a numbers were submitted...
+            int part3 = 0;
+            if (!int.TryParse(parts[2], out part3))
+            {
+                // if not, return false
+                return false;
+            }
+
+            //initialize the checksum
+            int checksum = 0;
+
+            // handle part 2...
+            checksum = (part2 % 10);
+            checksum = checksum + (part2 / 10) * 2;
+
+            // now handle part 1, it can have between 2 and 7 digits...
+            int n = 3;
+            while (part1 > 10)
+            {
+                checksum = checksum + (part1 % 10) * n++;
+                part1 = part1 / 10;
+            }
+            checksum = checksum + part1 * n;
+
+            // number is valid if the last digit equals the remainder from dividing 
+            // the checksum by 10.
+            if (checksum % 10 == part3)
+            {
+                // throw exception if the checksum does not work...
+                return true;
+            }
+            return false;
+
+        }
+
+        //private void findCompound(ref string compoundName, ref string CasNo)
+        //{
+        //    string url = "https://chemspell.nlm.nih.gov/spell/restspell/restSpell/getQuery4JSON?query=" + compoundName;
+        //    System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+        //    System.Net.WebResponse response = request.GetResponse();
+        //    string responseString = new System.IO.StreamReader(response.GetResponseStream()).ReadToEnd();
+        //    List<SynonymChemical> synonyms = null;
+        //    if (responseString.StartsWith("Synonym List:"))
+        //    {
+        //        synonyms = this.ExtractSynonyms(responseString.Remove(0, 13));
+        //        CasNo = synonyms[0].CAS;
+        //        bool casSame = true;
+        //        this.listBox1.BeginUpdate();
+        //        foreach (SynonymChemical chemical in synonyms)
+        //        {
+        //            this.listBox1.Items.Add(chemical.Name);
+        //            if (CasNo != chemical.CAS)
+        //            {
+        //                casSame = false;
+        //            }
+        //        }
+        //        if (!casSame) System.Windows.Forms.MessageBox.Show("Not all synomymns have the same CAS CAS Number.");
+        //        this.listBox1.EndUpdate();
+        //        return;
+        //    }
+        //    synonyms = this.ExtractSynonyms(responseString.Remove(0, 26));
+        //    Form3 selector = new Form3();
+        //    selector.chemicals = synonyms.ToArray(); ;
+        //    selector.ShowDialog();
+        //    compoundName = selector.SelectedChemical;
+        //    CasNo = string.Empty;
+        //    this.findCompound(ref compoundName, ref CasNo);
+
+        //    // They broke this with their new web service.
+        //    //gov.nih.nlm.chemspell.SpellAidService service = new gov.nih.nlm.chemspell.SpellAidService();
+        //    //string response = service.getSugList(compoundName, "All databases");
+        //    //response = response.Replace("&", "&amp;");
+        //    //var XMLReader = new System.Xml.XmlTextReader(new System.IO.StringReader(response));
+        //    //System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(Synonym));
+        //    //if (serializer.CanDeserialize(XMLReader))
+        //    //{
+        //    //    // Synonyms means more than one name for the same chemical/CAS Number.
+        //    //    Synonym synonym = (Synonym)serializer.Deserialize(XMLReader);
+        //    //    CasNo = synonym.Chemical[0].CAS;
+        //    //    this.listBox1.BeginUpdate();
+        //    //    foreach (SynonymChemical chemical in synonym.Chemical)
+        //    //    {
+        //    //        this.listBox1.Items.Add(chemical.Name);
+        //    //        if (CasNo != chemical.CAS)
+        //    //        {
+        //    //            System.Windows.Forms.MessageBox.Show(compoundName + " has a synonym with a different CAS Number.");
+        //    //            return;
+        //    //        }
+        //    //    }
+        //    //    this.listBox1.EndUpdate();
+        //    //    return;
+        //    //}
+        //    //serializer = new System.Xml.Serialization.XmlSerializer(typeof(SpellAid));
+        //    //if (serializer.CanDeserialize(XMLReader))
+        //    //{
+        //    //    SpellAid aid = (SpellAid)serializer.Deserialize(XMLReader);
+        //    //    Form3 selector = new Form3();
+        //    //    selector.chemicals = aid;
+        //    //    selector.ShowDialog();
+        //    //    compoundName = selector.SelectedChemical;
+        //    //    this.findCompound(ref compoundName, ref CasNo);
+        //    //    return;
+        //    //}
+        //}
+
     }
 }
