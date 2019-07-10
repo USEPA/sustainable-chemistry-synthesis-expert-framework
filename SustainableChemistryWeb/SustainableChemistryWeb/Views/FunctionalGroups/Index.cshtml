@@ -28,6 +28,9 @@
             <a href='javascript:history.go(-1)'>Return to Previous Page</a>
         </p>
         <img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/@ViewBag.SmilesString/PNG" class="img-fluid" width="250" />
+        <p>
+            IUPAC Name: @ViewBag.IUPACName | <a href="https://actor.epa.gov/actor/chemical.xhtml?casrn=@ViewBag.CASNO" target="_newtab">Get ACToR Information</a>
+        </p>
     }
     else if (@ViewBag.SearchString != null)
     {
