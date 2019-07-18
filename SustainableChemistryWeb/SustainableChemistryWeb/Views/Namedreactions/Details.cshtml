@@ -8,12 +8,10 @@
     string referer = Context.Request.Headers["Referer"].ToString();
     Uri baseUri = new Uri(referer);}
 
-<h1>Details</h1>
+<h3>Sustainable Chemistry Expert Framework - Named Reaction</h3>
 @using (Html.BeginForm("Details", "NamedReactions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div>
-        <h4>Named Reaction</h4>
-        <hr />
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)
@@ -90,12 +88,13 @@
             </dd>
         </dl>
     </div>
+
     <div>
         @if (User.Identity.IsAuthenticated)
         {
             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><text> | </text>
         }
         <a asp-action="Index">Back to Reaction List</a> |
-        <a href='javascript:history.go(-1)'>Return to Previous Page</a>
+        <a asp-controller="Home" asp-action="Index">Home</a>
     </div>
 }

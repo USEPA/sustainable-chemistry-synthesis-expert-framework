@@ -20,7 +20,7 @@ namespace SustainableChemistryWeb.Controllers
 
         // GET: AppReferences
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
-        public async Task<IActionResult> Index(string functionalGroupSearchString, int? namedReactionId)
+        public async Task<IActionResult> Index(string searchString, int? namedReactionId)
         {
             //var sustainableChemistryContext = _context.AppReference.Include(a => a.FunctionalGroup).Include(a => a.Reaction);
             var list = await _context.AppReference.Include(a => a.FunctionalGroup)
@@ -28,9 +28,9 @@ namespace SustainableChemistryWeb.Controllers
                 .OrderBy(s => s.FunctionalGroup.Name)
                 .ThenBy(s => s.Reaction.Name)
                 .ToListAsync();
-            if (!String.IsNullOrEmpty(functionalGroupSearchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                list = list.Where(s => s.FunctionalGroup.Name.Contains(functionalGroupSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                list = list.Where(s => s.FunctionalGroup.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) || s.Reaction.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             if (namedReactionId != null)

@@ -11,13 +11,20 @@ namespace SustainableChemistryWeb.Controllers
     public class HomeController : Controller
     {
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index(string message)
         {
+            ViewData["ErrorMessage"] = message;
             return View();
         }
 
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+        public IActionResult About()
         {
             return View();
         }

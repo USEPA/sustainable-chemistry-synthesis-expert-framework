@@ -27,7 +27,7 @@ namespace SustainableChemistryWeb.Controllers
         // GET: Namedreactions
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
 
-        public async Task<IActionResult> Index(string nameSearchString, string funcGroupSearchString, string sortOrder)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
             var query = _context.AppNamedreaction
                 .Include(s => s.FunctionalGroup);
@@ -43,16 +43,10 @@ namespace SustainableChemistryWeb.Controllers
             }
 
 
-            if (!String.IsNullOrEmpty(nameSearchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                reactions = reactions.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                reactions = reactions.Where(s => s.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) || s.FunctionalGroup.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-
-            if (!String.IsNullOrEmpty(funcGroupSearchString))
-            {
-                reactions = reactions.Where(s => s.FunctionalGroup.Name.Contains(funcGroupSearchString, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
             return View(reactions);
         }
 

@@ -4,8 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>List of Named Reactions</h1>
-
+<h3><a asp-controller="Home" asp-action="Index">Sustainable Chemistry Expert Framework</a>  - Named Reactions List</h3>
 @using (Html.BeginForm("Index", "NamedReactions", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @if (User.Identity.IsAuthenticated)
@@ -14,21 +13,14 @@
             <a asp-action="Create">Create New</a>
         </p>
     }
-
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" name="NameSearchString" value="@ViewData[" currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
-    </div>
-    <div class="form-actions no-color">
-        <p>
-            Find by functional group: <input type="text" name="FuncGroupSearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
-    </div>
+    <form asp-action="Index" method="get">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchString" placeholder="Enter the Name Reaction or the Name of the Functional Group that you want to find" />
+            <div class="input-group-append">
+                <button asp-action="Index" class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
