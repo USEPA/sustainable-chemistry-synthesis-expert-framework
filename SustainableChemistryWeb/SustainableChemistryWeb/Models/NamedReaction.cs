@@ -23,12 +23,12 @@ namespace SustainableChemistryWeb.Models
         public string AcidBase { get; set; }
         public string Image { get; set; }
         public long CatalystId { get; set; }
+        [System.ComponentModel.DataAnnotations.Required]
         public long FunctionalGroupId { get; set; }
         public long SolventId { get; set; }
         public string Url { get; set; }
 
         public virtual Catalyst Catalyst { get; set; }
-        [System.ComponentModel.DataAnnotations.Required]
         public virtual FunctionalGroup FunctionalGroup { get; set; }
         public virtual Solvent Solvent { get; set; }
         public virtual ICollection<NamedReactionByProducts> AppNamedreactionByProducts { get; set; }

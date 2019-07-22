@@ -208,6 +208,7 @@ namespace SustainableChemistryWeb.Controllers
             }
 
             var appNamedreaction = await _context.AppNamedreaction
+                .Include(i => i.FunctionalGroup)
                 .Include(i => i.AppNamedreactionReactants).ThenInclude(i => i.Reactant)
                 .Include(i => i.AppNamedreactionByProducts).ThenInclude(i => i.Reactant)
                 .AsNoTracking()
@@ -256,7 +257,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,ReactantA,ReactantB,ReactantC,Product,Heat,AcidBase,ImageFile,Image,CatalystId,FunctionalGroupId,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,FunctionalGroupId, Product,Heat,AcidBase,ImageFile,Image,Catalyst,SolventId,Url")] ViewModels.NamedReactionViewModel appNamedreaction, string[] reactants, string[] byProducts, string catalyst, string solvent)
         {
             if (ModelState.IsValid)
                 if (id != appNamedreaction.Id)
@@ -265,35 +266,31 @@ namespace SustainableChemistryWeb.Controllers
                 }
 
             var reactionToUpdate = await _context.AppNamedreaction
-                    .Include(i => i.AppNamedreactionReactants)
-                        .ThenInclude(i => i.Reactant)
-                    .Include(i => i.AppNamedreactionByProducts)
-                        .ThenInclude(i => i.Reactant)
-                    .SingleOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.FunctionalGroup)
+                .Include(i => i.AppNamedreactionReactants)
+                    .ThenInclude(i => i.Reactant)
+                .Include(i => i.AppNamedreactionByProducts)
+                    .ThenInclude(i => i.Reactant)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (await TryUpdateModelAsync<NamedReaction>(
                 reactionToUpdate,
                 "",
-                r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.CatalystId, r => r.FunctionalGroupId, r => r.SolventId, r => r.Url))
+                r => r.Name, r => r.Product, r => r.Heat, r => r.AcidBase, r => r.FunctionalGroupId, r => r.CatalystId, r => r.SolventId, r => r.Url))
             {
                 var fileName = _hostingEnvironment.WebRootPath + "/" + reactionToUpdate.Image;
-                if (appNamedreaction.Image != null)
+                if (appNamedreaction.ImageFile != null)
                 {
                     if (System.IO.File.Exists(fileName))
                     {
                         System.IO.File.Delete(fileName);
                     }
-
-                    string name = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(appNamedreaction.ImageFile.FileName);
-                    using (var imageStream = new System.IO.StreamReader(appNamedreaction.ImageFile.OpenReadStream()))
+                    reactionToUpdate.Image = "Images/Reactions/" + Guid.NewGuid().ToString() + System.IO.Path.GetFileName(appNamedreaction.ImageFile.FileName);
+                    using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/" + reactionToUpdate.Image, System.IO.FileMode.Create))
                     {
-                        using (var stream = new System.IO.FileStream(_hostingEnvironment.WebRootPath + "/Images/Reactions/" + name, System.IO.FileMode.Create))
-                        {
-                            imageStream.BaseStream.CopyTo(stream);
-                            stream.Close();
-                        }
+                        await appNamedreaction.ImageFile.CopyToAsync(stream);
+                        stream.Close();
                     }
-                    reactionToUpdate.Image = "Images/Reactions/" + name;
                 }
                 UpdateNamedReactionReactants(reactants, reactionToUpdate);
                 UpdateNamedReactionByProducts(byProducts, reactionToUpdate);
