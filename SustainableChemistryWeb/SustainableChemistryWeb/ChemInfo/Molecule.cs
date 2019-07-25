@@ -449,12 +449,10 @@ namespace SustainableChemistryWeb.ChemInfo
             this.aromaticitySet = true;
             if (this.cycles.Count == 0) Aromatic = false;
             isRingAromatic = new bool[cycles.Count];
-            isRingHeterocyclicAromatic = new bool[cycles.Count];
             for (int i = 0; i < cycles.Count; i++)
             {
                 int numPi = 0;
                 isRingAromatic[i] = false;
-                isRingHeterocyclicAromatic[i] = false;
                 if (cycles[i][0].AtomType == ChemInfo.AtomType.AROMATIC)
                 {
                     isRingAromatic[i] = true;
@@ -472,12 +470,22 @@ namespace SustainableChemistryWeb.ChemInfo
                     isRingAromatic[i] = true;
                     isRingHeterocyclicAromatic[i] = true;
                     Aromatic = true;
+                    foreach (Atom a in cycles[i])
+                    {
+                        a.AtomType = AtomType.AROMATIC;
+                        foreach (Bond b in a.BondedAtoms)
+                        {
+                            if (cycles[i].Contains(b.ConnectedAtom))
+                                b.BondType = BondType.Aromatic;
+                        }
+                    }
                 }
             }
         }
 
         void TestHeterocyclicAromaticity()
         {
+            isRingHeterocyclicAromatic = new bool[cycles.Count];
             if (!this.Aromatic || !this.Heterocyclic)
             {
                 HeterocyclicAromatic = false;
@@ -485,6 +493,7 @@ namespace SustainableChemistryWeb.ChemInfo
             }
             for (int i = 0; i < cycles.Count; i++)
             {
+                isRingHeterocyclicAromatic[i] = false;
                 if (isRingAromatic[i] && isRingHeterocyclic[i])
                 {
                     this.HeterocyclicAromatic = true;
