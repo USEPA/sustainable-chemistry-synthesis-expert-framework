@@ -30,6 +30,7 @@ namespace SustainableChemistryWeb.Controllers
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public async Task<IActionResult> Index(int? Id, int? funcGroupId, int? namedReactionId, string nameSearchString, string smilesSearchString)
         {
+            if (!string.IsNullOrEmpty(smilesSearchString)) ViewData["SearchString"] = smilesSearchString.Trim();
             var viewModel = new SustainableChemistryWeb.ViewModels.FunctionalGroupIndexData();
             viewModel.FunctionalGroups = await _context.AppFunctionalgroup
                   .Include(i => i.AppNamedreaction)
@@ -75,7 +76,7 @@ namespace SustainableChemistryWeb.Controllers
             }
             else if (!String.IsNullOrEmpty(nameSearchString))
             {
-                ViewData["SearchString"] = nameSearchString.Trim();
+                ViewData["NameSearchString"] = nameSearchString.Trim();
                 fgFound.AddRange(viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)));
                 ViewData["FunctionalGroupName"] = nameSearchString.Trim();
             }
