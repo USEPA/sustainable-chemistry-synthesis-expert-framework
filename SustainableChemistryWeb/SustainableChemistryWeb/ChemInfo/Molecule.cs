@@ -468,7 +468,6 @@ namespace SustainableChemistryWeb.ChemInfo
                 if ((numPi - 2) % 4 == 0)
                 {
                     isRingAromatic[i] = true;
-                    isRingHeterocyclicAromatic[i] = true;
                     Aromatic = true;
                     foreach (Atom a in cycles[i])
                     {
