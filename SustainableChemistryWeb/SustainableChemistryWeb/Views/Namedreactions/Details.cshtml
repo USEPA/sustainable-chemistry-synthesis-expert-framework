@@ -23,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.FunctionalGroup)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FunctionalGroup.Name)
+                <a asp-controller="FunctionalGroup" asp-action="Details" asp-route-id="@Html.DisplayFor(model => model.FunctionalGroup.Id)")>@Html.DisplayFor(model => model.FunctionalGroup.Name)</a>
             </dd>
             @foreach (var item in Model.AppNamedreactionReactants)
             {
