@@ -20,6 +20,7 @@ namespace SustainableChemistryWeb.Models
         public string ReactantC { get; set; }
         public string Product { get; set; }
         public string Heat { get; set; }
+        [System.ComponentModel.DisplayName("Acid/Base")]
         public string AcidBase { get; set; }
         public string Image { get; set; }
         public long CatalystId { get; set; }
@@ -29,6 +30,7 @@ namespace SustainableChemistryWeb.Models
         public string Url { get; set; }
 
         public virtual Catalyst Catalyst { get; set; }
+        [System.ComponentModel.DisplayName("Functional Group")]
         public virtual FunctionalGroup FunctionalGroup { get; set; }
         public virtual Solvent Solvent { get; set; }
         public virtual ICollection<NamedReactionByProducts> AppNamedreactionByProducts { get; set; }

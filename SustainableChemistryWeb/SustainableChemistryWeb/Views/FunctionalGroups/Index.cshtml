@@ -14,21 +14,24 @@
         </p>
     }
 
-    if (@ViewBag.SearchString != null && @ViewBag.SmilesString == null)
+    if (@ViewBag.NameSearchString != null)
     {
         <p>
-            Search results for Functional Group: "@ViewBag.SearchString" | <a asp-action="Index">Back to full Functional Group List</a> |
+            Search results for Functional Group: "@ViewBag.NameSearchString" | <a asp-action="Index">Back to full Functional Group List</a> |
             <a asp-controller="Home" asp-action="Index">Home</a>
         </p>
     }
     else if (@ViewBag.SmilesString != null)
     {
         <p>
-            Search results for SMILES String: "@ViewBag.SmilesString" | <a asp-controller="Home" asp-action="Index">New Search</a>
+            You searched for: "@ViewBag.SearchString" | <a asp-controller="Home" asp-action="Index">New Search</a>
         </p>
         <img src="https://actorws.epa.gov/actorws/chemical/image?casrn=@ViewBag.CASNO&w=400&h=400&fmt=svg" class="img-fluid" />
         <p>
             IUPAC Name: @ViewBag.IUPACName | <a href="https://comptox.epa.gov/dashboard/dsstoxdb/results?search=@ViewBag.DTXSID" target="_newtab">Get Chemical Dashboard Page</a>
+        </p>
+        <p>
+            SMILES String: "@ViewBag.SmilesString"
         </p>
     }
     else
@@ -64,7 +67,7 @@
                         <td>
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@item.Name" asp-route-smilesSearchString="@ViewBag.SmilesString">Show Reactions</a>
+                                    <a asp-action="Index" asp-route-funcGroupId="@item.Id" asp-route-nameSearchString="@item.Name" asp-route-smilesSearchString="@ViewBag.SearchString">Show Reactions</a>
                                 </li>
                                 <li class="nav-item">
                                     -------
@@ -134,7 +137,7 @@
                                             -------
                                         </li>
                                         <li>
-                                            <a asp-action="Index" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SmilesString" asp-route-funcGroupId="@item.FunctionalGroupId" asp-route-namedReactionId="@item.Id">Show References</a>
+                                            <a asp-action="Index" asp-route-nameSearchString="@ViewBag.SearchString" asp-route-smilesSearchString="@ViewBag.SearchString" asp-route-funcGroupId="@item.FunctionalGroupId" asp-route-namedReactionId="@item.Id">Show References</a>
                                         </li>
                                     </ul>
                                 </td>
