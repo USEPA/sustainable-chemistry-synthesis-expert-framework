@@ -44,14 +44,7 @@ namespace SustainableChemistryWeb.Controllers
             string CASNo = string.Empty;
             string DTXSID = string.Empty;
 
-            if (!String.IsNullOrEmpty(nameSearchString))
-            {
-                ViewData["SearchString"] = nameSearchString.Trim();
-                fgFound.AddRange(viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)));
-                ViewData["FunctionalGroupName"] = nameSearchString.Trim();
-            }
-
-            else if (!String.IsNullOrEmpty(smilesSearchString))
+            if (!String.IsNullOrEmpty(smilesSearchString))
             {
                 if (TestCASNo(ref CASNo, ref smilesSearchString, ref IUPacName, ref DTXSID))
                 {
@@ -80,6 +73,13 @@ namespace SustainableChemistryWeb.Controllers
                     return RedirectToAction("Index", "Home", new { message = "Search String \"" + smilesSearchString + "\" was not found." });
                 }
             }
+            else if (!String.IsNullOrEmpty(nameSearchString))
+            {
+                ViewData["SearchString"] = nameSearchString.Trim();
+                fgFound.AddRange(viewModel.FunctionalGroups.Where(s => s.Name.Contains(nameSearchString, StringComparison.OrdinalIgnoreCase)));
+                ViewData["FunctionalGroupName"] = nameSearchString.Trim();
+            }
+
             else if (funcGroupId != null)
             {
                 ViewData["FunctionalGroupID"] = funcGroupId.Value;
