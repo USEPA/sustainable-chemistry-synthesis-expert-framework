@@ -27,6 +27,8 @@ namespace SustainableChemistryWeb.Controllers
                 .Include(a => a.Reaction)
                 .OrderBy(s => s.FunctionalGroup.Name)
                 .ThenBy(s => s.Reaction.Name)
+                .OrderBy(a => a.FunctionalGroup.Name)
+                .ThenBy(a => a.Reaction.Name)
                 .ToListAsync();
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -98,7 +100,7 @@ namespace SustainableChemistryWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RISFile,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceViewModel appReference)
+        public async Task<IActionResult> Create([Bind("Id,RISFile,ReactionId")] SustainableChemistryWeb.ViewModels.ReferenceCreateViewModel appReference)
         {
             if (ModelState.IsValid)
             {
