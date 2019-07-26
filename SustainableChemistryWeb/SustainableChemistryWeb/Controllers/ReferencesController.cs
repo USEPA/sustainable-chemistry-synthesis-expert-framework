@@ -196,9 +196,9 @@ namespace SustainableChemistryWeb.Controllers
 
         private void PopulateReferenceData(Reference appReference)
         {
-            ViewData["Reaction"] = new SelectList(_context.AppNamedreaction.Include(a => a.FunctionalGroup), "Id", "Name", "1", "FunctionalGroup.Name");
-            if (appReference != null) ViewData["FunctionalGroup"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", appReference.FunctionalGroupId);
-            else ViewData["FunctionalGroup"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
+            ViewData["Reaction"] = new SelectList(_context.AppNamedreaction.Include(a => a.FunctionalGroup).OrderBy(a => a.FunctionalGroup.Name).ThenBy(a => a.Name), "Id", "Name", "1", "FunctionalGroup.Name");
+            //if (appReference != null) ViewData["FunctionalGroup"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name", "FunctionalGroup.Id");
+            //else ViewData["FunctionalGroup"] = new SelectList(_context.AppFunctionalgroup, "Id", "Name");
         }
 
 
