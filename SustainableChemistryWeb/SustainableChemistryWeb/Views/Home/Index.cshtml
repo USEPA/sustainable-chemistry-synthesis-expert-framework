@@ -11,13 +11,18 @@
             Sustainable Chemistry Expert Framework
         </h2>
         <p>
-            The Sustainable Chemistry Expert Framework provides information related to chemical reactions that may be used to synthesize the desired chemical compound. 
-            The chemical reactions are determined based upon the named reactions that can be used to create a specific class of chemicals based upon the funcitonal groups 
-            present in the compound. The reactants in the reactions form a chemical lineage with can be used to determine the parent compounds required to manufacture the desired compound. 
-            A chemical's lineage can be used to evaluate the manufacturing phase of a chemical's life cycle.
+            The Sustainable Chemistry Expert Framework is designed to provide synthetic chemical reaction information that may be used to synthesize the chemical compound under
+            evaluation. These chemical reactions are based upon traditional organic chemistry named reactions that are used to produce a specific class of chemical based upon the
+            related functional group present in the chemical. Upon placing each of the individual chemical reactions into a series, the desired chemical can be synthesized. In
+            addition, the reactants from each individual reaction form a chemical lineage which can be used to determine the parent compounds required to manufacture the desired
+            compound. This chemical's lineage can then be used to identify all the reactants, reagents and conditions involved in the manufacturing phase and contribute to the
+            evaluation of the chemical's life cycle.
         </p>
         <p>
-            Enter the chemical name, CAS Number, or structural SMILE string below to conduct an evaluation. See <a asp-action="About">About</a> for more information.
+            <a asp-action="About">To learn more about the Sustainable Chemistry Expert Framework click here.</a> 
+        </p>
+        <p>
+            To begin using the Sustainable Chemistry Expert Framework enter the chemical’s name, CAS Number, or structural SMILE string to generate the synthesis evaluation.
         </p>
         @if (@ViewBag.ErrorMessage != null)
         {
