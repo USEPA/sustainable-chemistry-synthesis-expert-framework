@@ -29,10 +29,9 @@ namespace SustainableChemistryWeb.Controllers
 
         public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var query = _context.AppNamedreaction
-                .Include(s => s.FunctionalGroup);
-
-            var reactions = await query.ToListAsync();
+            var reactions = await _context.AppNamedreaction
+                .Include(s => s.FunctionalGroup)
+                .ToListAsync();
             //reactions.sort();
 
             switch (sortOrder)
