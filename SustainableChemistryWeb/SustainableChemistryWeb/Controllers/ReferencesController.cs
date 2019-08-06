@@ -110,8 +110,9 @@ namespace SustainableChemistryWeb.Controllers
 
                 if (appReference.RISFile != null)
                 {
-                    appReference.Risdata = new System.IO.StreamReader(appReference.RISFile.OpenReadStream()).ReadToEnd();
+
                 }
+                appReference.Risdata = new System.IO.StreamReader(appReference.RISFile.OpenReadStream()).ReadToEnd();
                 SustainableChemistryWeb.Models.Reference reference = new Reference
                 {
                     FunctionalGroupId = tempReact.FunctionalGroupId,
