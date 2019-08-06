@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.ViewModels
 {
-    public class ReferenceViewModel
+    public class ReferenceEntryViewModel
     {
         List<string> m_authors;
 
-        public ReferenceViewModel()
+        public ReferenceEntryViewModel
+()
         {
             m_authors = new List<string>();
         }
@@ -17,7 +18,7 @@ namespace SustainableChemistryWeb.ViewModels
         public long Id { get; set; }
         string _Risdata;
         public Microsoft.AspNetCore.Http.IFormFile RISFile { get; set; }
-        public string Risdata 
+        public string Risdata
         {
             get
             {
@@ -74,19 +75,25 @@ namespace SustainableChemistryWeb.ViewModels
             {
                 return m_authors.ToArray<string>();
             }
+            set
+            {
+                m_authors.Clear();
+                m_authors.AddRange(value);
+            }
         }
-        public string Abstract { get; private set; }
-        public string AuthorAddress { get; private set; }
-        public string Journal { get; private set; }
-        public string Volume { get; private set; }
-        public string Issue { get; private set; }
-        public string StartPage { get; private set; }
-        public string EndPage { get; private set; }
-        public string Date { get; private set; }
-        public string URL { get; private set; }
-        public string doi { get; private set; }
+        public string Abstract { get; set; }
+        public string AuthorAddress { get; set; }
+        public string Journal { get; set; }
+        public string Volume { get; set; }
+        public string Issue { get; set; }
+        public string StartPage { get; set; }
+        public string EndPage { get; set; }
+        public string Date { get; set; }
+        public string URL { get; set; }
+        public string doi { get; set; }
         string _PY;
-        public string PY {
+        public string PY
+        {
             get
             {
                 return _PY;
@@ -99,25 +106,6 @@ namespace SustainableChemistryWeb.ViewModels
                     _PY = _PY.Replace("/", string.Empty);
                 }
             }
-        }
-        public string Text
-        {
-            get
-            {
-                return this.ToString();
-            }
-        }
-
-        override public string ToString()
-        {
-            string retVal = String.Empty;
-            foreach (string author in this.Authors)
-            {
-                retVal = retVal + author + ", ";
-            }
-            if (this.Authors.Length < 1) retVal = ", ";
-            retVal = retVal.Remove(retVal.Length - 2, 2) + " (" + PY + "). \"" + Title + ".\" " + Journal + " " + Volume + ": " + StartPage + "-" + EndPage + ".";
-            return retVal;
         }
     }
 }
