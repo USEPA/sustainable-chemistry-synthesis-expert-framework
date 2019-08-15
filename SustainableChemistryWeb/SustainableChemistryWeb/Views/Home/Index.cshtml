@@ -6,20 +6,21 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="row">
+    <div>
         <h2>
             Sustainable Chemistry Expert Framework
         </h2>
+            <a asp-action="UsersGuide">User's Guide.</a>
         <p>
             The Sustainable Chemistry Expert Framework is designed to provide chemical reaction information that may be used to synthesize a chemical compound under
             evaluation. These chemical reactions are based upon traditional organic chemistry named reactions that are used to produce a specific class of chemical based on the
-            related functional group present in the chemical. By placing each of the individual chemical reactions into a series, the desired chemical can be synthesized. 
+            related functional group present in the chemical. By placing each of the individual chemical reactions into a series, the desired chemical can be synthesized.
             Additionly, the reactants from each of the individual reaction form a chemical lineage which can be used to determine the parent compounds required to manufacture the desired
             compound. This chemical's lineage can then be used to identify all the reactants, reagents and conditions involved in the manufacturing phase and contribute to the
             evaluation of the chemical's life cycle.
         </p>
         <p>
-            <a asp-action="About">To learn more about the Sustainable Chemistry Expert Framework click here.</a> 
+            <a asp-action="About">To learn more about the Sustainable Chemistry Expert Framework click here.</a>
         </p>
         <p>
             To begin using the Sustainable Chemistry Expert Framework enter the chemical’s name, CAS Number, or structural SMILE string to generate the synthesis evaluation.

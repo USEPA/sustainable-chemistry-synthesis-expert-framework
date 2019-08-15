@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "UsersGuide";
+}
+<h3><a asp-controller="Home" asp-action="Index">Sustainable Chemistry Expert Framework</a>  - @ViewData["Title"]</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+<div>
+    <h3>Overview</h3>
+    <p>
+        The Sustainable Chemistry Synthesis Expert Framework allows users to identify and qualitatively evaluate available synthesis routes for a chemical and to identify
+        potential improvements in the sustainability of its manufacturing process. Sustainable chemistry aims to improve the design of chemicals to preserve their desired
+        efficacy of function while reducing their potential for toxicity and detrimental impact to the environment.
+    </p>
+    <p>
+        Sustainable Chemistry Synthesis Expert Framework is designed to (1) identify chemical functional groups present in an identified molecule, (2) provide chemical reactions
+        used to create the specified functional group in the desired molecule, (3) provide links and references to chemical literature related to environmentally friendly alternate
+        synthesis routes, and (4) lead to an overview of environmental impacts associated with the formation of the functional group(s) in the chemical’s manufacturing process.
+    </p>
+    <h3>Evaluation of a Chemical Compound</h3>
+    <p>
+        In order to evaluate a chemical, first navigate to the tool’s web site, https://v2626umcth938.rtord.epa.gov/, and enter the chemical’s name, CAS Number, or SMILES string
+        for the desired compound in the box as shown in Figure 1.
+    </p>
+    <figure>
+        <img src="~/Images/Figure1.jpg" class="img-fluid" >
+        <figcaption>Figure 1. The Sustainable Chemistry Expert Framework Home Page, highlighting the input box for entering the chemical compound and links to the functional group, 
+        name reaction, and reference databases.</figcaption>
+    </figure>
+    <p>
+        Upon entering the chemical’s name, CAS number, or SMILES string, the web tool will provide a list of functional groups present in the chemical compound. Figure 2 shows a
+        list of functional groups present in the vanillin molecule. The “General Information” weblink will provide an overview of the reaction, such as a Wikipedia page, thus providing
+        additional information about that functional group or name reaction. If you select the “Show Reactions” weblink for an identified functional group in the compound, the name
+        reactions for creating that functional group are added to the results page, as shown in Figure 3 for the aldehyde functional group.
+    </p>
+    <figure>
+        <img src="~/Images/Figure2.jpg" class="img-fluid" />
+        <figcaption>
+            Figure 2. Functional groups identified in vanllin, showing the links on the page.
+        </figcaption>
+    </figure>
+    <figure>
+        <img src="~/Images/Figure3.jpg" class="img-fluid" />
+        <figcaption>
+            Figure 3. Information about name reactions.
+        </figcaption>
+    </figure>
+    <p>
+        Figure 3 shows the weblinks available for each name reaction, such as a weblink for general information and relevant references. The user can obtain the references identified
+        for a specific reaction by selecting the “Show References” link. The references for the desired reaction are then added at the bottom of the results page, as shown on Figure 4.
+    </p>
+    <figure>
+        <img src="~/Images/Figure4.jpg" class="img-fluid" />
+        <figcaption>
+            Figure 4. References for the Name Reactions Used to Make the Aldehyde functional Group.
+        </figcaption>
+    </figure>
+    <p>
+        If the reference for the name reaction has a link to the source of the reference, the text of the reference is a link to that source. You can access the reference by clicking that link.
+    </p>
+    <h3>Browsing the Database</h3>
+    <p>
+        The Sustainable Chemistry Expert Framework makes use of three separate databases, a functional group database, a name reaction database, and reference database. You can browse the contents 
+        of these databases from the links at the bottom of each page. The links on each of the database pages are the same as the ones shown above available on the results page.
+    </p>
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://doi.org/10.1021/acssuschemeng.8b05983" target="_newtab">Barrett, W. M.; Takkellapati, S.; Tadele, K.; Martin, T. M.; Gonzalez, M. A., Linking Molecular Structure via Functional Group to Chemical Literature for Establishing a Reaction Lineage for Application to Alternatives Assessment. ACS Sustainable Chemistry & Engineering 2019, 7 (8), 7630-7641.</a>
+        </li>
+        <li>
+            <a href="https://doi.org/10.1021/acssuschemeng.8b06038" target="_newtab">Gonzalez, M. A.; Takkellapati, S.; Tadele, K.; Li, T.; Varma, R. S., Framework toward More Sustainable Chemical Synthesis Design—A Case Study of Organophosphates. ACS Sustainable Chemistry & Engineering 2019, 7 (7), 6744-6757.</a>
+        </li>
+        <li>
+            <a href="https://doi.org/10.1021/acssuschemeng.7b03379" target="_newtab">Mittal, V. K.; Bailin, S. C.; Gonzalez, M. A.; Meyer, D. E.; Barrett, W. M.; Smith, R. L., Toward Automated Inventory Modeling in Life Cycle Assessment: The Utility of Semantic Data Modeling to Predict Real-World Chemical Production. ACS Sustainable Chemistry & Engineering 2018, 6 (2), 1961-1976.</a>
+        </li>
+    </ul>
+    <p> </p>
+    <p> </p>
+</div>
+    <div>
+        <h3>Disclaimer</h3>
+        <p>
+            The United States Environmental Protection Agency (EPA) GitHub project code is provided on an "as is" basis and the user assumes responsibility for its use.
+            EPA has relinquished control of the information and no longer has responsibility to protect the integrity , confidentiality, or availability of the information.
+            Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their
+            endorsement, recommendation or favoring by EPA. The EPA seal and logo shall not be used in any manner to imply endorsement of any commercial product or activity
+            by EPA or the United States Government.
+        </p>
+    </div>
+}

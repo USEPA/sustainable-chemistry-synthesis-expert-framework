@@ -29,6 +29,12 @@ namespace SustainableChemistryWeb.Controllers
             return View();
         }
 
+        [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+        public IActionResult UsersGuide()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         [Microsoft.AspNetCore.Authorization.AllowAnonymous]
         public IActionResult Error()
