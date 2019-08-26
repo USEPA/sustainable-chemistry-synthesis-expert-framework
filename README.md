@@ -20,9 +20,9 @@ The purpose of this project is to develop a web service that can (1) identify ch
 
 ## References
 
-[Barrett, W. M.; Takkellapati, S.; Tadele, K.; Martin, T. M.; Gonzalez, M. A., Linking Molecular Structure via Functional Group to Chemical Literature for Establishing a Reaction Lineage for Application to Alternatives Assessment. ACS Sustainable Chemistry & Engineering 2019, 7 (8), 7630-7641.](https://doi.org/10.1021/acssuschemeng.8b05983)
-[Gonzalez, M. A.; Takkellapati, S.; Tadele, K.; Li, T.; Varma, R. S., Framework toward More Sustainable Chemical Synthesis Design—A Case Study of Organophosphates. ACS Sustainable Chemistry & Engineering 2019, 7 (7), 6744-6757.](https://doi.org/10.1021/acssuschemeng.8b06038)
-[Mittal, V. K.; Bailin, S. C.; Gonzalez, M. A.; Meyer, D. E.; Barrett, W. M.; Smith, R. L., Toward Automated Inventory Modeling in Life Cycle Assessment: The Utility of Semantic Data Modeling to Predict Real-World Chemical Production. ACS Sustainable Chemistry & Engineering 2018, 6 (2), 1961-1976.](https://doi.org/10.1021/acssuschemeng.7b03379)
+* [Barrett, W. M.; Takkellapati, S.; Tadele, K.; Martin, T. M.; Gonzalez, M. A., Linking Molecular Structure via Functional Group to Chemical Literature for Establishing a Reaction Lineage for Application to Alternatives Assessment. ACS Sustainable Chemistry & Engineering 2019, 7 (8), 7630-7641.](https://doi.org/10.1021/acssuschemeng.8b05983)
+* [Gonzalez, M. A.; Takkellapati, S.; Tadele, K.; Li, T.; Varma, R. S., Framework toward More Sustainable Chemical Synthesis Design—A Case Study of Organophosphates. ACS Sustainable Chemistry & Engineering 2019, 7 (7), 6744-6757.](https://doi.org/10.1021/acssuschemeng.8b06038)
+* [Mittal, V. K.; Bailin, S. C.; Gonzalez, M. A.; Meyer, D. E.; Barrett, W. M.; Smith, R. L., Toward Automated Inventory Modeling in Life Cycle Assessment: The Utility of Semantic Data Modeling to Predict Real-World Chemical Production. ACS Sustainable Chemistry & Engineering 2018, 6 (2), 1961-1976.](https://doi.org/10.1021/acssuschemeng.7b03379)
 
 ***
 ## Home
