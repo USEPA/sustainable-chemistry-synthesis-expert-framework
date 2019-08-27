@@ -2,8 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\SustainableChemistryData",
-    "\\SustainableChemistryWeb"
+    "\\SustainableChemistryWeb",
+    "\\SustainableChemistryWeb\\SustainableChemistryWeb",
+    "\\SustainableChemistryWeb\\SustainableChemistryWeb\\Views",
+    "\\SustainableChemistryWeb\\SustainableChemistryWeb\\Views\\FunctionalGroups",
+    "\\SustainableChemistryWeb\\SustainableChemistryWeb\\Views\\Shared"
   ],
-  "SelectedNode": "\\SustainableChemistryWeb\\SustainableChemistryWeb",
+  "SelectedNode": "\\SustainableChemistryWeb\\SustainableChemistryWeb\\Views\\FunctionalGroups\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }

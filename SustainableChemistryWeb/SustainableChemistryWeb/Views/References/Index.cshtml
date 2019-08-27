@@ -24,14 +24,12 @@
         </span>
     </p>
 
-    <form asp-action="Index" method="get">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchString" placeholder="Enter the Name Reaction or the Name of the Functional Group that you want to find" />
-            <div class="input-group-append">
-                <button asp-action="Index" class="btn btn-outline-secondary" type="submit">Search</button>
-            </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="searchString" placeholder="Enter the Name Reaction or the Name of the Functional Group that you want to find" />
+        <div class="input-group-append">
+            <button asp-action="Index" class="btn btn-outline-secondary" type="submit">Search</button>
         </div>
-    </form>
+    </div>
 
     <table class="table">
         <thead>
