@@ -36,14 +36,12 @@
     }
     else
     {
-        <form asp-action="Index" method="get">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" name="NameSearchString" placeholder="Enter the Name of the Functional Group that you want to find" />
                 <div class="input-group-append">
                     <button asp-controller="FunctionalGroups" asp-action="Index" class="btn btn-outline-secondary" type="submit">Search</button>
                 </div>
             </div>
-        </form>
     }
     <p>
         This page provides links to non-EPA web sites that provide additional information about the functional groups listed below. You will leave the EPA.gov domain and enter another page with 

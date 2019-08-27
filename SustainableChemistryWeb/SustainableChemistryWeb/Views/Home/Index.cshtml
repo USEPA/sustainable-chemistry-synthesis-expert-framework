@@ -10,7 +10,7 @@
         <h2>
             Sustainable Chemistry Expert Framework
         </h2>
-            <a asp-action="UsersGuide">User's Guide.</a>
+        <a asp-action="UsersGuide">User's Guide.</a>
         <p>
             The Sustainable Chemistry Expert Framework is designed to provide chemical reaction information that may be used to synthesize a chemical compound under
             evaluation. These chemical reactions are based upon traditional organic chemistry named reactions that are used to produce a specific class of chemical based on the
@@ -33,15 +33,13 @@
                 </div>
             </p>
         }
-        <form method="get">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control"
-                       name="SmilesSearchString"
-                       placeholder="Enter the CAS Number, Name, or SMILES string for the molecule you want to evaluate..." />
-                <div class="input-group-append">
-                    <button asp-controller="FunctionalGroups" asp-action="Index" class="btn btn-outline-secondary" type="submit">Search</button>
-                </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control"
+                   name="SmilesSearchString"
+                   placeholder="Enter the CAS Number, Name, or SMILES string for the molecule you want to evaluate..." />
+            <div class="input-group-append">
+                <button asp-controller="FunctionalGroups" asp-action="Index" class="btn btn-outline-secondary" type="submit">Search</button>
             </div>
-        </form>
+        </div>
     </div>
 }
