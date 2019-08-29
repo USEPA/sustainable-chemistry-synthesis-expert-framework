@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SustainableChemistryWeb.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using SustainableChemistryWeb.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.Controllers
 {
@@ -101,7 +99,7 @@ namespace SustainableChemistryWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long? id, [Bind("Id,Name,Description")] SustainableChemistryWeb.Models.Solvent solvent)
-        { 
+        {
             var solventToUpdate = await _context.AppSolvent
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (await TryUpdateModelAsync<Solvent>(

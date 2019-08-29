@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
 
 namespace SustainableChemistryWeb.ChemInfo
 {
@@ -41,7 +39,7 @@ namespace SustainableChemistryWeb.ChemInfo
                 IParseTree item = tree.GetChild(i);
                 if (typeof(smilesParser.ChainContext).IsAssignableFrom(item.GetType()))
                     VisitChain((smilesParser.ChainContext)item);
-               // else throw new System.NotImplementedException("String not a chain.");
+                // else throw new System.NotImplementedException("String not a chain.");
             }
             return retVal.Atoms;
         }

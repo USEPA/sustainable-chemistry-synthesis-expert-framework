@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.ChemInfo
 {
@@ -664,7 +662,7 @@ namespace SustainableChemistryWeb.ChemInfo
             else if (argb.Length == 4) this.Color = System.Drawing.Color.FromArgb(argb[0], argb[1], argb[2], argb[3]);
             else this.Color = System.Drawing.Color.Black;
         }
- 
+
         void ResetColor(System.Drawing.Color color)
         {
             this.SetColor(SustainableChemistryWeb.ChemInfo.Element.ElementColor(m_Element));

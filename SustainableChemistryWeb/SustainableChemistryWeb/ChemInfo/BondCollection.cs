@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.ChemInfo
 {
@@ -45,7 +41,7 @@ namespace SustainableChemistryWeb.ChemInfo
                 string retVal = string.Empty;
                 if (this.Count > 1)
                 {
-                    for (int i = 0; i < this.Count-2; i++)
+                    for (int i = 0; i < this.Count - 2; i++)
                     {
                         retVal = retVal + this[i].ConnectedAtom.AtomicSymbol + ", ";
                     }
@@ -125,7 +121,7 @@ namespace SustainableChemistryWeb.ChemInfo
                 pds.Add(pd);
             }
             return pds;
-       }
+        }
     }
 
     /// <summary>

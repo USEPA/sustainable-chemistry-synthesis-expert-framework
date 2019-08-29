@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SustainableChemistryWeb.Models
+﻿namespace SustainableChemistryWeb.Models
 {
     public partial class NamedReactionReactants
     {
