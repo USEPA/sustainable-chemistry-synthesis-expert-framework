@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
-
 using SustainableChemistryWeb.Models;
+using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.Authorization
 {

@@ -1,40 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.ChemInfo
 {
     [Flags]
-    public enum ELEMENTS:byte
+    public enum ELEMENTS : byte
     {
 
         // The element will be the last four bits of the flag
         WILD_CARD = 0x00,
-        H  = 0x01,
+        H = 0x01,
         He = 0x02,
         Li = 0x03,
         Be = 0x04,
-        B  = 0x05,
-        C  = 0x06,
-        N  = 0x07,
-        O  = 0x08,
-        F  = 0x09,
+        B = 0x05,
+        C = 0x06,
+        N = 0x07,
+        O = 0x08,
+        F = 0x09,
         Ne = 0x0a,
         Na = 0x0b,
         Mg = 0x0c,
         Al = 0x0d,
         Si = 0x0e,
-        P  = 0x0f,
-        S  = 0x10,
+        P = 0x0f,
+        S = 0x10,
         Cl = 0x11,
         Ar = 0x12,
-        K  = 0x13,
+        K = 0x13,
         Ca = 0x14,
         Sc = 0x15,
         Ti = 0x16,
-        V  = 0x17,
+        V = 0x17,
         Cr = 0x18,
         Mn = 0x19,
         Fe = 0x1a,
@@ -50,7 +46,7 @@ namespace SustainableChemistryWeb.ChemInfo
         Kr = 0x24,
         Rb = 0x25,
         Sr = 0x26,
-        Y  = 0x27,
+        Y = 0x27,
         Zr = 0x28,
         Nb = 0x29,
         Mo = 0x2a,
@@ -64,7 +60,7 @@ namespace SustainableChemistryWeb.ChemInfo
         Sn = 0x32,
         Sb = 0x33,
         Te = 0x34,
-        I  = 0x35,
+        I = 0x35,
         Xe = 0x36,
         Cs = 0x37,
         Ba = 0x38,
@@ -85,7 +81,7 @@ namespace SustainableChemistryWeb.ChemInfo
         Lu = 0x47,
         Hf = 0x48,
         Ta = 0x49,
-        W  = 0x4a,
+        W = 0x4a,
         Re = 0x4b,
         Os = 0x4c,
         Ir = 0x4d,
@@ -103,7 +99,7 @@ namespace SustainableChemistryWeb.ChemInfo
         Ac = 0x59,
         Th = 0x5a,
         Pa = 0x5b,
-        U  = 0x5c,
+        U = 0x5c,
         Np = 0x5d,
         Pu = 0x5e,
         Am = 0x5f,

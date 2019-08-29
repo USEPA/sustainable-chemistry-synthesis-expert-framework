@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.ViewModels
 {
@@ -17,7 +16,7 @@ namespace SustainableChemistryWeb.ViewModels
         public long Id { get; set; }
         string _Risdata;
         public Microsoft.AspNetCore.Http.IFormFile RISFile { get; set; }
-        public string Risdata 
+        public string Risdata
         {
             get
             {
@@ -86,7 +85,8 @@ namespace SustainableChemistryWeb.ViewModels
         public string URL { get; private set; }
         public string doi { get; private set; }
         string _PY;
-        public string PY {
+        public string PY
+        {
             get
             {
                 return _PY;

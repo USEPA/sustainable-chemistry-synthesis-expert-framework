@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SustainableChemistryWeb.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using SustainableChemistryWeb.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SustainableChemistryWeb.Controllers
 {
@@ -111,7 +109,7 @@ namespace SustainableChemistryWeb.Controllers
                            r => r.Name, r => r.Description))
                 try
                 {
-                    await _context.SaveChangesAsync();                    
+                    await _context.SaveChangesAsync();
                 }
                 catch
                 {

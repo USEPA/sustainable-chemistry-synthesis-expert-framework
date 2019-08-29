@@ -1,5 +1,3 @@
-using System;
-
 namespace SustainableChemistryWeb.Models
 {
     public class ErrorViewModel

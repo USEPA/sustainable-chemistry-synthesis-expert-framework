@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SustainableChemistryWeb.Models
 {
-    public partial class FunctionalGroup: UserIdStatus
+    public partial class FunctionalGroup : UserIdStatus
     {
         public FunctionalGroup()
         {
