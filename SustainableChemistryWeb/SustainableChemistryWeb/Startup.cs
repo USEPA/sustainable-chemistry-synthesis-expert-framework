@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -57,10 +56,10 @@ namespace SustainableChemistryWeb
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(options =>
                 {
-                    options.AllowAreas = true;
+                    //options.AllowAreas = true;
                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
                     //options.RootDirectory = "/Pages";
@@ -104,7 +103,7 @@ namespace SustainableChemistryWeb
             });
 
             // using Microsoft.AspNetCore.Identity.UI.Services;
-            services.AddSingleton<IEmailSender, EmailSender>();
+            //services.AddSingleton<IEmailSender, EmailSender>();
 
             // Authorization handlers.
             //services.AddScoped<IAuthorizationHandler, IsUserAuthorizationHandler>();
@@ -141,13 +140,18 @@ namespace SustainableChemistryWeb
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseAuthentication();
+            //app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            app.UseCors();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
