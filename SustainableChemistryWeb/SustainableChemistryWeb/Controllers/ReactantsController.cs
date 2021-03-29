@@ -11,9 +11,9 @@ namespace SustainableChemistryWeb.Controllers
     public class ReactantsController : Controller
     {
         private readonly SustainableChemistryContext _context;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _hostingEnvironment;
 
-        public ReactantsController(SustainableChemistryContext context, IHostingEnvironment hostingEnvironment)
+        public ReactantsController(SustainableChemistryContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
