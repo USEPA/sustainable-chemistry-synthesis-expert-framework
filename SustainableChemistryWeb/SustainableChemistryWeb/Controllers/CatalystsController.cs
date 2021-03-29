@@ -11,9 +11,9 @@ namespace SustainableChemistryWeb.Controllers
     public class CatalystsController : Controller
     {
         private readonly SustainableChemistryContext _context;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _hostingEnvironment;
 
-        public CatalystsController(SustainableChemistryContext context, IHostingEnvironment hostingEnvironment)
+        public CatalystsController(SustainableChemistryContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;

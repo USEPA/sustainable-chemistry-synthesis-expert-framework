@@ -15,10 +15,10 @@ namespace SustainableChemistryWeb.Controllers
 {
     public class NamedreactionsController : Controller
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _hostingEnvironment;
         private readonly SustainableChemistryContext _context;
 
-        public NamedreactionsController(SustainableChemistryContext context, IHostingEnvironment hostingEnvironment)
+        public NamedreactionsController(SustainableChemistryContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;

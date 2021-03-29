@@ -32,7 +32,7 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 /// of the available methods.
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7")]
-[System.CLSCompliant(false)]
+//[System.CLSCompliant(false)]
 public partial class smilesBaseListener : IsmilesListener {
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="smilesParser.smiles"/>.
