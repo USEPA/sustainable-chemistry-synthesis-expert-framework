@@ -11,7 +11,7 @@
 # All of these packages appear to be necessary for both Windows and Linux environments. #
 #---------------------------------------------------------------------------------------#
 
-Django==2.2                       # Python Modules.
+Django==2.2.20                       # Python Modules.
 Pillow==6.0.0                     # **PIL is the Python Imaging Library.
 pip==19.0.3                       # The PyPA recommended tool for installing Python packages.
 pylint==2.3.1                     # Python code static checker.
