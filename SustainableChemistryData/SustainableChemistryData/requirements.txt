@@ -13,7 +13,7 @@
 
 Django==2.2                       # Python Modules.
 Pillow==6.0.0                     # **PIL is the Python Imaging Library.
-pip==19.0.3                       # The PyPA recommended tool for installing Python packages.
+pip==19.2                       # The PyPA recommended tool for installing Python packages.
 pylint==2.3.1                     # Python code static checker.
 pylint_django==2.0.6              # Plugin for improving code analysis when analysing code using Django.
 sqlparse==0.3.0                   # Non-validating SQL parser module providing support for parsing, splitting and formatting SQL statements.
