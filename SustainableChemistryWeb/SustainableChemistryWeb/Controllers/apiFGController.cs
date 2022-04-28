@@ -15,9 +15,9 @@ namespace SustainableChemistryWeb.Controllers
     public class FGController : ControllerBase
     {
         private readonly SustainableChemistryContext _context;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly Microsoft.AspNetCore.Hosting.IWebHostEnvironment _hostingEnvironment;
 
-        public FGController(SustainableChemistryContext context, IHostingEnvironment hostingEnvironment)
+        public FGController(SustainableChemistryContext context, Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
