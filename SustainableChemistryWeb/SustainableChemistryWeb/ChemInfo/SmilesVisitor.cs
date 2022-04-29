@@ -77,12 +77,12 @@ namespace SustainableChemistryWeb.ChemInfo
                     a.AtomType = ChemInfo.AtomType.ORGANIC;
                     return a;
                 }
-                else if (typeof(smilesParser.WildcardContext).IsAssignableFrom(tree.GetType()))
-                {
-                    Atom a = (Atom)VisitWildcard((smilesParser.WildcardContext)tree);
-                    a.AtomType = ChemInfo.AtomType.WILDCARD;
-                    return a;
-                }
+                //else if (typeof(smilesParser.WildcardContext).IsAssignableFrom(tree.GetType()))
+                //{
+                //    Atom a = (Atom)VisitWildcard((smilesParser.WildcardContext)tree);
+                //    a.AtomType = ChemInfo.AtomType.WILDCARD;
+                //    return a;
+                //}
                 else
                 {
                     if (typeof(smilesParser.SymbolContext).IsAssignableFrom(tree.GetType()))
@@ -419,10 +419,10 @@ namespace SustainableChemistryWeb.ChemInfo
             return new Atom(context.GetChild(0).GetText(), AtomType.ORGANIC);
         }
 
-        public override object VisitWildcard([NotNull] smilesParser.WildcardContext context)
-        {
-            return new Atom(context.GetChild(0).GetText(), AtomType.WILDCARD);
-        }
+        //public override object VisitWildcard([NotNull] smilesParser.WildcardContext context)
+        //{
+        //    return new Atom(context.GetChild(0).GetText(), AtomType.WILDCARD);
+        //}
 
         public override object VisitRingbond([NotNull] smilesParser.RingbondContext context)
         {
